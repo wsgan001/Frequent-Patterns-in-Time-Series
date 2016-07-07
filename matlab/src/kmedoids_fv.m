@@ -1,4 +1,4 @@
-function [ result ] = kmedoids_fv( ts, gt, kc )
+function [ result, accuracy ] = kmedoids_fv( ts, gt, kc )
 %kmedoids + feature vector
 
 if nargin==2
@@ -20,5 +20,13 @@ title('Groundtruth')
 figure;
 scatter3(fv_norm(:,1),fv_norm(:,2),fv_norm(:,3),60,c,'filled');
 title('Results')
+
+%estimate accuracy
+right=0;
+for i=1:6
+    right=right+max(result(i,:));
+end
+[rnum,~]=size(ts);
+accuracy = right / rnum;
 
 end

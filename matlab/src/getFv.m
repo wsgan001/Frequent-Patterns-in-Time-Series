@@ -19,6 +19,7 @@ max_fre = zeros(600,1);
 for i=1:600
     amp_tmp=abs(fft(ts_norm(i,:)));
     max_fre(i) = max(amp_tmp(3:58));%delete the direct current part and the lowest frequency part(second & penult points)
+    max_fre(i) = sign(max_fre(i)) * (abs(max_fre(i)))^0.5
 end
 
 %%%feature 2 - sigma slope%%%
@@ -43,16 +44,18 @@ for i=1:rnum
 end
 
 %%%feature 3 - (sigma slope)/max|slope_n|%%%
-step=8;
+step=10;
 slope_n = zeros(rnum,cnum_smooth-step);
 for i=1:rnum
     for j=1:(cnum_smooth-step)
         slope_n(i,j) = ts_smooth(i,j+step)-ts_smooth(i,j);
+        %slope_n(i,j) = sign(slope_n(i,j)) * (abs(slope_n(i,j)))^0.5;
     end
 end
 f_shift = zeros(60,1);
 for i=1:rnum
     f_shift(i) = f_trend(i)/max(abs(slope_n(i,:)));
+    %f_shift(i) = 1/f_shift(i);
     %f_shift(i) = sign(f_shift(i)) * (abs(f_shift(i)))^2;
 end
 
@@ -66,7 +69,7 @@ for i=1:csize
     fv_norm(:,i)=( (fv(:,i)) - mean(fv(:,i)) ) / std(fv(:,i));
 end
 
-%test
+%for test
 load('../data/gt_sc.mat');
 gt = gt_sc;
 figure;
@@ -78,14 +81,17 @@ hold on
 scatter3(fv_norm(:,1),fv_norm(:,2),fv_norm(:,3),60,gt,'filled');
 legend({'a','b','c'});
 %}
-
 for i=0:5
-    scatter3(fv_norm(1+i*100:100+i*100,1),fv_norm(1+i*100:100+i*100,2),fv_norm(1+i*100:100+i*100,3),60,'filled');
+    scatter3(fv_norm(1+i*100:100+i*100,1),fv_norm(1+i*100:100+i*100,2),...
+        fv_norm(1+i*100:100+i*100,3),30,'filled');
     hold on
 end
-title('groundtruth');
+title('Groundtruth in feature space');
 legend({'1.Normal','2.Cyclic','3.Increasing trend','4.Decreasing trend',...
     '5.Upward shift','6.Downward shift'});
+xlabel('seasonal');
+ylabel('in/de-creasing trend');
+zlabel('shift');
 
 end
 
