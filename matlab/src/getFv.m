@@ -19,7 +19,7 @@ max_fre = zeros(600,1);
 for i=1:600
     amp_tmp=abs(fft(ts_norm(i,:)));
     max_fre(i) = max(amp_tmp(3:58));%delete the direct current part and the lowest frequency part(second & penult points)
-    max_fre(i) = sign(max_fre(i)) * (abs(max_fre(i)))^0.5
+    max_fre(i) = sign(max_fre(i)) * (abs(max_fre(i)))^0.5;
 end
 
 %%%feature 2 - sigma slope%%%
