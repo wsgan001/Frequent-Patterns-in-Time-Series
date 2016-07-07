@@ -219,7 +219,7 @@ axis([ax1 ax2 ax3 ax4 ax5 ax6],[-25 25 0 45]);
 %%%(sigma slope)/max|slope_n|%%%
 %Have the best results of distinguishing up/down shifts and in/decreasing
 %from feature 1 to 4
-step=10;
+step=8;
 slope_n = zeros(rnum,cnum_smooth-step);
 for i=1:rnum
     for j=1:(cnum_smooth-step)
