@@ -36,6 +36,7 @@ end
 
 %The histogram of the maximum amplitude of frequent spectrum of different
 %kinds of time series.
+figure
 ax1=subplot(231);
 histogram(max_fre(1:100));
 title('1.Normal')
