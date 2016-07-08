@@ -9,7 +9,7 @@
 \contentsline {subsubsection}{\numberline {2.2.1}Basic Idea}{3}{subsubsection.2.2.1}
 \contentsline {subsubsection}{\numberline {2.2.2}Implementation}{3}{subsubsection.2.2.2}
 \contentsline {subsubsection}{\numberline {2.2.3}Results}{4}{subsubsection.2.2.3}
-\contentsline {subsection}{\numberline {2.3}D3: Up/Down Shifts vs Increasing/Decreasing Trend}{5}{subsection.2.3}
+\contentsline {subsection}{\numberline {2.3}D3: Up/Down Shifts vs Increasing/Decreasing Trends}{5}{subsection.2.3}
 \contentsline {subsubsection}{\numberline {2.3.1}Basic Idea}{5}{subsubsection.2.3.1}
 \contentsline {subsubsection}{\numberline {2.3.2}Implementation}{5}{subsubsection.2.3.2}
 \contentsline {subsubsection}{\numberline {2.3.3}Results}{5}{subsubsection.2.3.3}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.10.9)  8 JUL 2016 03:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.10.9)  8 JUL 2016 09:47
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -968,13 +968,13 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 283.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 283.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 283.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 3FDBE6569B9A264A65B7FDA826EFCE46;954.
+(rerunfilecheck)             Checksum: 8A1C5DD8909B4D53AB7EFE847C9BD0AA;955.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 283.
  ) 
 Here is how much of TeX's memory you used:
  17205 strings out of 493089
  318189 string characters out of 6134842
- 392106 words of memory out of 5000000
+ 392107 words of memory out of 5000000
  20318 multiletter control sequences out of 15000+600000
  11137 words of font info for 40 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -996,7 +996,7 @@ ve/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/
 15/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/201
 5/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/local/texlive/2015/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on main.pdf (9 pages, 3468948 bytes).
+Output written on main.pdf (9 pages, 3468941 bytes).
 PDF statistics:
  256 PDF objects out of 1000 (max. 8388607)
  219 compressed objects within 3 object streams
