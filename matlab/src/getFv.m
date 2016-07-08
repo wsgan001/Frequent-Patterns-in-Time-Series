@@ -15,8 +15,8 @@ end
 
 %%%feature 1 - seasonal%%%
 %The maximum amplitude of frequent spectrum (except the first two points and the last two points)
-max_fre = zeros(600,1);
-for i=1:600
+max_fre = zeros(rnum,1);
+for i=1:rnum
     amp_tmp=abs(fft(ts_norm(i,:)));
     max_fre(i) = max(amp_tmp(3:58));%delete the direct current part and the lowest frequency part(second & penult points)
     max_fre(i) = sign(max_fre(i)) * (abs(max_fre(i)))^0.5;
