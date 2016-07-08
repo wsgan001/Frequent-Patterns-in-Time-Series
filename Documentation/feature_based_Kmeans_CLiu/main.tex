@@ -63,7 +63,7 @@ Algorithm \ref{alg:season} shows the details of how to obtain the values of seas
 	\Function {Normalize}{$ts$}
 		\State $average \gets$ \Call{Mean}{$ts$}
 		\State $std \gets$ \Call{StandardDeviation}{$ts$}
-		\State $ts\_norm \gets (ts - mean) / std$
+		\State $ts\_norm \gets (ts - average) / std$
 		\State \Return{$ts\_norm$}
 	\EndFunction
 \end{algorithmic}
@@ -105,7 +105,7 @@ Algorithm \ref{alg:gt} shows the details.
 	\Function {Normalize}{$ts$}
 		\State $average \gets$ \Call{Mean}{$ts$}
 		\State $std \gets$ \Call{StandardDeviation}{$ts$}
-		\State $ts\_norm \gets (ts - mean) / std$
+		\State $ts\_norm \gets (ts - average) / std$
 		\State \Return{$ts\_norm$}
 	\EndFunction
 	\State
@@ -157,7 +157,7 @@ Algorithms \ref{alg:shift} shows the details.
 	\Function {Normalize}{$ts$}
 		\State $average \gets mean(ts)$
 		\State $std \gets standard\_deviation(ts)$
-		\State $ts\_norm \gets (ts - mean) / std$
+		\State $ts\_norm \gets (ts - average) / std$
 		\State \Return{$ts\_norm$}
 	\EndFunction
 	\State
