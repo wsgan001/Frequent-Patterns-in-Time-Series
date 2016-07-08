@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1467964591 "main.tex" "main.pdf" "main" 1467964595
+["pdflatex"] 1467964591 "main.tex" "main.pdf" "main" 1467966264
   "./badr.png" 1467962162 868865 627d8775a920ce6b8b6881be80119800 ""
   "./goodr.png" 1467960564 634803 2c3ab904aa8a214cb2c57cc82a3341ea ""
   "./groundt.png" 1467960221 908619 4943ef02642261459dc4e8429cc2e056 ""
@@ -176,8 +176,8 @@
   "seasonality.png" 1467952961 310040 9f722cd6390b443c8fe62d95f5ff0621 ""
   "shift.png" 1467959061 268687 f2540000ee90fd8b50ae3668c384a247 ""
   (generated)
-  "main.log"
-  "main.pdf"
   "main.out"
-  "main.aux"
+  "main.pdf"
   "main.toc"
+  "main.log"
+  "main.aux"

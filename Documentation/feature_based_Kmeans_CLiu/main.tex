@@ -149,7 +149,7 @@ Algorithms \ref{alg:shift} shows the details.
 
 	\State $ts\_norm \gets$ \Call{Normalize}{$ts$}
 	\State $ts\_smooth \gets$ \Call{Smoothing}{$ts\_norm, 6$}
-	\State $slope\_step \gets$ \Call{GetStepSlope}{$ts\_smooth$}
+	\State $slope\_step \gets$ \Call{GetStepSlope}{$ts\_smooth, 10$}
 	\State $global\_trend \gets ts\_smooth(length) - ts\_smooth(1)$
 	\State $slope\_step\_abs \gets$ \Call{Abs}{$slope\_step$}
 	\State $shift \gets global\_trend /$ \Call{Max}{ $slope\_step\_abs$}
