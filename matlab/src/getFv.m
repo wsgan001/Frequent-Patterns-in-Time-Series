@@ -52,7 +52,7 @@ for i=1:rnum
         %slope_n(i,j) = sign(slope_n(i,j)) * (abs(slope_n(i,j)))^0.5;
     end
 end
-f_shift = zeros(60,1);
+f_shift = zeros(rnum,1);
 for i=1:rnum
     f_shift(i) = f_trend(i)/max(abs(slope_n(i,:)));
     %f_shift(i) = 1/f_shift(i);
@@ -70,10 +70,10 @@ for i=1:csize
 end
 
 %for test
+%{
 load('../data/gt_sc.mat');
 gt = gt_sc;
 figure;
-%{
 scatter3(fv_norm(1:100,1),fv_norm(1:100,2),fv_norm(1:100,3),60,gt,'filled');
 hold on
 scatter3(fv_norm(:,1),fv_norm(:,2),fv_norm(:,3),60,gt,'filled');
@@ -81,6 +81,7 @@ hold on
 scatter3(fv_norm(:,1),fv_norm(:,2),fv_norm(:,3),60,gt,'filled');
 legend({'a','b','c'});
 %}
+%{
 for i=0:5
     scatter3(fv_norm(1+i*100:100+i*100,1),fv_norm(1+i*100:100+i*100,2),...
         fv_norm(1+i*100:100+i*100,3),30,'filled');
@@ -92,6 +93,7 @@ legend({'1.Normal','2.Cyclic','3.Increasing trend','4.Decreasing trend',...
 xlabel('seasonal');
 ylabel('in/de-creasing trend');
 zlabel('shift');
+%}
 
 end
 
