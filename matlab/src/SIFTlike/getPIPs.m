@@ -30,6 +30,7 @@ as new PIP.
 REPEAT UNTIL GETTING N PIPS
 %}
 %plot for visual test
+figure;
 plot(1:length,ts);
 hold on
 plot(PIPindex,ts(PIPindex));

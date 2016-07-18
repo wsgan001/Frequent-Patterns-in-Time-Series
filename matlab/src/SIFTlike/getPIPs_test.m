@@ -1,12 +1,25 @@
 clear;
 clc;
 
+tsindex=1;
+PIPnum=10;
+sw=10; %smoothing window
+
+%{
+%SC dataset
 %load('../../data/gt_sc.mat');
 load('../../data/synthetic_control.mat');
 ts = synthetic_control;
+%}
+
+%UCR dataset
+datasetname='Wine';
+TEST=load(['/Users/Steven/Academic/SR@Aditya/Zenvisage/datasets/UCR_TS_Archive_2015/',datasetname,'/',datasetname,'_TEST']);
+TRAIN=load(['/Users/Steven/Academic/SR@Aditya/Zenvisage/datasets/UCR_TS_Archive_2015/',datasetname,'/',datasetname,'_TRAIN']);
+ts=[TEST(:,2:end);TRAIN(:,2:end)];
+
 
 [rnum,~]=size(ts);
-
 %normalization/scaling
 ts_norm = ts;
 for i=1:rnum
@@ -14,10 +27,14 @@ for i=1:rnum
 end
 
 %smoothing
-n=6;
-wts = [1/(2*n);repmat(1/n,n-1,1);1/(2*n)];
+%sw=10;
+wts = [1/(2*sw);repmat(1/sw,sw-1,1);1/(2*sw)];
 for i=1:rnum
     ts_smooth(i,:) = conv(ts_norm(i,:),wts,'valid');   
 end
 
-[ PIPindex ] = getPIPs( ts_smooth(1,:),10 );
+figure
+plot(ts(tsindex,:));
+
+
+[ PIPindex ] = getPIPs( ts_smooth(tsindex,:),PIPnum );
