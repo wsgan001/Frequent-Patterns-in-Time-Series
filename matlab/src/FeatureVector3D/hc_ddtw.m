@@ -5,7 +5,7 @@ function [ result,Dist,c ] = hc_ddtw( ts,gt )
 
 [rnum, cnum]=size(ts);
 
-addpath('../lib/dynamic_time_warping_v2/dynamic_time_warping_v2.1');
+addpath('../../lib/dynamic_time_warping_v2/dynamic_time_warping_v2.1');
 
 %normalization/scaling
 %{

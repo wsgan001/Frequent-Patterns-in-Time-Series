@@ -4,8 +4,8 @@
 clear;
 clc;
 
-load('../data/gt_sc.mat');
-load('../data/synthetic_control.mat');
+load('../../data/gt_sc.mat');
+load('../../data/synthetic_control.mat');
 ts = synthetic_control;
 gt = gt_sc;
 

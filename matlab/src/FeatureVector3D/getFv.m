@@ -71,7 +71,7 @@ end
 
 %for test
 %{
-load('../data/gt_sc.mat');
+load('../../data/gt_sc.mat');
 gt = gt_sc;
 figure;
 scatter3(fv_norm(1:100,1),fv_norm(1:100,2),fv_norm(1:100,3),60,gt,'filled');
