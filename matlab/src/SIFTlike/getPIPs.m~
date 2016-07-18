@@ -2,7 +2,6 @@ function [ PIPindex ] = getPIPs( ts,n )
 %locate perceptually important points (PIPs)
 %ts: time series, 1*length vector
 %n: the number of PIPs;
-
 %PIPindex: PIPs' position in ts by order
 %PIPVD: VD of each PIP
 %PIPimportance: the order of being added to PIP set
@@ -74,7 +73,7 @@ while (size(PIPindex)<n)
     middle=PIPnew;
     
     %plot for visual test
-    pause(1)
+    pause(0.6)
     plot(1:length,ts);
     hold on
     plot(PIPindex,ts(PIPindex));
