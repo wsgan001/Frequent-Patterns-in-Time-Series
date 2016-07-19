@@ -1,5 +1,5 @@
 clear;
-clc;
+%clc;
 
 tsindex=1;
 PIPnum=10;
@@ -35,6 +35,5 @@ end
 
 figure
 plot(ts(tsindex,:));
-
 
 [ PIPindex ] = getPIPs( ts_smooth(tsindex,:),PIPnum );

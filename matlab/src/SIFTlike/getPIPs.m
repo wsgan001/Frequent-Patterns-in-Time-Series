@@ -4,7 +4,7 @@ function [ PIPindex ] = getPIPs( ts,n )
 %n: the number of PIPs;
 
 %PIPindex: PIPs' position in ts by order
-%PIPVD: VD of each PIP
+%PIPDist: Dist of each PIP
 %PIPimportance: the order of being added to PIP set
 
 if nargin==1
@@ -13,10 +13,11 @@ end
 
 [~,length]=size(ts);
 
-tmp=linspace(ts(1),ts(end),length); %the line connecting the first and last points
-VD=abs(ts-tmp); %VD: vertical distance
-VD=VD(2:end-1);
-PIPnew=find( VD==(max(VD)) )+1;
+%tmp=linspace(ts(1),ts(end),length); %the line connecting the first and last points
+%Dist=abs(ts-tmp); %Dist: vertical distance
+Dist=PDist(ts);
+Dist=Dist(2:end-1);
+PIPnew=find( Dist==(max(Dist)) )+1;
 PIPindex=[1,PIPnew,length]; % the first three PIPs
 
 %{
@@ -25,7 +26,7 @@ the new PIP and its two adjacent PIPs as middle, first and last of the
 segment.
 locate two possible PIPs from the two subsegment divided by middle
 add these two possible PIPs into waiting list
-select the points from the waiting list with maximum VD and add it to PIPs
+select the points from the waiting list with maximum Dist and add it to PIPs
 as new PIP.
 REPEAT UNTIL GETTING N PIPS
 %}
@@ -39,32 +40,41 @@ hold off
 first=1;
 middle=PIPnew;
 last=length;
-waitinglist=[];%column 1 for index in TS; column 2 for VDpos; each row for a possible PIP
+waitinglist=[];%column 1 for index in TS; column 2 for Distpos; each row for a possible PIP
 while (size(PIPindex)<n)
     if(middle>first)
-        tmp1=linspace(ts(first),ts(middle),(middle-first+1));
-        VD1=abs(ts(first:middle)-tmp1);
-        VD1=VD1(2:end-1);
-        VDpos1=max(VD1);
-        PIPpos1=find( VD1==VDpos1 )+first; % PIP possible 1 - index in TS      
+        %tmp1=linspace(ts(first),ts(middle),(middle-first+1));
+        %Dist1=abs(ts(first:middle)-tmp1);%test
+        %max(Dist1)%test
+        Dist1=PDist(ts(first:middle));
+        %max(Dist1)%test
+        Dist1=Dist1(2:end-1);
+        Distpos1=max(Dist1);
+        PIPpos1=find( Dist1==Distpos1 )+first; % PIP possible 1 - index in TS      
     else
         PIPpos1=[];
     end
     
     if(last>middle)
-        tmp2=linspace(ts(middle),ts(last),(last-middle+1));
-        VD2=abs(ts(middle:last)-tmp2);
-        VD2=VD2(2:end-1);
-        VDpos2=max(VD2);
-        PIPpos2=find( VD2==VDpos2 )+middle;
+        %tmp2=linspace(ts(middle),ts(last),(last-middle+1));
+        %Dist2=abs(ts(middle:last)-tmp2);%test
+        %max(Dist2)%test
+        Dist2=PDist(ts(middle:last));
+        %max(Dist2)%test
+        Dist2=Dist2(2:end-1);
+        Distpos2=max(Dist2);
+        PIPpos2=find( Dist2==Distpos2 )+middle;
     else
         PIPpos2=[];
     end
     
-    waitinglist=[waitinglist;PIPpos1,VDpos1;PIPpos2,VDpos2];
-    waitinglist=sortrows(waitinglist,2);%sort by VDpos
+    waitinglist=[waitinglist;PIPpos1,Distpos1;PIPpos2,Distpos2];
+    waitinglist=sortrows(waitinglist,2);%sort by Distpos
     [rtmp,~]=size(waitinglist);
     PIPnew=waitinglist(rtmp,1);
+    %waitinglist(rtmp,2)%test
+    %max(waitinglist(:,2))%test
+    %waitinglist(rtmp-1,2)%test
     waitinglist=waitinglist(1:rtmp-1,:);
     
     PIPindex=[PIPindex,PIPnew];
