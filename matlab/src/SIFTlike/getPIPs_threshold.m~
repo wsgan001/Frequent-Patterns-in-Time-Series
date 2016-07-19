@@ -4,7 +4,6 @@ function [ PIPindex,PIPinfo ] = getPIPs_threshold( ts,thr )
 %thr: normalized threshold.
 %MUST USE NormVDist/NormPDist AS DISTANCE METRIC
 
-%The column of PIPinfo from left to right:
 %PIPindex: PIPs' position in ts by order
 %PIPDist: Dist of each PIP
 %PIPimportance: the order of being added to PIP set
@@ -49,7 +48,7 @@ while (max(waitinglist(:,2))>thr)
     waitinglist=sortrows(waitinglist,2);%sort by Distpos
     [rtmp,~]=size(waitinglist);
     PIPnew=waitinglist(rtmp,1);
-    PIPinfo=[PIPinfo;PIPnew,waitinglist(rtmp,2),length(PIPindex)+1];
+    PIPinfo=[PIPinfo;PIPnew,waitinglist(rtmp,2),]
     waitinglist=waitinglist(1:rtmp-1,:);
     
     PIPindex=[PIPindex,PIPnew];

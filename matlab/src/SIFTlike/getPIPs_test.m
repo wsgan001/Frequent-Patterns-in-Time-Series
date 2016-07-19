@@ -36,5 +36,5 @@ end
 figure
 plot(ts(tsindex,:));
 
-%[ PIPindex ] = getPIPs_num( ts_smooth(tsindex,:),PIPnum );
-[ PIPindex ] = getPIPs_threshold( ts_smooth(tsindex,:) );
+[ PIPindex,PIPinfo ] = getPIPs_num( ts_smooth(tsindex,:),PIPnum )
+%[ PIPindex,PIPinfo ] = getPIPs_threshold( ts_smooth(tsindex,:) )

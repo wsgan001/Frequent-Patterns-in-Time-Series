@@ -1,8 +1,9 @@
-function [ PIPindex ] = getPIPs_num( ts,n )
+function [ PIPindex,PIPinfo ] = getPIPs_num( ts,n )
 %locate perceptually important points (PIPs)
-%ts: time series, 1*length vector
+%ts: time series, 1*tslength vector
 %n: the number of PIPs;
 
+%The column of PIPinfo from left to right:
 %PIPindex: PIPs' position in ts by order
 %PIPDist: Dist of each PIP
 %PIPimportance: the order of being added to PIP set
@@ -11,14 +12,15 @@ if nargin==1
     n = 10; % 10 PIPs as default
 end
 
-[~,length]=size(ts);
+[~,tslength]=size(ts);
 
 %Dist=VDist(ts);
 %Dist=PDist(ts);
 Dist=NormPDist(ts,ts);
 Dist=Dist(2:end-1);
 PIPnew=find( Dist==(max(Dist)) )+1;
-PIPindex=[1,PIPnew,length]; % the first three PIPs
+PIPindex=[1,PIPnew,tslength]; % the first three PIPs
+PIPinfo=[1,0,1;tslength,0,2;PIPnew,max(Dist),3];
 
 %{
 pseudo code:
@@ -32,14 +34,14 @@ REPEAT UNTIL GETTING N PIPS
 %}
 %plot for visual test
 figure;
-plot(1:length,ts);
+plot(1:tslength,ts);
 hold on
 plot(PIPindex,ts(PIPindex));
 hold off
 
 first=1;
 middle=PIPnew;
-last=length;
+last=tslength;
 waitinglist=[];%column 1 for index in TS; column 2 for Distpos; each row for a possible PIP
 while (size(PIPindex)<n)
     if(middle>first)
@@ -68,6 +70,7 @@ while (size(PIPindex)<n)
     waitinglist=sortrows(waitinglist,2);%sort by Distpos
     [rtmp,~]=size(waitinglist);
     PIPnew=waitinglist(rtmp,1);
+    PIPinfo=[PIPinfo;PIPnew,waitinglist(rtmp,2),length(PIPindex)+1];
     waitinglist=waitinglist(1:rtmp-1,:);
     
     PIPindex=[PIPindex,PIPnew];
@@ -79,7 +82,7 @@ while (size(PIPindex)<n)
     
     %plot for visual test
     pause(0.5)
-    plot(1:length,ts);
+    plot(1:tslength,ts);
     hold on
     plot(PIPindex,ts(PIPindex));
     hold off
