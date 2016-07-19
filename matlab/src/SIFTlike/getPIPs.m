@@ -14,7 +14,8 @@ end
 [~,length]=size(ts);
 
 %Dist=VDist(ts);
-Dist=PDist(ts);
+%Dist=PDist(ts);
+Dist=NormPDist(ts,ts);
 Dist=Dist(2:end-1);
 PIPnew=find( Dist==(max(Dist)) )+1;
 PIPindex=[1,PIPnew,length]; % the first three PIPs
@@ -43,7 +44,8 @@ waitinglist=[];%column 1 for index in TS; column 2 for Distpos; each row for a p
 while (size(PIPindex)<n)
     if(middle>first)
         %Dist1=VDist(ts(first:middle));
-        Dist1=PDist(ts(first:middle));
+        %Dist1=PDist(ts(first:middle));
+        Dist1=NormPDist(ts(first:middle),ts);
         Dist1=Dist1(2:end-1);
         Distpos1=max(Dist1);
         PIPpos1=find( Dist1==Distpos1 )+first; % PIP possible 1 - index in TS      
@@ -53,7 +55,8 @@ while (size(PIPindex)<n)
     
     if(last>middle)
         %Dist2=VDist(ts(middle:last));
-        Dist2=PDist(ts(middle:last));
+        %Dist2=PDist(ts(middle:last));
+        Dist2=NormPDist(ts(middle:last),ts);
         Dist2=Dist2(2:end-1);
         Distpos2=max(Dist2);
         PIPpos2=find( Dist2==Distpos2 )+middle;
@@ -75,7 +78,7 @@ while (size(PIPindex)<n)
     middle=PIPnew;
     
     %plot for visual test
-    pause(1)
+    pause(0.5)
     plot(1:length,ts);
     hold on
     plot(PIPindex,ts(PIPindex));

@@ -2,8 +2,8 @@ clear;
 %clc;
 
 tsindex=1;
-PIPnum=10;
-sw=10; %smoothing window
+PIPnum=15;
+sw=5; %smoothing window
 
 %{
 %SC dataset
