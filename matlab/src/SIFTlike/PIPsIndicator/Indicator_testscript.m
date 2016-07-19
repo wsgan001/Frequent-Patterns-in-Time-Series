@@ -3,8 +3,8 @@
 clear;
 addpath('../getPIPs');
 
-tsindex=1;
-%PIPnum=15;
+tsindex=10;
+PIPnum=15;
 PIPthr=0.05;
 sw=5; %smoothing window
 
@@ -40,6 +40,12 @@ end
 figure
 plot(ts(tsindex,:));
 
-%[ PIPindex,PIPinfo ] = getPIPs_num( ts_smooth(tsindex,:),PIPnum );
-[ PIPindex,PIPinfo ] = getPIPs_threshold( ts_smooth(tsindex,:), PIPthr );
+[ PIPindex,PIPinfo ] = getPIPs_num( ts_smooth(tsindex,:),PIPnum );
+%[ PIPindex,PIPinfo ] = getPIPs_threshold( ts_smooth(tsindex,:), PIPthr );
 [ Indicator,PIPindex ] = getIndicator( ts_smooth(tsindex,:), PIPinfo );
+
+[ PIPindex2,PIPinfo2 ] = getPIPs_num( ts_smooth(1,:),PIPnum );
+%[ PIPindex,PIPinfo ] = getPIPs_threshold( ts_smooth(tsindex,:), PIPthr );
+[ Indicator2,PIPindex2 ] = getIndicator( ts_smooth(1,:), PIPinfo2 );
+
+costmat=getCostmat(Indicator,Indicator2)
