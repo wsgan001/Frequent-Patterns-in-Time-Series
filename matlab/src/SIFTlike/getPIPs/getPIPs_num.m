@@ -89,4 +89,6 @@ while (size(PIPindex)<n)
     
 end
 
+PIPinfo=sortrows(PIPinfo,1);
+
 end

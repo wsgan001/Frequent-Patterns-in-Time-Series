@@ -90,4 +90,6 @@ while (max(waitinglist(:,2))>thr)
     
 end
 
+PIPinfo=sortrows(PIPinfo,1);
+
 end
