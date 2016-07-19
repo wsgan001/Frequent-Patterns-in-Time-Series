@@ -4,27 +4,26 @@ clear;
 addpath('../getPIPs');
 addpath('../PIPsIndicator');
 
+tsindex=401;
+tsindex2=402;
 PIPnum=15;
 PIPthr=0.05;
-sw=10; %smoothing window
+sw=8; %smoothing window
 
-%{
+
 %SC dataset
 %load('../../../data/gt_sc.mat');
-tsindex=421;
-tsindex2=422;
 load('../../../data/synthetic_control.mat');
 ts = synthetic_control;
-%}
 
+
+%{
 %UCR dataset
-tsindex=1;
-tsindex2=72;
 datasetname='Wine';
 TEST=load(['/Users/Steven/Academic/SR@Aditya/Zenvisage/datasets/UCR_TS_Archive_2015/',datasetname,'/',datasetname,'_TEST']);
 TRAIN=load(['/Users/Steven/Academic/SR@Aditya/Zenvisage/datasets/UCR_TS_Archive_2015/',datasetname,'/',datasetname,'_TRAIN']);
 ts=[TEST(:,2:end);TRAIN(:,2:end)];
-
+%}
 
 %%
 [rnum,~]=size(ts);
@@ -60,11 +59,7 @@ costmat=getCostmat(Indicator,Indicator2);
 [assignment,cost] = munkres(costmat);
 % draw match picture
 figure
-plot(ts_smooth(tsindex,:),'k');
+plot(ts(tsindex,:));
 hold on
-plot(ts_smooth(tsindex2,:),'r');
-for i=1:length(assignment)
-    plot([PIPindex(i),PIPindex2(assignment(i))],...
-        [ts_smooth(tsindex,PIPindex(i)),ts_smooth(tsindex2,PIPindex2(assignment(i)))]...
-        ,':ob','MarkerFaceColor','g')
-end
+plot(ts(tsindex2,:));
+for 

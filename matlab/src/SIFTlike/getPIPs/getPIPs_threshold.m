@@ -60,7 +60,7 @@ while (max(waitinglist(:,2))>thr)
     middle=PIPnew;
     
     %plot for visual test
-    pause(0.5)
+    %pause(0.5)
     plot(1:tslength,ts);
     hold on
     plot(PIPindex,ts(PIPindex));
