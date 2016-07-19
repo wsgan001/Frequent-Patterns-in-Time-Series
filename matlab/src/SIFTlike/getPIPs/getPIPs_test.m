@@ -7,8 +7,8 @@ sw=5; %smoothing window
 
 %{
 %SC dataset
-%load('../../data/gt_sc.mat');
-load('../../data/synthetic_control.mat');
+%load('../../../data/gt_sc.mat');
+load('../../../data/synthetic_control.mat');
 ts = synthetic_control;
 %}
 
