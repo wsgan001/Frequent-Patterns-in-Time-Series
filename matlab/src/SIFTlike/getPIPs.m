@@ -13,8 +13,7 @@ end
 
 [~,length]=size(ts);
 
-%tmp=linspace(ts(1),ts(end),length); %the line connecting the first and last points
-%Dist=abs(ts-tmp); %Dist: vertical distance
+%Dist=VDist(ts);
 Dist=PDist(ts);
 Dist=Dist(2:end-1);
 PIPnew=find( Dist==(max(Dist)) )+1;
@@ -43,11 +42,8 @@ last=length;
 waitinglist=[];%column 1 for index in TS; column 2 for Distpos; each row for a possible PIP
 while (size(PIPindex)<n)
     if(middle>first)
-        %tmp1=linspace(ts(first),ts(middle),(middle-first+1));
-        %Dist1=abs(ts(first:middle)-tmp1);%test
-        %max(Dist1)%test
+        %Dist1=VDist(ts(first:middle));
         Dist1=PDist(ts(first:middle));
-        %max(Dist1)%test
         Dist1=Dist1(2:end-1);
         Distpos1=max(Dist1);
         PIPpos1=find( Dist1==Distpos1 )+first; % PIP possible 1 - index in TS      
@@ -56,11 +52,8 @@ while (size(PIPindex)<n)
     end
     
     if(last>middle)
-        %tmp2=linspace(ts(middle),ts(last),(last-middle+1));
-        %Dist2=abs(ts(middle:last)-tmp2);%test
-        %max(Dist2)%test
+        %Dist2=VDist(ts(middle:last));
         Dist2=PDist(ts(middle:last));
-        %max(Dist2)%test
         Dist2=Dist2(2:end-1);
         Distpos2=max(Dist2);
         PIPpos2=find( Dist2==Distpos2 )+middle;
@@ -72,9 +65,6 @@ while (size(PIPindex)<n)
     waitinglist=sortrows(waitinglist,2);%sort by Distpos
     [rtmp,~]=size(waitinglist);
     PIPnew=waitinglist(rtmp,1);
-    %waitinglist(rtmp,2)%test
-    %max(waitinglist(:,2))%test
-    %waitinglist(rtmp-1,2)%test
     waitinglist=waitinglist(1:rtmp-1,:);
     
     PIPindex=[PIPindex,PIPnew];

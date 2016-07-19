@@ -1,6 +1,5 @@
 function [ PD ] = PDist( ts )
 %ts: original time series sequence
-%tmp: line connecting the first and last points
 %PD: Perpendicular distance
 
 [rnum,cnum]=size(ts);
