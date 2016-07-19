@@ -1,4 +1,4 @@
-function [ PIPindex ] = getPIPs( ts,n )
+function [ PIPindex ] = getPIPs_num( ts,n )
 %locate perceptually important points (PIPs)
 %ts: time series, 1*length vector
 %n: the number of PIPs;
