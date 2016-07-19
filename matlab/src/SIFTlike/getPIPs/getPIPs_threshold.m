@@ -6,7 +6,7 @@ function [ PIPindex,PIPinfo ] = getPIPs_threshold( ts,thr )
 
 %The column of PIPinfo from left to right:
 %PIPindex: PIPs' position in ts by order
-%PIPDist: Dist of each PIP
+%PIPDist: Normalized Dist of each PIP
 %PIPimportance: the order of being added to PIP set
 
 if nargin==1

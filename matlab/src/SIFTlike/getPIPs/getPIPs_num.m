@@ -5,7 +5,7 @@ function [ PIPindex,PIPinfo ] = getPIPs_num( ts,n )
 
 %The column of PIPinfo from left to right:
 %PIPindex: PIPs' position in ts by order
-%PIPDist: Dist of each PIP
+%PIPDist: Normalized Dist of each PIP
 %PIPimportance: the order of being added to PIP set
 
 if nargin==1
@@ -14,8 +14,7 @@ end
 
 [~,tslength]=size(ts);
 
-%Dist=VDist(ts);
-%Dist=PDist(ts);
+%Dist=NormVDist(ts);
 Dist=NormPDist(ts,ts);
 Dist=Dist(2:end-1);
 PIPnew=find( Dist==(max(Dist)) )+1;
@@ -45,8 +44,7 @@ last=tslength;
 waitinglist=[];%column 1 for index in TS; column 2 for Distpos; each row for a possible PIP
 while (size(PIPindex)<n)
     if(middle>first)
-        %Dist1=VDist(ts(first:middle));
-        %Dist1=PDist(ts(first:middle));
+        %Dist1=NormVDist(ts(first:middle));
         Dist1=NormPDist(ts(first:middle),ts);
         Dist1=Dist1(2:end-1);
         Distpos1=max(Dist1);
@@ -56,8 +54,7 @@ while (size(PIPindex)<n)
     end
     
     if(last>middle)
-        %Dist2=VDist(ts(middle:last));
-        %Dist2=PDist(ts(middle:last));
+        %Dist2=NormVDist(ts(middle:last));
         Dist2=NormPDist(ts(middle:last),ts);
         Dist2=Dist2(2:end-1);
         Distpos2=max(Dist2);
