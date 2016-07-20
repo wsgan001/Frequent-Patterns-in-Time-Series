@@ -16,14 +16,13 @@ end
 
 %% PIPinfo
 tic
-[~,PIPinfoQ] = getPIPs_threshold(query, PIPthr);%query's info
+PIPinfoQ = getPIPs_threshold(query, PIPthr);%query's info
 toc
 
 tic
 PIPinfoD=cell(rnum,1);%dataset's info
 for i=1:rnum
-    [ ~,tmp ] = getPIPs_threshold(dataset(i,:), PIPthr);
-    PIPinfoD{i,1}=tmp;
+    PIPinfoD{i,1}=getPIPs_threshold(dataset(i,:), PIPthr);
 end
 toc
 

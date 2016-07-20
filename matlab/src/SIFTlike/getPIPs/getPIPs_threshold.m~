@@ -1,10 +1,11 @@
-function [ PIPinfo ] = getPIPs_threshold( ts,thr )
+function [ PIPindex,PIPinfo ] = getPIPs_threshold( ts,thr )
 %locate perceptually important points (PIPs)
 %ts: time series, 1*tslength vector
 %thr: normalized threshold.
 %MUST USE NormVDist/NormPDist AS DISTANCE METRIC
 
 %The column of PIPinfo from left to right:
+%PIPindex: PIPs' position in ts by order
 %PIPDist: Normalized Dist of each PIP
 %PIPimportance: the order of being added to PIP set
 
@@ -15,7 +16,7 @@ end
 [~,tslength]=size(ts);
 yrange=max(ts)-min(ts);
 
-%PIPindex=[1,tslength]; % the first two PIPs
+PIPindex=[1,tslength]; % the first two PIPs
 PIPnownum=2;
 PIPinfo=[1,0,1;tslength,0,2];
 Dist=NormVDist(ts,yrange);
@@ -40,7 +41,6 @@ REPEAT UNTIL GETTING N PIPS
 figure;
 plot(1:tslength,ts);
 hold on
-PIPindex=(sort(PIPinfo(:,1)))';
 plot(PIPindex,ts(PIPindex));
 hold off
 %}
@@ -55,17 +55,16 @@ while (isempty(waitinglist)==0 && maxv>thr)
     PIPnownum=PIPnownum+1;
     PIPinfo=[PIPinfo;PIPnew,maxv,PIPnownum];
     waitinglist(maxi,:)=waitinglist(end,:);%cover maxi row by last row
-    waitinglist=waitinglist(1:end-1,:);%delete last row. i.e. delete used maxi
+    waitinglist=waitinglist(1:rtmp-1,:);%delete last row. i.e. dele
     
-    %{
     waitinglist=sortrows(waitinglist,2);%sort by Distpos
     [rtmp,~]=size(waitinglist);
     PIPnew=waitinglist(rtmp,1);
     PIPinfo=[PIPinfo;PIPnew,waitinglist(rtmp,2),length(PIPindex)+1];
     waitinglist=waitinglist(1:rtmp-1,:);
-    %}
     
-    PIPindex=(sort(PIPinfo(:,1)))';
+    PIPindex=[PIPindex,PIPnew];
+    PIPindex=sort(PIPindex);
     PIPnew_index_in_PIPindex=find(PIPindex==(PIPnew));
     first=PIPindex(PIPnew_index_in_PIPindex-1);
     last=PIPindex(PIPnew_index_in_PIPindex+1);
