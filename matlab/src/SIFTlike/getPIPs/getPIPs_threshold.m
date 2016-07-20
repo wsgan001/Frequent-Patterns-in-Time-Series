@@ -16,8 +16,8 @@ end
 yrange=max(ts)-min(ts);
 
 %PIPindex=[1,tslength]; % the first two PIPs
-PIPnownum=2;
 PIPinfo=[1,0,1;tslength,0,2];
+PIPnownum=2;
 Dist=NormVDist(ts,yrange);
 %Dist=NormPDist(ts,tslength,yrange);
 Dist=Dist(2:end-1);
