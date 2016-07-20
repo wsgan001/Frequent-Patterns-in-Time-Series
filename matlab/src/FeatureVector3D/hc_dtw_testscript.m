@@ -5,7 +5,7 @@ clc;
 
 %% parameter
 WinLen=6;%sliding whindow length
-UCRdataset='yoga';
+UCRdataset='fish';
 
 %% load dataset
 %sc dataset
