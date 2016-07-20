@@ -1,12 +1,11 @@
-function [ VD ] = NormVDist( ts,wholets )
+function [ VD ] = NormVDist( ts,yrange )
 %ts: original time series sequence
-%wholets: whole time series to get the axis ranges
+%yrange: value range of Y axis
 %VD: vertical distance
 
 tmp=linspace(ts(1),ts(end),length(ts)); %the line connecting the first and last points
 VD=abs(ts-tmp);
 
-yrange=max(wholets)-min(wholets);
 VD=VD/yrange;
 
 end

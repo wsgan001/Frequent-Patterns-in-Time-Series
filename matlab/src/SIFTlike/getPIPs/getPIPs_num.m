@@ -13,9 +13,10 @@ if nargin==1
 end
 
 [~,tslength]=size(ts);
+yrange=max(ts)-min(ts);
 
-%Dist=NormVDist(ts);
-Dist=NormPDist(ts,ts);
+%Dist=NormVDist(ts,yrange);
+Dist=NormPDist(ts,tslength,yrange);
 Dist=Dist(2:end-1);
 PIPnew=find( Dist==(max(Dist)) )+1;
 PIPindex=[1,PIPnew,tslength]; % the first three PIPs
@@ -46,8 +47,8 @@ last=tslength;
 waitinglist=[];%column 1 for index in TS; column 2 for Distpos; each row for a possible PIP
 while (size(PIPindex)<n)
     if(middle>first)
-        %Dist1=NormVDist(ts(first:middle));
-        Dist1=NormPDist(ts(first:middle),ts);
+        %Dist1=NormVDist(ts(first:middle),yrange);
+        Dist1=NormPDist(ts(first:middle),tslength,yrange);
         Dist1=Dist1(2:end-1);
         Distpos1=max(Dist1);
         PIPpos1=find( Dist1==Distpos1 )+first; % PIP possible 1 - index in TS      
@@ -56,8 +57,8 @@ while (size(PIPindex)<n)
     end
     
     if(last>middle)
-        %Dist2=NormVDist(ts(middle:last));
-        Dist2=NormPDist(ts(middle:last),ts);
+        %Dist2=NormVDist(ts(middle:last),yrange);
+        Dist2=NormPDist(ts(middle:last),tslength,yrange);
         Dist2=Dist2(2:end-1);
         Distpos2=max(Dist2);
         PIPpos2=find( Dist2==Distpos2 )+middle;

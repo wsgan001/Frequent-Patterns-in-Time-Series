@@ -14,11 +14,12 @@ if nargin==1
 end
 
 [~,tslength]=size(ts);
+yrange=max(ts)-min(ts);
 
-PIPindex=[1,tslength]; % the first three PIPs
+PIPindex=[1,tslength]; % the first two PIPs
 PIPinfo=[1,0,1;tslength,0,2];
-Dist=NormVDist(ts,ts);
-%Dist=NormPDist(ts,ts);
+Dist=NormVDist(ts,yrange);
+%Dist=NormPDist(ts,tslength,yrange);
 Dist=Dist(2:end-1);
 Distpos=max(Dist);
 PIPpos=find( Dist==(Distpos) )+1;
@@ -71,8 +72,8 @@ while (isempty(waitinglist)==0 && max(waitinglist(:,2))>thr)
     %}
     
     if(middle>(first+1))
-        Dist1=NormVDist(ts(first:middle),ts);
-        %Dist1=NormPDist(ts(first:middle),ts);
+        Dist1=NormVDist(ts(first:middle),yrange);
+        %Dist1=NormPDist(ts(first:middle),tslength,yrange);
         Dist1=Dist1(2:end-1);
         Distpos1=max(Dist1);
         if (Distpos1>0)
@@ -83,8 +84,8 @@ while (isempty(waitinglist)==0 && max(waitinglist(:,2))>thr)
     end
     
     if(last>(middle+1))
-        Dist2=NormVDist(ts(middle:last),ts);
-        %Dist2=NormPDist(ts(middle:last),ts);
+        Dist2=NormVDist(ts(middle:last),yrange);
+        %Dist2=NormPDist(ts(middle:last),tslength,yrange);
         Dist2=Dist2(2:end-1);
         Distpos2=max(Dist2);
         if (Distpos2>0)
