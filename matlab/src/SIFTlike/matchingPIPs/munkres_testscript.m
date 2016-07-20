@@ -48,13 +48,13 @@ end
 %figure
 %plot(ts(tsindex,:));
 %[ PIPindex,PIPinfo ] = getPIPs_num( ts_smooth(tsindex,:),PIPnum );
-[ PIPindex,PIPinfo ] = getPIPs_threshold( ts_smooth(tsindex,:), PIPthr );
+[ ~,PIPinfo ] = getPIPs_threshold( ts_smooth(tsindex,:), PIPthr );
 [ Indicator,PIPindex ] = getIndicator( ts_smooth(tsindex,:), PIPinfo );
 
 %figure
 %plot(ts(tsindex2,:));
 %[ PIPindex2,PIPinfo2 ] = getPIPs_num( ts_smooth(tsindex2,:),PIPnum );
-[ PIPindex2,PIPinfo2 ] = getPIPs_threshold( ts_smooth(tsindex2,:), PIPthr );
+[ ~,PIPinfo2 ] = getPIPs_threshold( ts_smooth(tsindex2,:), PIPthr );
 [ Indicator2,PIPindex2 ] = getIndicator( ts_smooth(tsindex2,:), PIPinfo2 );
 
 costmat=getCostmat(Indicator,Indicator2);
