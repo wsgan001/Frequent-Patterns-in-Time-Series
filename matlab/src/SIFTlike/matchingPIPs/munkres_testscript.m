@@ -60,16 +60,18 @@ end
 costmat=getCostmat(Indicator,Indicator2);
 
 %%
-[assignment,cost] = munkres(costmat);
+[assignmentPairs,cost] = munkresPairs(costmat);
 % draw match picture
 figure
 plot(ts_smooth(tsindex,:),'k');
 hold on
 plot(ts_smooth(tsindex2,:),'r');
-for i=1:length(assignment)
-    if (assignment(i)~=0)
-        plot([PIPindex(i),PIPindex2(assignment(i))],...
-            [ts_smooth(tsindex,PIPindex(i)),ts_smooth(tsindex2,PIPindex2(assignment(i)))]...
-            ,':ob','MarkerFaceColor','g')
+for i=1:size(assignmentPairs,1)
+    if (assignmentPairs(i,2)~=0)
+        x1=PIPindex(assignmentPairs(i,1));
+        x2=PIPindex2(assignmentPairs(i,2));
+        y1=ts_smooth(tsindex,x1);
+        y2=ts_smooth(tsindex2,x2);
+        plot([x1,x2],[y1,y2],':ob','MarkerFaceColor','g')
     end
 end
