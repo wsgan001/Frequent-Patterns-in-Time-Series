@@ -14,22 +14,27 @@ end
 
 [rnum, ~]=size(dataset);
 
-%dataset's info
-PIPinfoD=cell(rnum,1);
+%% info wanted by calculation
+tic
+[~,PIPinfoQ] = getPIPs_threshold(query, PIPthr);%query's info
+PIPinfoD=cell(rnum,1);%dataset's info
 for i=1:rnum
     [ ~,tmp ] = getPIPs_threshold(dataset(i,:), PIPthr);
     PIPinfoD{i,1}=tmp;
 end
+toc
+
+tic
+[IndicatorQ,~] = getIndicator( query, PIPinfoQ );
 IndicatorD=cell(rnum,1);
 for i=1:rnum
     [ tmp,~ ] = getIndicator( dataset(i,:), PIPinfoD{i,1} );
     IndicatorD{i,1}=tmp;
 end
+toc
 
-%query's info
-[~,PIPinfoQ] = getPIPs_threshold(query, PIPthr);
-[IndicatorQ,~] = getIndicator( query, PIPinfoQ );
-
+%% dynamic computing
+tic
 Dist=zeros(rnum,2);
 for i=1:rnum
     costmat=getCostmat(IndicatorQ,IndicatorD{i,1});
@@ -37,7 +42,9 @@ for i=1:rnum
     Dist(i,1)=tmp;
     Dist(i,2)=i;
 end
+toc
 
+%% return results
 Dist=sortrows(Dist,1);
 ranking=Dist(:,2);
 

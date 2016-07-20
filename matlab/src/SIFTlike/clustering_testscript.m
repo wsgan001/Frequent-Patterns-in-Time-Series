@@ -6,8 +6,10 @@ clc;
 %% parameter
 WinLen=6;%sliding whindow length
 PIPthr=0.15;
-%UCRdataset='yoga';
-UCRdataset='wafer';
+UCRdataset='yoga';%good
+%UCRdataset='wafer';%good
+%UCRdataset='50words';%not so good
+
 
 %% load dataset
 %sc dataset
@@ -64,10 +66,12 @@ end
 result
 %}
 
-%% similarity ranking
+%% similarity ranking parameters
 queryno=1;
-tic
 query=ts_smooth(queryno,:);
+
+%% PIPthr_dtw
+tic
 [ ranking ] = SimRank_PIPthr_dtw( query,ts_smooth,PIPthr );
 toc
 
@@ -75,7 +79,7 @@ toc
 %{
 figure
 plot(ts(queryno,:));
-title('raw query');
+title('raw query - PIPthr_dtw');
 figure
 hold on
 for i=2:20
@@ -83,7 +87,7 @@ for i=2:20
 end
 plot(ts(ranking(1),:),':or','MarkerFaceColor','r')
 hold off
-title('raw top 20')
+title('raw top 20 - PIPthr_dtw')
 figure
 hold on
 for i=2:50
@@ -91,7 +95,7 @@ for i=2:50
 end
 plot(ts(ranking(1),:),':or','MarkerFaceColor','r')
 hold off
-title('raw top 50')
+title('raw top 50 - PIPthr_dtw')
 figure
 hold on
 for i=2:100
@@ -99,13 +103,13 @@ for i=2:100
 end
 plot(ts(ranking(1),:),':or','MarkerFaceColor','r')
 hold off
-title('raw top 100')
+title('raw top 100 - PIPthr_dtw')
 %}
 
 %after smoothing
 figure
 plot(ts_smooth(queryno,:));
-title('smoothing query');
+title('smoothing query - PIPthr_dtw');
 figure
 hold on
 for i=2:20
@@ -113,7 +117,7 @@ for i=2:20
 end
 plot(ts_smooth(ranking(1),:),':or','MarkerFaceColor','r')
 hold off
-title('smoothing top 20')
+title('smoothing top 20 - PIPthr_dtw')
 figure
 hold on
 for i=2:50
@@ -121,7 +125,7 @@ for i=2:50
 end
 plot(ts_smooth(ranking(1),:),':or','MarkerFaceColor','r')
 hold off
-title('smoothing top 50')
+title('smoothing top 50 - PIPthr_dtw')
 figure
 hold on
 for i=2:100
@@ -129,4 +133,38 @@ for i=2:100
 end
 plot(ts_smooth(ranking(1),:),':or','MarkerFaceColor','r')
 hold off
-title('smoothing top 100')
+title('smoothing top 100 - PIPthr_dtw')
+
+%% similarity ranking - comparison - raw data based dtw
+tic
+[ ranking_comp ] = SimRank_rawdata_dtw( query,ts_smooth );
+toc
+
+%after smoothing
+figure
+plot(ts_smooth(queryno,:));
+title('smoothing query - raw data based dtw');
+figure
+hold on
+for i=2:20
+    plot(ts_smooth(ranking_comp(i),:));
+end
+plot(ts_smooth(ranking_comp(1),:),':or','MarkerFaceColor','r')
+hold off
+title('smoothing top 20 - raw data based dtw')
+figure
+hold on
+for i=2:50
+    plot(ts_smooth(ranking_comp(i),:));
+end
+plot(ts_smooth(ranking_comp(1),:),':or','MarkerFaceColor','r')
+hold off
+title('smoothing top 50 - raw data based dtw')
+figure
+hold on
+for i=2:100
+    plot(ts_smooth(ranking_comp(i),:));
+end
+plot(ts_smooth(ranking_comp(1),:),':or','MarkerFaceColor','r')
+hold off
+title('smoothing top 100 - raw data based dtw')
