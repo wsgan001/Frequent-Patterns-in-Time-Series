@@ -10,7 +10,7 @@
 % dynamic time warping of two signals
 %}
 
-function [ assignmentPairs,cost ] = dtwMatch( costMat,w )
+function [ assignmentPairs,costPerPair ] = dtwMatch( costMat,w )
 % dtw Matching
 % w - slide window length
 % assignmentPairs is assigned to each row in order and the value means this row
@@ -48,8 +48,6 @@ for i=1:ns
 end
 
 %% Return results
-cost=D(ns+1,nt+1);
-
 pathtmp=zeros(1,2);
 pathtmp(1)=path(ns,nt,1);
 pathtmp(2)=path(ns,nt,2);
@@ -61,6 +59,8 @@ while(sum(pathtmp)~=0)
     pathtmp(1)=path(tmp1,tmp2,1);
     pathtmp(2)=path(tmp1,tmp2,2);
 end
+
+costPerPair=D(ns+1,nt+1)/size(assignmentPairs,1);
 
 end
 

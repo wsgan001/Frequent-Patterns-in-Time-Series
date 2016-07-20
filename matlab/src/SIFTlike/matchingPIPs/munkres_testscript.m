@@ -5,7 +5,7 @@ addpath('../getPIPs');
 addpath('../PIPsIndicator');
 
 PIPnum=20;
-PIPthr=0.15;%PIP threshold
+PIPthr=0.1;%PIP threshold
 sw=10; %smoothing window
 
 %{
@@ -19,8 +19,8 @@ ts = synthetic_control;
 
 
 %UCR dataset
-tsindex=5;
-tsindex2=6;
+tsindex=9;
+tsindex2=10;
 %datasetname='Wine';
 datasetname='yoga';
 TEST=load(['/Users/Steven/Academic/SR@Aditya/Zenvisage/datasets/UCR_TS_Archive_2015/',datasetname,'/',datasetname,'_TEST']);
@@ -60,7 +60,8 @@ end
 costmat=getCostmat(Indicator,Indicator2);
 
 %%
-[assignmentPairs,cost] = munkresPairs(costmat);
+%[assignmentPairs,cost] = munkresPairs(costmat);
+[assignmentPairs,cost] = dtwMatch(costmat);
 % draw match picture
 figure
 plot(ts_smooth(tsindex,:),'k');
