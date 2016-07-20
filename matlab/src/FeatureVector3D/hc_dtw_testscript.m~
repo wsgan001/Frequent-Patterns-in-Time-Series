@@ -5,30 +5,16 @@ clc;
 
 %% parameter
 WinLen=6;%sliding whindow length
-UCRdataset='yoga';
 
 %% load dataset
 %sc dataset
-%{
 load('../../data/gt_sc.mat');
 load('../../data/synthetic_control.mat');
 ts = synthetic_control;
 gt = gt_sc;
 [rnum,cnum]=size(ts);
-%}
 
 %UCR dataset
-TEST = load([...
-    '/Users/Steven/Academic/SR@Aditya/Zenvisage/datasets/UCR_TS_Archive_2015/'...
-    ,UCRdataset,'/',UCRdataset,'_TEST']);
-TRAIN = load([...
-    '/Users/Steven/Academic/SR@Aditya/Zenvisage/datasets/UCR_TS_Archive_2015/'...
-    ,UCRdataset,'/',UCRdataset,'_TRAIN']);
-
-dataall = [TEST;TRAIN];
-[rnum, cnum] = size(dataall);
-gt = dataall(:,1);
-ts = dataall(:,2:cnum);
 
 %% preprocessing
 %normalization/scaling
@@ -47,7 +33,5 @@ end
 %[~,cnum_smooth]=size(ts_smooth);
 
 %% hc_dtw
-tic
-[ result,Dist,c ] = hc_dtw( ts_smooth,gt,2 );
-toc
+[ result,Dist,c ] = hc_dtw( ts_smooth,gt );
 result

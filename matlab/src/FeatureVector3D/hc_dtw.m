@@ -1,4 +1,4 @@
-function [ result,Dist,c ] = hc_dtw( ts,gt )
+function [ result,Dist,c ] = hc_dtw( ts,gt,clusternum)
 %Using hierarchical clustering and DTW to cluster given time series data set.
 %Input: time series data set. Every row represents a sequence of time series.
 %Output: The result.
@@ -28,7 +28,7 @@ tree = linkage(Dist);
 
 dendrogram(tree);
 
-c = cluster(tree,'maxclust',6);
+c = cluster(tree,'maxclust',clusternum);
 
 result = crosstab(c, gt);
 
