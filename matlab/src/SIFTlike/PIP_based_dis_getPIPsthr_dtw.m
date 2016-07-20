@@ -2,8 +2,12 @@ function [ cost ] = PIP_based_dis_getPIPsthr_dtw( ts1,ts2,PIPthr )
 %Calculate the distance between two time series ts1 and ts2
 %using getPIPs_threshold and dtwMatch
 
+if nargin<3
+    PIPthr=0.02;
+end
+
 addpath('./getPIPs')
-addpath('./mathcingPIPs')
+addpath('./matchingPIPs')
 addpath('./PIPsIndicator')
 
 %get PIPs to represent the time series
