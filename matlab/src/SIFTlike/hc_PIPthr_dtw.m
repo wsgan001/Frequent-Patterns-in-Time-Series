@@ -13,13 +13,6 @@ end
 
 [rnum, ~]=size(ts);
 
-%{
-%normalization/scaling
-for i=1:rnum
-    ts(i,:)=(ts(i,:)-mean(ts(i,:)))/ std(ts(i,:));
-end
-%}
-
 PIPinfo=cell(rnum,1);
 for i=1:rnum
     [ ~,tmp ] = getPIPs_threshold(ts(i,:), PIPthr);
