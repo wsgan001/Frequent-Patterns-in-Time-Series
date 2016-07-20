@@ -17,6 +17,7 @@ PIPindex=PIPinfo(:,1);
 %x(PIPindex)
 Indicator=PIPinfo(:,1);
 Indicator(:,1)=Indicator(:,1)/xrange; %normalized
+%Indicator(:,1)=Indicator(:,1)*1;%weight parameter
 
 %PIPDist - already normalized
 %Indicator=[Indicator,PIPinfo(:,2)]; %already normalized

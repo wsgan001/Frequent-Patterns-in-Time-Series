@@ -5,7 +5,7 @@ addpath('../getPIPs');
 addpath('../PIPsIndicator');
 
 PIPnum=20;
-PIPthr=0.05;%PIP threshold
+PIPthr=0.15;%PIP threshold
 sw=10; %smoothing window
 
 %{
@@ -17,14 +17,16 @@ load('../../../data/synthetic_control.mat');
 ts = synthetic_control;
 %}
 
+
 %UCR dataset
-tsindex=7;
-tsindex2=8;
+tsindex=5;
+tsindex2=6;
 %datasetname='Wine';
 datasetname='yoga';
 TEST=load(['/Users/Steven/Academic/SR@Aditya/Zenvisage/datasets/UCR_TS_Archive_2015/',datasetname,'/',datasetname,'_TEST']);
 TRAIN=load(['/Users/Steven/Academic/SR@Aditya/Zenvisage/datasets/UCR_TS_Archive_2015/',datasetname,'/',datasetname,'_TRAIN']);
 ts=[TEST(:,2:end);TRAIN(:,2:end)];
+
 
 
 %%
@@ -45,14 +47,14 @@ end
 %%
 %figure
 %plot(ts(tsindex,:));
-[ PIPindex,PIPinfo ] = getPIPs_num( ts_smooth(tsindex,:),PIPnum );
-%[ PIPindex,PIPinfo ] = getPIPs_threshold( ts_smooth(tsindex,:), PIPthr );
+%[ PIPindex,PIPinfo ] = getPIPs_num( ts_smooth(tsindex,:),PIPnum );
+[ PIPindex,PIPinfo ] = getPIPs_threshold( ts_smooth(tsindex,:), PIPthr );
 [ Indicator,PIPindex ] = getIndicator( ts_smooth(tsindex,:), PIPinfo );
 
 %figure
 %plot(ts(tsindex2,:));
-[ PIPindex2,PIPinfo2 ] = getPIPs_num( ts_smooth(tsindex2,:),PIPnum );
-%[ PIPindex,PIPinfo ] = getPIPs_threshold( ts_smooth(tsindex,:), PIPthr );
+%[ PIPindex2,PIPinfo2 ] = getPIPs_num( ts_smooth(tsindex2,:),PIPnum );
+[ PIPindex2,PIPinfo2 ] = getPIPs_threshold( ts_smooth(tsindex2,:), PIPthr );
 [ Indicator2,PIPindex2 ] = getIndicator( ts_smooth(tsindex2,:), PIPinfo2 );
 
 costmat=getCostmat(Indicator,Indicator2);
@@ -65,7 +67,9 @@ plot(ts_smooth(tsindex,:),'k');
 hold on
 plot(ts_smooth(tsindex2,:),'r');
 for i=1:length(assignment)
-    plot([PIPindex(i),PIPindex2(assignment(i))],...
-        [ts_smooth(tsindex,PIPindex(i)),ts_smooth(tsindex2,PIPindex2(assignment(i)))]...
-        ,':ob','MarkerFaceColor','g')
+    if (assignment(i)~=0)
+        plot([PIPindex(i),PIPindex2(assignment(i))],...
+            [ts_smooth(tsindex,PIPindex(i)),ts_smooth(tsindex2,PIPindex2(assignment(i)))]...
+            ,':ob','MarkerFaceColor','g')
+    end
 end
