@@ -51,7 +51,8 @@ hold off
 
 [maxv,maxi]=max(waitinglist(:,2));
 while (isempty(waitinglist)==0 && maxv>thr)
-    PIPnew=waitinglist(maxi,1);
+    PIPnewinfo=waitinglist(maxi,:);
+    PIPnew=PIPnewinfo(1,1);
     PIPnownum=PIPnownum+1;
     PIPinfo=[PIPinfo;PIPnew,maxv,PIPnownum];
     waitinglist(maxi,:)=waitinglist(end,:);%cover maxi row by last row
@@ -67,8 +68,8 @@ while (isempty(waitinglist)==0 && maxv>thr)
     
     %PIPindex=(sort(PIPinfo(:,1)))';
     %PIPnew_index_in_PIPindex=find(PIPindex==(PIPnew));
-    first=waitinglist(maxi,3);
-    last=waitinglist(maxi,4);
+    first=PIPnewinfo(1,3);
+    last=PIPnewinfo(1,4);
     middle=PIPnew;
     
     %plot for visual test
