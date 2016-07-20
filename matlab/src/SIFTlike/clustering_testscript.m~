@@ -69,7 +69,7 @@ result
 %% similarity ranking parameters
 queryno=1;
 query=ts_smooth(queryno,:);
-TopN2show=[20,50,100];
+TopN_show=[20,50,100];
 
 %% PIPthr_dtw
 tic
@@ -78,7 +78,7 @@ toc
 
 %raw data
 %{
-for topn=TopN2show
+for topn=TopN_show
     figure
     hold on
     for i=2:topn
@@ -86,12 +86,12 @@ for topn=TopN2show
     end
     plot(ts(ranking(1),:),':or','MarkerFaceColor','r')
     hold off
-    title(['raw data top ',num2str(topn),' - PIPthr\_dtw'])
+    title(['raw data top ',num2str(topn),' - PIPthr_dtw'])
 end
 %}
 
 %after smoothing
-for topn=TopN2show
+for topn=TopN_show
     figure
     hold on
     for i=2:topn
@@ -99,7 +99,7 @@ for topn=TopN2show
     end
     plot(ts_smooth(ranking(1),:),':or','MarkerFaceColor','r')
     hold off
-    title(['smoothing top ',num2str(topn),' - PIPthr\_dtw'])
+    title(['smoothing top ',num2str(topn),' - PIPthr_dtw'])
 end
 
 %% similarity ranking - comparison - smoothing data based dtw
@@ -109,7 +109,7 @@ toc
 
 %raw data
 %{
-for topn=TopN2show
+for topn=TopN_show
     figure
     hold on
     for i=2:topn
@@ -117,12 +117,12 @@ for topn=TopN2show
     end
     plot(ts(ranking_comp(1),:),':or','MarkerFaceColor','r')
     hold off
-    title(['raw data top ',num2str(topn),' - all points based dtw'])
+    title(['raw data top ',num2str(topn),' - PIPthr_dtw'])
 end
 %}
 
 %after smoothing
-for topn=TopN2show
+for topn=TopN_show
     figure
     hold on
     for i=2:topn
@@ -130,5 +130,5 @@ for topn=TopN2show
     end
     plot(ts_smooth(ranking_comp(1),:),':or','MarkerFaceColor','r')
     hold off
-    title(['smoothing top ',num2str(topn),' - all points based dtw'])
+    title(['smoothing top ',num2str(topn),' - raw data based dtw'])
 end
