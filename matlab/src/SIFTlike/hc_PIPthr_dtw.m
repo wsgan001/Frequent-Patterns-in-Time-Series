@@ -13,8 +13,8 @@ end
 
 [rnum, ~]=size(ts);
 
-%normalization/scaling
 %{
+%normalization/scaling
 for i=1:rnum
     ts(i,:)=(ts(i,:)-mean(ts(i,:)))/ std(ts(i,:));
 end
@@ -35,12 +35,12 @@ Dist = zeros(1,rnum*(rnum-1)/2);
 index=1;
 for i=1:(rnum-1)
     for j=(i+1):rnum
-        i
-        j
+        tic
         costmat=getCostmat(Indicator{i,1},Indicator{j,1});
         [~,tmp]=dtwMatch(costmat);
         Dist(index)=tmp;
         index=index+1;
+        toc
     end
 end
 
