@@ -37,7 +37,7 @@ for i=1:(rnum-1)
     for j=(i+1):rnum
         %tic
         costmat=getCostmat(Indicator{i,1},Indicator{j,1});
-        %size(costmat)
+        size(costmat)
         %toc
         [~,tmp]=dtwMatch(costmat);
         Dist(index)=tmp;

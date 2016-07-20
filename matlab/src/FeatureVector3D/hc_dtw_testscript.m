@@ -1,11 +1,10 @@
-%clustering test
+%hc_dtw test
 
 clear;
 clc;
 
 %% parameter
 WinLen=6;%sliding whindow length
-PIPthr=0.15;
 
 %% load dataset
 %sc dataset
@@ -31,6 +30,6 @@ for i=1:rnum
 end
 %[~,cnum_smooth]=size(ts_smooth);
 
-%% clustering
-[ result,Dist,c ] = hc_PIPthr_dtw( ts_smooth,gt,PIPthr );
+%% hc_dtw
+[ result,Dist,c ] = hc_dtw( ts_smooth,gt );
 result

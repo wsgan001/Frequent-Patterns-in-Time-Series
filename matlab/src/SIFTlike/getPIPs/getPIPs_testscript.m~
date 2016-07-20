@@ -2,9 +2,8 @@ clear;
 %clc;
 %% parameter
 tsindex=1;
-%PIPnum=15;
+PIPnum=15;
 sw=6; %smoothing window
-PIPthr=0.15;
 %% dataset
 
 %SC dataset
@@ -41,5 +40,4 @@ figure
 plot(ts(tsindex,:));
 
 %[ PIPindex,PIPinfo ] = getPIPs_num( ts_smooth(tsindex,:),PIPnum );
-[ PIPindex,PIPinfo ] = getPIPs_threshold( ts_smooth(tsindex,:),PIPthr );
-PIPindex
+%[ PIPindex,PIPinfo ] = getPIPs_threshold( ts_smooth(tsindex,:) )

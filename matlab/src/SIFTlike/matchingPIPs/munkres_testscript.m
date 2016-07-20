@@ -4,20 +4,20 @@ clear;
 addpath('../getPIPs');
 addpath('../PIPsIndicator');
 
-PIPnum=20;
+%PIPnum=20;
 PIPthr=0.1;%PIP threshold
-sw=10; %smoothing window
+sw=6; %smoothing window
 
-%{
+
 %SC dataset
 %load('../../../data/gt_sc.mat');
 tsindex=421;
 tsindex2=422;
 load('../../../data/synthetic_control.mat');
 ts = synthetic_control;
-%}
 
 
+%{
 %UCR dataset
 tsindex=9;
 tsindex2=10;
@@ -26,8 +26,7 @@ datasetname='yoga';
 TEST=load(['/Users/Steven/Academic/SR@Aditya/Zenvisage/datasets/UCR_TS_Archive_2015/',datasetname,'/',datasetname,'_TEST']);
 TRAIN=load(['/Users/Steven/Academic/SR@Aditya/Zenvisage/datasets/UCR_TS_Archive_2015/',datasetname,'/',datasetname,'_TRAIN']);
 ts=[TEST(:,2:end);TRAIN(:,2:end)];
-
-
+%}
 
 %%
 [rnum,~]=size(ts);
