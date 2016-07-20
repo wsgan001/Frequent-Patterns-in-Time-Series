@@ -23,7 +23,7 @@ Dist=NormVDist(ts,yrange);
 Dist=Dist(2:end-1);
 [Distpos,PIPpos]=max(Dist);
 PIPpos=PIPpos+1;
-waitinglist=[PIPpos,Distpos];
+waitinglist=[PIPpos,Distpos,1,tslength];%waitinglist=[PIPpos,Distpos,leftPIP,rightPIP];
 
 %{
 pseudo code:
@@ -65,10 +65,10 @@ while (isempty(waitinglist)==0 && maxv>thr)
     waitinglist=waitinglist(1:rtmp-1,:);
     %}
     
-    PIPindex=(sort(PIPinfo(:,1)))';
-    PIPnew_index_in_PIPindex=find(PIPindex==(PIPnew));
-    first=PIPindex(PIPnew_index_in_PIPindex-1);
-    last=PIPindex(PIPnew_index_in_PIPindex+1);
+    %PIPindex=(sort(PIPinfo(:,1)))';
+    %PIPnew_index_in_PIPindex=find(PIPindex==(PIPnew));
+    first=waitinglist(maxi,3);
+    last=waitinglist(maxi,4);
     middle=PIPnew;
     
     %plot for visual test
@@ -76,6 +76,7 @@ while (isempty(waitinglist)==0 && maxv>thr)
     pause(1)
     plot(1:tslength,ts);
     hold on
+    PIPindex=(sort(PIPinfo(:,1)))';
     plot(PIPindex,ts(PIPindex));
     hold off
     %}
@@ -88,7 +89,7 @@ while (isempty(waitinglist)==0 && maxv>thr)
         if (Distpos1>0)
             indextmp1=find( Dist1==Distpos1 );%in case of no fluctuation(i.e. linear)
             PIPpos1=indextmp1(1)+first; % PIP possible 1 - index in TS
-            waitinglist=[waitinglist;PIPpos1,Distpos1];
+            waitinglist=[waitinglist;PIPpos1,Distpos1,first,middle];
         end
     end
     
@@ -100,7 +101,7 @@ while (isempty(waitinglist)==0 && maxv>thr)
         if (Distpos2>0)
             indextmp2=find( Dist2==Distpos2 );
             PIPpos2=indextmp2(1)+middle;
-            waitinglist=[waitinglist;PIPpos2,Distpos2];
+            waitinglist=[waitinglist;PIPpos2,Distpos2,middle,last];
         end
     end
     [maxv,maxi]=max(waitinglist(:,2));
