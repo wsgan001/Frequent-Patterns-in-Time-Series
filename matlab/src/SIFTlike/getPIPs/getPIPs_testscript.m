@@ -6,20 +6,20 @@ tsindex=1;
 sw=6; %smoothing window
 PIPthr=0.15;
 %% dataset
-
+%{
 %SC dataset
 %load('../../../data/gt_sc.mat');
 load('../../../data/synthetic_control.mat');
 ts = synthetic_control;
+%}
 
 
-%{
 %UCR dataset
-datasetname='Wine';
+datasetname='uWaveGestureLibrary_Z';
 TEST=load(['/Users/Steven/Academic/SR@Aditya/Zenvisage/datasets/UCR_TS_Archive_2015/',datasetname,'/',datasetname,'_TEST']);
 TRAIN=load(['/Users/Steven/Academic/SR@Aditya/Zenvisage/datasets/UCR_TS_Archive_2015/',datasetname,'/',datasetname,'_TRAIN']);
 ts=[TEST(:,2:end);TRAIN(:,2:end)];
-%}
+
 
 %% preprocessing
 [rnum,~]=size(ts);

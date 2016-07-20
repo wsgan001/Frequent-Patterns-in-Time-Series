@@ -10,7 +10,7 @@ sw=6; %smoothing window
 %UCRdataset='Wine';
 UCRdataset='uWaveGestureLibrary_Z';
 tsindex=2;
-tsindex2=2599;
+tsindex2=;
 
 %% dataset
 %{

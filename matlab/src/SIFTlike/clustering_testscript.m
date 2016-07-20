@@ -9,11 +9,11 @@ PIPthr=0.15;
 %UCRdataset='yoga';%good
 %UCRdataset='wafer';%good
 %UCRdataset='50words';%not so good
-UCRdataset='uWaveGestureLibrary_Z';
+UCRdataset='uWaveGestureLibrary_X';
 
 %% similarity ranking parameters
 queryno=1;
-TopN2show=[5];
+TopN2show=[5,20];
 
 %% load dataset
 %sc dataset
