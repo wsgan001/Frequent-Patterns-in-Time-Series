@@ -6,7 +6,8 @@ clc;
 %% parameter
 WinLen=6;%sliding whindow length
 PIPthr=0.15;
-UCRdataset='yoga';
+%UCRdataset='yoga';
+UCRdataset='wafer';
 
 %% load dataset
 %sc dataset
@@ -64,7 +65,7 @@ result
 %}
 
 %% similarity ranking
-queryno=301;
+queryno=1;
 tic
 query=ts_smooth(queryno,:);
 [ ranking ] = SimRank_PIPthr_dtw( query,ts_smooth,PIPthr );

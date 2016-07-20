@@ -62,30 +62,32 @@ while (max(waitinglist(:,2))>thr)
     middle=PIPnew;
     
     %plot for visual test
-    %{
-    pause(0.5)
+    
+    pause(0.1)
     plot(1:tslength,ts);
     hold on
     plot(PIPindex,ts(PIPindex));
     hold off
-    %}
     
-    if(middle>first)
+    
+    if(middle>(first+1))
         Dist1=NormVDist(ts(first:middle),ts);
         %Dist1=NormPDist(ts(first:middle),ts);
         Dist1=Dist1(2:end-1);
         Distpos1=max(Dist1);
-        PIPpos1=find( Dist1==Distpos1 )+first; % PIP possible 1 - index in TS      
+        indextmp1=find( Dist1==Distpos1 );%in case of no fluctuation(i.e. linear)
+        PIPpos1=indextmp1(1)+first; % PIP possible 1 - index in TS      
     else
         PIPpos1=[];
     end
     
-    if(last>middle)
+    if(last>(middle+1))
         Dist2=NormVDist(ts(middle:last),ts);
         %Dist2=NormPDist(ts(middle:last),ts);
         Dist2=Dist2(2:end-1);
         Distpos2=max(Dist2);
-        PIPpos2=find( Dist2==Distpos2 )+middle;
+        indextmp2=find( Dist2==Distpos2 );
+        PIPpos2=indextmp2(1)+middle;
     else
         PIPpos2=[];
     end

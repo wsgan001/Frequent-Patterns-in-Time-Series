@@ -17,6 +17,7 @@ end
 %dataset's info
 PIPinfoD=cell(rnum,1);
 for i=1:rnum
+    i
     [ ~,tmp ] = getPIPs_threshold(dataset(i,:), PIPthr);
     PIPinfoD{i,1}=tmp;
 end
