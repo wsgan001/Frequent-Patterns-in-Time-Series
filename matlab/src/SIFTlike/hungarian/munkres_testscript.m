@@ -1,11 +1,11 @@
-%Indicator test script
+%hungarian test script
 
 clear;
 addpath('../getPIPs');
 addpath('../PIPsIndicator');
 
-PIPnum=15;
-PIPthr=0.05;
+PIPnum=20;
+PIPthr=0.05;%PIP threshold
 sw=10; %smoothing window
 
 %{
@@ -18,9 +18,10 @@ ts = synthetic_control;
 %}
 
 %UCR dataset
-tsindex=1;
-tsindex2=72;
-datasetname='Wine';
+tsindex=7;
+tsindex2=8;
+%datasetname='Wine';
+datasetname='yoga';
 TEST=load(['/Users/Steven/Academic/SR@Aditya/Zenvisage/datasets/UCR_TS_Archive_2015/',datasetname,'/',datasetname,'_TEST']);
 TRAIN=load(['/Users/Steven/Academic/SR@Aditya/Zenvisage/datasets/UCR_TS_Archive_2015/',datasetname,'/',datasetname,'_TRAIN']);
 ts=[TEST(:,2:end);TRAIN(:,2:end)];
@@ -42,14 +43,14 @@ for i=1:rnum
 end
 
 %%
-figure
-plot(ts(tsindex,:));
+%figure
+%plot(ts(tsindex,:));
 [ PIPindex,PIPinfo ] = getPIPs_num( ts_smooth(tsindex,:),PIPnum );
 %[ PIPindex,PIPinfo ] = getPIPs_threshold( ts_smooth(tsindex,:), PIPthr );
 [ Indicator,PIPindex ] = getIndicator( ts_smooth(tsindex,:), PIPinfo );
 
-figure
-plot(ts(tsindex2,:));
+%figure
+%plot(ts(tsindex2,:));
 [ PIPindex2,PIPinfo2 ] = getPIPs_num( ts_smooth(tsindex2,:),PIPnum );
 %[ PIPindex,PIPinfo ] = getPIPs_threshold( ts_smooth(tsindex,:), PIPthr );
 [ Indicator2,PIPindex2 ] = getIndicator( ts_smooth(tsindex2,:), PIPinfo2 );

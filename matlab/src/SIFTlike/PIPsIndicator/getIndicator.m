@@ -1,8 +1,10 @@
 function [ Indicator,PIPindex ] = getIndicator( ts, PIPinfo )
 %ts: One time series sequence you want to compare, maybe after smoothing or not
 %PIPinfo: the information of PIPs
-%Indicator: x(PIPindex) , PIPDist, PIPimportance, delta y-2, delta y-1, y, delta y+1, delta y+2
-Xneighbourhood=-2:2;
+%Indicator: x(PIPindex), delta y-2, delta y-1, y, delta y+1, delta y+2,
+%delta PIP-1 yvalue, delta PIP+1 yvalue
+Xneighbour=-2:2;
+PIPneighbour=[-1,1];
 
 [PIPnum,~]=size(PIPinfo);
 %normalization
@@ -17,14 +19,15 @@ Indicator=PIPinfo(:,1);
 Indicator(:,1)=Indicator(:,1)/xrange; %normalized
 
 %PIPDist - already normalized
-Indicator=[Indicator,PIPinfo(:,2)]; %already normalized
+%Indicator=[Indicator,PIPinfo(:,2)]; %already normalized
 
 %PIPimportance
-Indicator=[Indicator,PIPinfo(:,3)];
-Indicator(:,3)=Indicator(:,3)/max(PIPinfo(:,3));%normalized
+%Indicator=[Indicator,PIPinfo(:,3)];
+%Indicator(:,3)=Indicator(:,3)/max(PIPinfo(:,3));%normalized
 
-%the Y value in Xneighbourhood
-for x=Xneighbourhood
+%nearby shape
+%the Y value in Xneighbour
+for x=Xneighbour
     tmp=zeros(PIPnum,1);
     for i=1:PIPnum
         if (x==0) % y
@@ -41,6 +44,42 @@ for x=Xneighbourhood
     tmp=tmp/yrange; % normalized
     Indicator=[Indicator,tmp];
 end
+
+%adjacent PIPs' shape
+%the Y value in PIPneighbour
+tmp=zeros(PIPnum,length(PIPneighbour));
+for i=1:PIPnum
+    PIPleftorder=i+PIPneighbour(1);
+    PIPrightorder=i+PIPneighbour(end);
+    if ((PIPleftorder>=1 && PIPleftorder<=PIPnum) &&...
+            (PIPrightorder>=1 && PIPrightorder<=PIPnum)) %all in TS
+        PIPneighbour_rang=...
+            (PIPinfo(PIPrightorder,1)-PIPinfo(PIPleftorder,1))/2/xrange;
+    elseif (PIPleftorder>=1 && PIPleftorder<=PIPnum) %only left side in TS
+        PIPneighbour_rang=...
+            (PIPinfo(i,1)-PIPinfo(PIPleftorder,1))/xrange;
+    else %only right side inTS
+        PIPneighbour_rang=...
+            (PIPinfo(PIPrightorder,1)-PIPinfo(i,1))/xrange;
+    end
+    for j=1:length(PIPneighbour)
+        PIPx=PIPneighbour(j);
+        PIPorder=i+PIPx;
+        if(PIPorder>=1 && PIPorder<=PIPnum)
+            index=(PIPinfo(PIPorder,1));
+        else
+            index=-1;
+        end
+        if(index>=1 && index<=length(ts))
+            tmp(i,j)=ts(index)-ts(PIPinfo(i,1));
+            tmp(i,j)=tmp(i,j)/PIPneighbour_rang;
+        else
+            tmp(i,j)=0;
+        end
+    end
+    tmp=tmp/yrange; % normalized
+end
+Indicator=[Indicator,tmp];
 
 %%
 %adjustment

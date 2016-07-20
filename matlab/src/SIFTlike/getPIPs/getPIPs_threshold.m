@@ -35,11 +35,13 @@ as new PIP.
 REPEAT UNTIL GETTING N PIPS
 %}
 %plot for visual test
+%{
 figure;
 plot(1:tslength,ts);
 hold on
 plot(PIPindex,ts(PIPindex));
 hold off
+%}
 
 %first=1;
 %middle=PIPnew;
@@ -60,11 +62,13 @@ while (max(waitinglist(:,2))>thr)
     middle=PIPnew;
     
     %plot for visual test
-    %pause(0.5)
+    %{
+    pause(0.5)
     plot(1:tslength,ts);
     hold on
     plot(PIPindex,ts(PIPindex));
     hold off
+    %}
     
     if(middle>first)
         Dist1=NormVDist(ts(first:middle),ts);
