@@ -42,7 +42,9 @@ for x=Xneighbour
             end
         end
     end
-    tmp=tmp/yrange; % normalized
+    if (yrange~=0)
+        tmp=tmp/yrange; % normalized
+    end
     Indicator=[Indicator,tmp];
 end
 
@@ -78,7 +80,9 @@ for i=1:PIPnum
             tmp(i,j)=0;
         end
     end
-    tmp=tmp/yrange; % normalized
+    if(yrange~=0)
+        tmp=tmp/yrange; % normalized
+    end
 end
 Indicator=[Indicator,tmp];
 

@@ -6,10 +6,14 @@ clc;
 %% parameter
 WinLen=6;%sliding whindow length
 PIPthr=0.15;
-UCRdataset='yoga';%good
+%UCRdataset='yoga';%good
 %UCRdataset='wafer';%good
 %UCRdataset='50words';%not so good
+UCRdataset='uWaveGestureLibrary_Z';
 
+%% similarity ranking parameters
+queryno=1;
+TopN2show=[5];
 
 %% load dataset
 %sc dataset
@@ -66,12 +70,10 @@ end
 result
 %}
 
-%% similarity ranking parameters
-queryno=1;
+%% similarity ranking
 query=ts_smooth(queryno,:);
-TopN2show=[20,50,100];
 
-%% PIPthr_dtw
+%% similarity ranking - PIPthr_dtw
 tic
 [ ranking ] = SimRank_PIPthr_dtw( query,ts_smooth,PIPthr );
 toc
