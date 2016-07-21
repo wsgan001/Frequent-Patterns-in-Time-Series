@@ -6,16 +6,16 @@ clear;
 %% parameter
 WinLen=10;%sliding whindow length
 PIPthr=0.15;
-%UCRdataset='yoga';%good
-%UCRdataset='wafer';%good
-%UCRdataset='50words';%not so good
+%UCRdataset='yoga';%good 2 classes, 3300 TS, 426 D
+%UCRdataset='wafer';%good 2 classes, 7174 TS, 152 D
+UCRdataset='50words';%not so good 50 classes, 905 TS, 270 D
 %UCRdataset='HandOutlines';% 2 classes, 1370 TS, 2709 D
-%UCRdataset='uWaveGestureLibrary_X';
-UCRdataset='synthetic_control';
+%UCRdataset='uWaveGestureLibrary_X'; 8 classes, 4478 TS, 315 D
+%UCRdataset='synthetic_control'; %6 classes, 600 TS, 60 D
 
 %% similarity ranking parameters
 queryno=401;
-TopN2show=[5,20,50];
+TopN2show=[3,5,20,50,100];
 
 %% load dataset
 %sc dataset
@@ -41,6 +41,7 @@ dataall = [TEST;TRAIN];
 gt = dataall(:,1);
 ts = dataall(:,2:cnum);
 
+%{
 %plot to show a global picture
 figure
 hold on
@@ -49,6 +50,7 @@ for i=1:rnum
 end
 title('all raw data')
 hold off
+%}
 
 %% preprocessing
 %normalization/scaling
@@ -75,28 +77,48 @@ result
 %% similarity ranking
 query=ts_smooth(queryno,:);
 
-%%%%%PIPthr_dtw%%%%%
+% For time complexity: n TS, m D for each TS, x for PIP number; n*logn for finally ranking
+%%%%%PIPthr_dtw%%%%% - O(n*m + n*x^2 + n*logn)
+disp(' ')
+disp('Run time of PIPthr_dtw:')
 tic
 [ ranking ] = SimRank_PIPthr_dtw( query,ts_smooth,PIPthr );
 toc
 
-%%%%%comparison - smoothing data based dtw%%%%%
+%%%%%comparison - smoothing data based euclidean%%%%% - O(n*m + n*logn)
+disp(' ')
+disp('Run time of euclidean:')
+tic
+[ ranking_euc ] = SimRank_rawdata_Euc( query,ts_smooth );
+toc
+
+%%%%%comparison - all points based dtw%%%%% - O(n*m^2 + n*logn)
+disp(' ')
+disp('Run time of all points based dtw:')
 %dtwwl=round(cnum*0.1);
 dtwwl=Inf;
 tic
 [ ranking_rawdata_dtw ] = SimRank_rawdata_dtw( query,ts_smooth, dtwwl);
 toc
 
-%%%%%comparison - smoothing data based euclidean%%%%%
-tic
-[ ranking_euc ] = SimRank_rawdata_Euc( query,ts_smooth );
-toc
-
 %visual results(after smoothing)
 for topn=TopN2show
+    if (topn>rnum)
+        topn=rnum;
+    end
+    
     figure
     
+    %plot to show a global picture
     subplot(221)
+    hold on
+    for i=1:rnum
+        plot(ts_smooth(i,:))
+    end
+    title('all smoothed data')
+    hold off
+    
+    subplot(222)
     hold on
     for i=2:topn
         plot(ts_smooth(ranking(i),:));
@@ -104,15 +126,6 @@ for topn=TopN2show
     plot(ts_smooth(ranking(1),:),':or','MarkerFaceColor','r')
     hold off
     title(['smoothing top ',num2str(topn),' - PIPthr\_dtw'])
-    
-    subplot(222)
-    hold on
-    for i=2:topn
-        plot(ts_smooth(ranking_rawdata_dtw(i),:));
-    end
-    plot(ts_smooth(ranking_rawdata_dtw(1),:),':or','MarkerFaceColor','r')
-    hold off
-    title(['smoothing top ',num2str(topn),' - all points based dtw'])
     
     subplot(223)
     hold on
@@ -122,4 +135,13 @@ for topn=TopN2show
     plot(ts_smooth(ranking_euc(1),:),':or','MarkerFaceColor','r')
     hold off
     title(['smoothing top ',num2str(topn),' - Euclidean'])
+    
+    subplot(224)
+    hold on
+    for i=2:topn
+        plot(ts_smooth(ranking_rawdata_dtw(i),:));
+    end
+    plot(ts_smooth(ranking_rawdata_dtw(1),:),':or','MarkerFaceColor','r')
+    hold off
+    title(['smoothing top ',num2str(topn),' - all points based dtw'])
 end
