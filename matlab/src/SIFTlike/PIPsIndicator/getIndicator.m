@@ -90,6 +90,7 @@ Indicator=[Indicator,tmp];
 %%
 %adjustment
 %x
+Indicator(:,1)=Indicator(:,1)*1;
 
 %y
 Indicator(:,4)=Indicator(:,4)*1;
