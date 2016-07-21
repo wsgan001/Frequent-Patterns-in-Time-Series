@@ -9,8 +9,9 @@ PIPthr=0.15;
 %UCRdataset='yoga';%good
 %UCRdataset='wafer';%good
 %UCRdataset='50words';%not so good
-UCRdataset='HandOutlines';% 2 classes, 1370 TS, 2709 D
-%UCRdataset='uWaveGestureLibrary_X';
+%UCRdataset='HandOutlines';% 2 classes, 1370 TS, 2709 D
+UCRdataset='uWaveGestureLibrary_X';
+%UCRdataset='synthetic_control';
 
 %% similarity ranking parameters
 queryno=1;
@@ -106,8 +107,10 @@ for topn=TopN2show
 end
 
 %% similarity ranking - comparison - smoothing data based dtw
+%dtwwl=round(cnum*0.1);
+dtwwl=Inf;
 tic
-[ ranking_comp ] = SimRank_rawdata_dtw( query,ts_smooth );
+[ ranking_comp ] = SimRank_rawdata_dtw( query,ts_smooth, dtwwl);
 toc
 
 %raw data

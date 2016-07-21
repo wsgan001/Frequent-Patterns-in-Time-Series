@@ -13,11 +13,12 @@ addpath('./matchingPIPs')
 addpath('./PIPsIndicator')
 addpath('../../lib/dynamic_time_warping_v2/dynamic_time_warping_v2.1');
 
-[rnum, ~]=size(dataset);
+[rnum, tslength]=size(dataset);
 
 Dist=zeros(rnum,2);
 for i=1:rnum
-    Dist(i,1)=dtw(query,dataset(i,:),wl);
+    index=linspace(1,tslength,tslength)';
+    Dist(i,1)=dtw([index,query'],[index,dataset(i,:)'],wl);
     Dist(i,2)=i;
 end
 

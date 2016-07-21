@@ -26,7 +26,7 @@ Dist=NormVDist(ts,yrange);
 Dist=Dist(2:end-1);
 [Distpos,PIPpos]=max(Dist);
 PIPpos=PIPpos+1;
-wllength=round(tslength/2);
+wllength=round(tslength);
 %wllength=50;
 waitinglist=zeros(wllength,4)-1;
 waitinglist(1,:)=[PIPpos,Distpos,1,tslength];%waitinglist=[PIPpos,Distpos,leftPIP,rightPIP];
