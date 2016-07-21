@@ -10,6 +10,7 @@ PIPneighbour=[-1,1];
 %normalization
 xrange=length(ts);
 yrange=max(ts)-min(ts);
+%yrange=6; %resus are not good
 
 PIPindex=PIPinfo(:,1);
 %%
@@ -88,7 +89,11 @@ Indicator=[Indicator,tmp];
 
 %%
 %adjustment
+%x
+Indicator(:,1)=Indicator(:,1)*5;
 
+%y
+Indicator(:,4)=Indicator(:,4)*1;
 
 end
 
