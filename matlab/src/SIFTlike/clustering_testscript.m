@@ -96,7 +96,7 @@ toc
 for topn=TopN2show
     figure
     
-    subplot(131)
+    subplot(221)
     hold on
     for i=2:topn
         plot(ts_smooth(ranking(i),:));
@@ -105,7 +105,7 @@ for topn=TopN2show
     hold off
     title(['smoothing top ',num2str(topn),' - PIPthr\_dtw'])
     
-    subplot(132)
+    subplot(222)
     hold on
     for i=2:topn
         plot(ts_smooth(ranking_rawdata_dtw(i),:));
@@ -114,7 +114,7 @@ for topn=TopN2show
     hold off
     title(['smoothing top ',num2str(topn),' - all points based dtw'])
     
-    subplot(133)
+    subplot(223)
     hold on
     for i=2:topn
         plot(ts_smooth(ranking_euc(i),:));
