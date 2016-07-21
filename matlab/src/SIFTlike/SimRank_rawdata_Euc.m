@@ -7,7 +7,7 @@ function [ ranking ] = SimRank_rawdata_Euc( query,dataset )
 
 Dist=zeros(rnum,2);
 for i=1:rnum
-    Dist(i,1)=norm(query,dataset(i,:));
+    Dist(i,1)=norm( query - dataset(i,:) );
     Dist(i,2)=i;
 end
 
