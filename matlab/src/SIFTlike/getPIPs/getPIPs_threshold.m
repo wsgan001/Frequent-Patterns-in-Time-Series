@@ -9,7 +9,6 @@ function [ PIPinfo ] = getPIPs_threshold( ts,thr )
 %PIPimportance: the order of being added to PIP set
 
 %% initializaiton
-tic
 if nargin==1
     thr = 0.15; 
 end
@@ -51,9 +50,8 @@ PIPindex=(sort(PIPinfo(:,1)))';
 plot(PIPindex,ts(PIPindex));
 hold off
 %}
-toc
 %% find PIPs
-tic
+%tic
 [maxv,maxi]=max(waitinglist(:,2));
 while (maxv>thr)
     PIPnewinfo=waitinglist(maxi,:);
@@ -62,16 +60,6 @@ while (maxv>thr)
     PIPinfo(PIPnownum,:)=[PIPnew,maxv,PIPnownum];
     waitinglist(maxi,:)=[-1,-1,-1,-1];%delete used maxi
     
-    %{
-    waitinglist=sortrows(waitinglist,2);%sort by Distpos
-    [rtmp,~]=size(waitinglist);
-    PIPnew=waitinglist(rtmp,1);
-    PIPinfo=[PIPinfo;PIPnew,waitinglist(rtmp,2),length(PIPindex)+1];
-    waitinglist=waitinglist(1:rtmp-1,:);
-    %}
-    
-    %PIPindex=(sort(PIPinfo(:,1)))';
-    %PIPnew_index_in_PIPindex=find(PIPindex==(PIPnew));
     first=PIPnewinfo(1,3);
     last=PIPnewinfo(1,4);
     middle=PIPnew;
@@ -89,11 +77,16 @@ while (maxv>thr)
     if(middle>(first+1))
         Dist1=NormVDist(ts(first:middle),yrange);
         %Dist1=NormPDist(ts(first:middle),tslength,yrange);
-        Dist1=Dist1(2:end-1);
-        Distpos1=max(Dist1);
+        %Dist1=Dist1(2:end-1);
+        Distpos1=max(Dist1(2:end-1));
         if (Distpos1>0)
-            indextmp1=find( Dist1==Distpos1 );%in case of no fluctuation(i.e. linear)
-            PIPpos1=indextmp1(1)+first; % PIP possible 1 - index in TS
+            indextmp1=2;
+            while(Dist1(indextmp1)~=Distpos1)
+                indextmp1=indextmp1+1;
+            end
+            PIPpos1=indextmp1+first-1; % PIP possible 1 - index in TS
+            %indextmp1=find( Dist1(2:end-1)==Distpos1 );%in case of no fluctuation(i.e. linear)
+            %PIPpos1=indextmp1(1)+first; % PIP possible 1 - index in TS
             while(waitinglist(FindFromHere,1)~=-1)% maybe dead loop, but just maybe
                 FindFromHere=mod( (FindFromHere+1),wllength);
             end
@@ -105,11 +98,16 @@ while (maxv>thr)
     if(last>(middle+1))
         Dist2=NormVDist(ts(middle:last),yrange);
         %Dist2=NormPDist(ts(middle:last),tslength,yrange);
-        Dist2=Dist2(2:end-1);
-        Distpos2=max(Dist2);
+        %Dist2=Dist2(2:end-1);
+        Distpos2=max(Dist2(2:end-1));
         if (Distpos2>0)
-            indextmp2=find( Dist2==Distpos2 );
-            PIPpos2=indextmp2(1)+middle;
+            indextmp2=2;
+            while(Dist2(indextmp2)~=Distpos2)
+                indextmp2=indextmp2+1;
+            end
+            PIPpos2=indextmp2+middle-1;
+            %indextmp2=find( Dist2(2:end-1)==Distpos2 );
+            %PIPpos2=indextmp2(1)+middle;
             while(waitinglist(FindFromHere,1)~=-1)% maybe dead loop, but just maybe
                 FindFromHere=mod( (FindFromHere+1),wllength);
             end
@@ -119,11 +117,8 @@ while (maxv>thr)
     end
     [maxv,maxi]=max(waitinglist(:,2));
 end
-toc
-
+%toc
 %% return results
-tic
 PIPinfo=PIPinfo(1:PIPnownum,:);
 PIPinfo=sortrows(PIPinfo,1);
-toc
 end

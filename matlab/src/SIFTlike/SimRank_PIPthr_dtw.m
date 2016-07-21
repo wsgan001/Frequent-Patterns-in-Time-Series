@@ -17,7 +17,7 @@ end
 %% PIPinfo
 tic
 PIPinfoQ = getPIPs_threshold(query, PIPthr);%query's info
-size(PIPinfoQ)
+%size(PIPinfoQ)
 
 PIPinfoD=cell(rnum,1);%dataset's info
 for i=1:rnum

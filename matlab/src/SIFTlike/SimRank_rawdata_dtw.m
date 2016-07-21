@@ -1,8 +1,12 @@
-function [ ranking ] = SimRank_rawdata_dtw( query,dataset )
+function [ ranking ] = SimRank_rawdata_dtw( query,dataset,wl )
 %query: query time series
 %dataset: time series dataset
 %PIPthr: for getPIPs_threshold
 %ranking: each row for each row of dataset, value = 1 means most similar
+
+if (nargin==2)
+    wl=Inf;
+end
 
 addpath('./getPIPs')
 addpath('./matchingPIPs')
@@ -13,7 +17,7 @@ addpath('../../lib/dynamic_time_warping_v2/dynamic_time_warping_v2.1');
 
 Dist=zeros(rnum,2);
 for i=1:rnum
-    Dist(i,1)=dtw(query,dataset(i,:));
+    Dist(i,1)=dtw(query,dataset(i,:),wl);
     Dist(i,2)=i;
 end
 

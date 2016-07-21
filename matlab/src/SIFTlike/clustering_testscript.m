@@ -106,9 +106,9 @@ for topn=TopN2show
 end
 
 %% similarity ranking - comparison - smoothing data based dtw
-%tic
+tic
 [ ranking_comp ] = SimRank_rawdata_dtw( query,ts_smooth );
-%toc
+toc
 
 %raw data
 %{
