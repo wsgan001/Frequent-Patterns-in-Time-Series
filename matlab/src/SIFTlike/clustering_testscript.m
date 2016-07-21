@@ -1,7 +1,7 @@
 %clustering test
 
 clear;
-clc;
+%clc;
 
 %% parameter
 WinLen=6;%sliding whindow length
@@ -9,7 +9,8 @@ PIPthr=0.15;
 %UCRdataset='yoga';%good
 %UCRdataset='wafer';%good
 %UCRdataset='50words';%not so good
-UCRdataset='uWaveGestureLibrary_X';
+UCRdataset='HandOutlines';% 2 classes, 1370 TS, 2709 D
+%UCRdataset='uWaveGestureLibrary_X';
 
 %% similarity ranking parameters
 queryno=1;
@@ -74,9 +75,9 @@ result
 query=ts_smooth(queryno,:);
 
 %% similarity ranking - PIPthr_dtw
-tic
+%tic
 [ ranking ] = SimRank_PIPthr_dtw( query,ts_smooth,PIPthr );
-toc
+%toc
 
 %raw data
 %{
@@ -105,9 +106,9 @@ for topn=TopN2show
 end
 
 %% similarity ranking - comparison - smoothing data based dtw
-tic
+%tic
 [ ranking_comp ] = SimRank_rawdata_dtw( query,ts_smooth );
-toc
+%toc
 
 %raw data
 %{

@@ -13,8 +13,7 @@ addpath('../../lib/dynamic_time_warping_v2/dynamic_time_warping_v2.1');
 
 Dist=zeros(rnum,2);
 for i=1:rnum
-    tmp=dtw(query,dataset(i,:));
-    Dist(i,1)=tmp;
+    Dist(i,1)=dtw(query,dataset(i,:));
     Dist(i,2)=i;
 end
 
