@@ -8,6 +8,8 @@ function [ PIPinfo ] = getPIPs_threshold( ts,thr )
 %PIPDist: Normalized Dist of each PIP
 %PIPimportance: the order of being added to PIP set
 
+%% initializaiton
+tic
 if nargin==1
     thr = 0.15; 
 end
@@ -17,6 +19,7 @@ yrange=max(ts)-min(ts);
 
 %PIPindex=[1,tslength]; % the first two PIPs
 PIPinfo=zeros(tslength,3);
+%PIPinfo=zeros(60,3);
 PIPinfo(1:2,:)=[1,0,1;tslength,0,2];
 PIPnownum=2;
 Dist=NormVDist(ts,yrange);
@@ -25,10 +28,10 @@ Dist=Dist(2:end-1);
 [Distpos,PIPpos]=max(Dist);
 PIPpos=PIPpos+1;
 wllength=round(tslength/2);
-waitinglist=zeros(wllength,3)-1;
+%wllength=50;
+waitinglist=zeros(wllength,4)-1;
 waitinglist(1,:)=[PIPpos,Distpos,1,tslength];%waitinglist=[PIPpos,Distpos,leftPIP,rightPIP];
 FindFromHere=2;
-
 %{
 pseudo code:
 the new PIP and its two adjacent PIPs as middle, first and last of the
@@ -48,18 +51,16 @@ PIPindex=(sort(PIPinfo(:,1)))';
 plot(PIPindex,ts(PIPindex));
 hold off
 %}
-
-%first=1;
-%middle=PIPnew;
-%last=tslength;
-
+toc
+%% find PIPs
+tic
 [maxv,maxi]=max(waitinglist(:,2));
 while (maxv>thr)
     PIPnewinfo=waitinglist(maxi,:);
     PIPnew=PIPnewinfo(1,1);
     PIPnownum=PIPnownum+1;
     PIPinfo(PIPnownum,:)=[PIPnew,maxv,PIPnownum];
-    waitinglist(maxi,:)=[-1,-1,-1];%delete used maxi
+    waitinglist(maxi,:)=[-1,-1,-1,-1];%delete used maxi
     
     %{
     waitinglist=sortrows(waitinglist,2);%sort by Distpos
@@ -96,7 +97,7 @@ while (maxv>thr)
             while(waitinglist(FindFromHere,1)~=-1)% maybe dead loop, but just maybe
                 FindFromHere=mod( (FindFromHere+1),wllength);
             end
-            waitinglist(FindFromHere)=[PIPpos1,Distpos1,first,middle];
+            waitinglist(FindFromHere,:)=[PIPpos1,Distpos1,first,middle];
             FindFromHere=mod( (FindFromHere+1),wllength);
         end
     end
@@ -112,14 +113,17 @@ while (maxv>thr)
             while(waitinglist(FindFromHere,1)~=-1)% maybe dead loop, but just maybe
                 FindFromHere=mod( (FindFromHere+1),wllength);
             end
-            waitinglist(FindFromHere)=[PIPpos2,Distpos2,middle,last];
+            waitinglist(FindFromHere,:)=[PIPpos2,Distpos2,middle,last];
             FindFromHere=mod( (FindFromHere+1),wllength);
         end
     end
     [maxv,maxi]=max(waitinglist(:,2));
 end
+toc
 
+%% return results
+tic
 PIPinfo=PIPinfo(1:PIPnownum,:);
 PIPinfo=sortrows(PIPinfo,1);
-
+toc
 end
