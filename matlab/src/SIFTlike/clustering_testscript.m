@@ -75,52 +75,28 @@ result
 %% similarity ranking
 query=ts_smooth(queryno,:);
 
-%% similarity ranking - PIPthr_dtw
-%tic
+%%%%%PIPthr_dtw%%%%%
+tic
 [ ranking ] = SimRank_PIPthr_dtw( query,ts_smooth,PIPthr );
-%toc
+toc
 
-%after smoothing
-for topn=TopN2show
-    figure
-    hold on
-    for i=2:topn
-        plot(ts_smooth(ranking(i),:));
-    end
-    plot(ts_smooth(ranking(1),:),':or','MarkerFaceColor','r')
-    hold off
-    title(['smoothing top ',num2str(topn),' - PIPthr\_dtw'])
-end
-
-%% similarity ranking - comparison - smoothing data based dtw
+%%%%%comparison - smoothing data based dtw%%%%%
 %dtwwl=round(cnum*0.1);
 dtwwl=Inf;
 tic
 [ ranking_rawdata_dtw ] = SimRank_rawdata_dtw( query,ts_smooth, dtwwl);
 toc
 
-%after smoothing
-for topn=TopN2show
-    figure
-    hold on
-    for i=2:topn
-        plot(ts_smooth(ranking_rawdata_dtw(i),:));
-    end
-    plot(ts_smooth(ranking_rawdata_dtw(1),:),':or','MarkerFaceColor','r')
-    hold off
-    title(['smoothing top ',num2str(topn),' - all points based dtw'])
-end
-
-%% similarity ranking - -comparison - smoothing data based euclidean
+%%%%%comparison - smoothing data based euclidean%%%%%
 tic
 [ ranking_euc ] = SimRank_rawdata_Euc( query,ts_smooth );
 toc
 
-%after smoothing
+%visual results(after smoothing)
 for topn=TopN2show
     figure
     
-    subplot(311)
+    subplot(131)
     hold on
     for i=2:topn
         plot(ts_smooth(ranking(i),:));
@@ -129,7 +105,7 @@ for topn=TopN2show
     hold off
     title(['smoothing top ',num2str(topn),' - PIPthr\_dtw'])
     
-    subplot(312)
+    subplot(132)
     hold on
     for i=2:topn
         plot(ts_smooth(ranking_rawdata_dtw(i),:));
@@ -138,7 +114,7 @@ for topn=TopN2show
     hold off
     title(['smoothing top ',num2str(topn),' - all points based dtw'])
     
-    subplot(313)
+    subplot(133)
     hold on
     for i=2:topn
         plot(ts_smooth(ranking_euc(i),:));
