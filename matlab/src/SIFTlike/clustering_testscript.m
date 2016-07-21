@@ -4,18 +4,18 @@ clear;
 %clc;
 
 %% parameter
-WinLen=6;%sliding whindow length
+WinLen=10;%sliding whindow length
 PIPthr=0.15;
 %UCRdataset='yoga';%good
 %UCRdataset='wafer';%good
 %UCRdataset='50words';%not so good
 %UCRdataset='HandOutlines';% 2 classes, 1370 TS, 2709 D
-UCRdataset='uWaveGestureLibrary_X';
-%UCRdataset='synthetic_control';
+%UCRdataset='uWaveGestureLibrary_X';
+UCRdataset='synthetic_control';
 
 %% similarity ranking parameters
-queryno=1;
-TopN2show=[5,20];
+queryno=401;
+TopN2show=[5,20,50];
 
 %% load dataset
 %sc dataset

@@ -1,16 +1,13 @@
 function [ ranking ] = SimRank_rawdata_dtw( query,dataset,wl )
 %query: query time series
 %dataset: time series dataset
-%PIPthr: for getPIPs_threshold
+%wl: dtw window length
 %ranking: each row for each row of dataset, value = 1 means most similar
 
 if (nargin==2)
     wl=Inf;
 end
 
-addpath('./getPIPs')
-addpath('./matchingPIPs')
-addpath('./PIPsIndicator')
 addpath('../../lib/dynamic_time_warping_v2/dynamic_time_warping_v2.1');
 
 [rnum, tslength]=size(dataset);
