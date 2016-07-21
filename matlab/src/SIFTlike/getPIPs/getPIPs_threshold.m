@@ -24,7 +24,10 @@ Dist=NormVDist(ts,yrange);
 Dist=Dist(2:end-1);
 [Distpos,PIPpos]=max(Dist);
 PIPpos=PIPpos+1;
-waitinglist=[PIPpos,Distpos,1,tslength];%waitinglist=[PIPpos,Distpos,leftPIP,rightPIP];
+wllength=round(tslength/2);
+waitinglist=zeros(wllength,3)-1;
+waitinglist(1,:)=[PIPpos,Distpos,1,tslength];%waitinglist=[PIPpos,Distpos,leftPIP,rightPIP];
+FindFromHere=2;
 
 %{
 pseudo code:
@@ -51,13 +54,12 @@ hold off
 %last=tslength;
 
 [maxv,maxi]=max(waitinglist(:,2));
-while (isempty(waitinglist)==0 && maxv>thr)
+while (maxv>thr)
     PIPnewinfo=waitinglist(maxi,:);
     PIPnew=PIPnewinfo(1,1);
     PIPnownum=PIPnownum+1;
     PIPinfo(PIPnownum,:)=[PIPnew,maxv,PIPnownum];
-    waitinglist(maxi,:)=waitinglist(end,:);%cover maxi row by last row
-    waitinglist=waitinglist(1:end-1,:);%delete last row. i.e. delete used maxi
+    waitinglist(maxi,:)=[-1,-1,-1];%delete used maxi
     
     %{
     waitinglist=sortrows(waitinglist,2);%sort by Distpos
@@ -91,7 +93,11 @@ while (isempty(waitinglist)==0 && maxv>thr)
         if (Distpos1>0)
             indextmp1=find( Dist1==Distpos1 );%in case of no fluctuation(i.e. linear)
             PIPpos1=indextmp1(1)+first; % PIP possible 1 - index in TS
-            waitinglist=[waitinglist;PIPpos1,Distpos1,first,middle];
+            while(waitinglist(FindFromHere,1)~=-1)% maybe dead loop, but just maybe
+                FindFromHere=mod( (FindFromHere+1),wllength);
+            end
+            waitinglist(FindFromHere)=[PIPpos1,Distpos1,first,middle];
+            FindFromHere=mod( (FindFromHere+1),wllength);
         end
     end
     
@@ -103,7 +109,11 @@ while (isempty(waitinglist)==0 && maxv>thr)
         if (Distpos2>0)
             indextmp2=find( Dist2==Distpos2 );
             PIPpos2=indextmp2(1)+middle;
-            waitinglist=[waitinglist;PIPpos2,Distpos2,middle,last];
+            while(waitinglist(FindFromHere,1)~=-1)% maybe dead loop, but just maybe
+                FindFromHere=mod( (FindFromHere+1),wllength);
+            end
+            waitinglist(FindFromHere)=[PIPpos2,Distpos2,middle,last];
+            FindFromHere=mod( (FindFromHere+1),wllength);
         end
     end
     [maxv,maxi]=max(waitinglist(:,2));
