@@ -94,7 +94,7 @@ tic
 toc
 
 %%%%%comparison - all points based dtw%%%%% - O(n*m^2 + n*logn)
-%{
+
 disp(' ')
 disp('Run time of all points based dtw:')
 %dtwwl=round(cnum*0.1);
@@ -102,7 +102,7 @@ dtwwl=Inf;
 tic
 [ ranking_rawdata_dtw ] = SimRank_rawdata_dtw( query,ts_smooth, dtwwl);
 toc
-%}
+
 
 %visual results(after smoothing)
 for topn=TopN2show
@@ -139,7 +139,7 @@ for topn=TopN2show
     hold off
     title(['smoothing top ',num2str(topn),' - Euclidean'])
     
-    %{
+    
     subplot(224)
     hold on
     for i=2:topn
@@ -148,5 +148,5 @@ for topn=TopN2show
     plot(ts_smooth(ranking_rawdata_dtw(1),:),':or','MarkerFaceColor','r')
     hold off
     title(['smoothing top ',num2str(topn),' - all points based dtw'])
-    %}
+    
 end

@@ -90,10 +90,12 @@ Indicator=[Indicator,tmp];
 %%
 %adjustment
 %x
-Indicator(:,1)=Indicator(:,1)*10000;
+Indicator(:,1)=Indicator(:,1)*1;
 
 %y
-Indicator(:,4)=Indicator(:,4)*10000;
+Indicator(:,4)=Indicator(:,4)*1;
+
+%Indicator=[Indicator(:,1),Indicator(:,4)];
 
 end
 
