@@ -14,7 +14,7 @@ UCRdataset='50words';%not so good 50 classes, 905 TS, 270 D
 %UCRdataset='synthetic_control'; %6 classes, 600 TS, 60 D
 
 %% similarity ranking parameters
-queryno=501;
+queryno=401;
 disp(['queryno=',num2str(queryno)])
 TopN2show=[3,5,20,50,100];
 topNaccu=100;%top N match accuracy
