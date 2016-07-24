@@ -97,7 +97,7 @@ toc
 disp(' ')
 disp('Run time of euclidean:')
 tic
-[ ranking_euc ] = SimRank_rawdata_Euc( query,ts_smooth );
+[ ranking_euc ] = SimRank_rawdata_Euc( query,ts );
 toc
 
 %%%%%comparison - all points based dtw%%%%% - O(n*m^2 + n*logn)
@@ -107,14 +107,14 @@ disp('Run time of all points based dtw:')
 %dtwwl=round(cnum*0.1);
 dtwwl=Inf;
 tic
-[ ranking_rawdata_dtw ] = SimRank_rawdata_dtw( query,ts_smooth, dtwwl);
+[ ranking_rawdata_dtw ] = SimRank_rawdata_dtw( query,ts, dtwwl);
 toc
 
 %visual results(after smoothing)
 figure
 hold on
 for i=1:rnum
-    plot(ts_smooth(i,:))
+    plot(ts(i,:))
 end
 title('all smoothed data')
 hold off
@@ -128,36 +128,36 @@ for topn=TopN2show
     subplot(221)
     hold on
     for i=2:topn
-        plot(ts_smooth(ranking_PIPthr_dtw(i),:));
+        plot(ts(ranking_PIPthr_dtw(i),:));
     end
-    plot(ts_smooth(ranking_PIPthr_dtw(1),:),':or','MarkerFaceColor','r')
+    plot(ts(ranking_PIPthr_dtw(1),:),':or','MarkerFaceColor','r')
     hold off
     title(['smoothing top ',num2str(topn),' - PIPthr\_dtw'])
     
     subplot(222)
     hold on
     for i=2:topn
-        plot(ts_smooth(ranking_PIPthr_munkres(i),:));
+        plot(ts(ranking_PIPthr_munkres(i),:));
     end
-    plot(ts_smooth(ranking_PIPthr_munkres(1),:),':or','MarkerFaceColor','r')
+    plot(st(ranking_PIPthr_munkres(1),:),':or','MarkerFaceColor','r')
     hold off
     title(['smoothing top ',num2str(topn),' - PIPthr\_munkres'])
     
     subplot(223)
     hold on
     for i=2:topn
-        plot(ts_smooth(ranking_euc(i),:));
+        plot(ts(ranking_euc(i),:));
     end
-    plot(ts_smooth(ranking_euc(1),:),':or','MarkerFaceColor','r')
+    plot(ts(ranking_euc(1),:),':or','MarkerFaceColor','r')
     hold off
     title(['smoothing top ',num2str(topn),' - all points based Euclidean'])
     
     subplot(224)
     hold on
     for i=2:topn
-        plot(ts_smooth(ranking_rawdata_dtw(i),:));
+        plot(ts(ranking_rawdata_dtw(i),:));
     end
-    plot(ts_smooth(ranking_rawdata_dtw(1),:),':or','MarkerFaceColor','r')
+    plot(ts(ranking_rawdata_dtw(1),:),':or','MarkerFaceColor','r')
     hold off
     title(['smoothing top ',num2str(topn),' - all points based dtw'])
     
