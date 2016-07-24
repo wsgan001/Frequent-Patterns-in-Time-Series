@@ -6,7 +6,7 @@ clear;
 %% parameter
 WinLen=10;%sliding whindow length
 PIPthr=0.15;
-UCRdataset='50words';%not so good 50 classes, 905 TS, 270 D
+%UCRdataset='50words';%not so good 50 classes, 905 TS, 270 D
 %UCRdataset='yoga';%good 2 classes, 3300 TS, 426 D
 %UCRdataset='wafer';%good 2 classes, 7174 TS, 152 D
 %UCRdataset='HandOutlines';% 2 classes, 1370 TS, 2709 D
@@ -19,13 +19,13 @@ TopN2show=[3,5,20,50,100];
 
 %% load dataset
 %sc dataset
-%{
+
 load('../../data/gt_sc.mat');
 load('../../data/synthetic_control.mat');
 ts = synthetic_control;
-gt = gt_sc;
-[rnum,cnum]=size(ts);
-%}
+%gt = gt_sc;
+%[rnum,cnum]=size(ts);
+
 
 %UCR dataset
 
