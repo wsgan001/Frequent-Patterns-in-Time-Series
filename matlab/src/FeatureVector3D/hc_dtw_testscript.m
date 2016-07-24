@@ -9,15 +9,16 @@ UCRdataset='yoga';
 
 %% load dataset
 %sc dataset
-%{
+
 load('../../data/gt_sc.mat');
 load('../../data/synthetic_control.mat');
 ts = synthetic_control;
 gt = gt_sc;
 [rnum,cnum]=size(ts);
-%}
+
 
 %UCR dataset
+%{
 TEST = load([...
     '/Users/Steven/Academic/SR@Aditya/Zenvisage/datasets/UCR_TS_Archive_2015/'...
     ,UCRdataset,'/',UCRdataset,'_TEST']);
@@ -29,7 +30,7 @@ dataall = [TEST;TRAIN];
 [rnum, cnum] = size(dataall);
 gt = dataall(:,1);
 ts = dataall(:,2:cnum);
-
+%}
 %% preprocessing
 %normalization/scaling
 ts_norm = ts;
@@ -48,6 +49,6 @@ end
 
 %% hc_dtw
 tic
-[ result,Dist,c ] = hc_dtw( ts_smooth,gt,2 );
+[ result,Dist,c ] = hc_dtw( ts_smooth,gt,6 );
 toc
 result

@@ -19,28 +19,28 @@ TopN2show=[3,5,20,50,100];
 
 %% load dataset
 %sc dataset
-%{
+
 load('../../data/gt_sc.mat');
 load('../../data/synthetic_control.mat');
 ts = synthetic_control;
 gt = gt_sc;
 [rnum,cnum]=size(ts);
-%}
+
 
 %UCR dataset
-
+%{
 TEST = load([...
     '/Users/Steven/Academic/SR@Aditya/Zenvisage/datasets/UCR_TS_Archive_2015/'...
     ,UCRdataset,'/',UCRdataset,'_TEST']);
 TRAIN = load([...
     '/Users/Steven/Academic/SR@Aditya/Zenvisage/datasets/UCR_TS_Archive_2015/'...
     ,UCRdataset,'/',UCRdataset,'_TRAIN']);
-
 dataall = [TEST;TRAIN];
 [~, cnum] = size(dataall);
 gt = dataall(:,1);
 ts = dataall(:,2:cnum);
 [rnum,~]=size(ts);
+%}
 
 %{
 %plot to show a global picture
@@ -70,12 +70,21 @@ end
 %[~,cnum_smooth]=size(ts_smooth);
 
 %% clustering
-%{
-[ result,Dist,c ] = hc_PIPthr_dtw( ts_smooth,gt,PIPthr );
-result
-%}
+disp(' ');
+disp('PIPthr_dtw');
+[ result1,~,~ ] = hc_PIPthr_dtw( ts_smooth,gt,6,PIPthr );
+result1
+disp(' ');
+disp('rawdata_ecu')
+[ result2,~,~ ] = hc_rawdata_ecu( ts,gt,6);
+result2
+disp(' ');
+disp('rawdata_dtw')
+[ result3,~,~ ] = hc_rawdata_dtw( ts,gt,6 );
+result3
 
 %% similarity ranking
+%{
 query=ts(queryno,:);
 query_smooth=ts_smooth(queryno,:);
 
@@ -161,5 +170,5 @@ for topn=TopN2show
     plot(ts(ranking_rawdata_dtw(1),:),':or','MarkerFaceColor','r')
     hold off
     title(['Top ',num2str(topn),' - all points based dtw'])
-    
 end
+%}

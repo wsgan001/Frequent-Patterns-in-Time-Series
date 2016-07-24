@@ -1,9 +1,12 @@
-function [ result,Dist,c ] = hc_dtw( ts,gt,clusternum,wl)
-%Using hierarchical clustering and DTW to cluster given time series data set.
+function [ result,Dist,c ] = hc_rawdata_dtw( ts,gt,clusternum,wl )
+%Using hierarchical clustering, rawdata_dtw.
 %Input: time series data set. Every row represents a sequence of time series.
-%Output: The result.
+%Output: The cross table result.
 
 if (nargin==3)
+    wl=Inf;
+elseif (nargin==2)
+    clusternum=6;
     wl=Inf;
 end
 

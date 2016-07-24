@@ -1,21 +1,16 @@
-function [ result,Dist,c ] = hc_ddtw( ts,gt,clusternum )
+function [ result,Dist,c ] = hc_ddtw( ts,gt,clusternum,wl )
 %Using hierarchical clustering and DTW to cluster given time series data set.
 %Input: time series data set. Every row represents a sequence of time series.
 %Output: The result.
 
 [rnum, cnum]=size(ts);
 
+if (nargin==3)
+    wl=Inf;
+end
+
 addpath('../../lib/dynamic_time_warping_v2/dynamic_time_warping_v2.1');
 
-%normalization/scaling
-%{
-for i=1:rnum
-    ts(i,:)=(ts(i,:)-mean(ts(i,:)))/ std(ts(i,:));
-end
-%}
-
-%smoothin
-%ts = smoothts(ts, 'e', 5);
 ts = smoothts(ts);
 
 %calculate derivative distance
@@ -26,12 +21,13 @@ for i=1:rnum
     end
 end
 
-%Dist = pdist(ts,@dtw);
 Dist = zeros(1,rnum*(rnum-1)/2);
 index=1;
 for i=1:(rnum-1)
     for j=(i+1):rnum
-        Dist(index)=dtw(ts_new(i,:),ts_new(j,:));
+        xindex=linspace(1,(cnum-2),(cnum-2))';
+        Dist(index)=dtw([xindex/(cnum-2),ts_new(i,:)'],...
+                        [xindex/(cnum-2),ts_new(j,:)'],wl);
         index=index+1;
     end
 end

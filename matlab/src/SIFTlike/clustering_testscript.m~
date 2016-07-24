@@ -6,7 +6,7 @@ clear;
 %% parameter
 WinLen=10;%sliding whindow length
 PIPthr=0.15;
-%UCRdataset='50words';%not so good 50 classes, 905 TS, 270 D
+UCRdataset='50words';%not so good 50 classes, 905 TS, 270 D
 %UCRdataset='yoga';%good 2 classes, 3300 TS, 426 D
 %UCRdataset='wafer';%good 2 classes, 7174 TS, 152 D
 %UCRdataset='HandOutlines';% 2 classes, 1370 TS, 2709 D
@@ -23,24 +23,24 @@ TopN2show=[3,5,20,50,100];
 load('../../data/gt_sc.mat');
 load('../../data/synthetic_control.mat');
 ts = synthetic_control;
-%gt = gt_sc;
-%[rnum,cnum]=size(ts);
+gt = gt_sc;
+[rnum,cnum]=size(ts);
 
 
 %UCR dataset
-
+%{
 TEST = load([...
     '/Users/Steven/Academic/SR@Aditya/Zenvisage/datasets/UCR_TS_Archive_2015/'...
     ,UCRdataset,'/',UCRdataset,'_TEST']);
 TRAIN = load([...
     '/Users/Steven/Academic/SR@Aditya/Zenvisage/datasets/UCR_TS_Archive_2015/'...
     ,UCRdataset,'/',UCRdataset,'_TRAIN']);
-
 dataall = [TEST;TRAIN];
 [~, cnum] = size(dataall);
 gt = dataall(:,1);
 ts = dataall(:,2:cnum);
 [rnum,~]=size(ts);
+%}
 
 %{
 %plot to show a global picture
@@ -70,12 +70,18 @@ end
 %[~,cnum_smooth]=size(ts_smooth);
 
 %% clustering
-%{
-[ result,Dist,c ] = hc_PIPthr_dtw( ts_smooth,gt,PIPthr );
-result
-%}
+disp(' ');
+disp('PIPthr_dtw');
+[ result1,~,~ ] = hc_PIPthr_dtw( ts_smooth,gt,PIPthr );
+result1
+disp(' ');
+disp(' ');
+disp('')
+[ result2,~,~ ] = hc_rawdata_dtw( ts,gt,wl );
+result2
 
 %% similarity ranking
+%{
 query=ts(queryno,:);
 query_smooth=ts_smooth(queryno,:);
 
@@ -161,5 +167,5 @@ for topn=TopN2show
     plot(ts(ranking_rawdata_dtw(1),:),':or','MarkerFaceColor','r')
     hold off
     title(['Top ',num2str(topn),' - all points based dtw'])
-    
 end
+%}
