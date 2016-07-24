@@ -1,4 +1,4 @@
-function [assignment,cost] = munkres(costMat)
+function [assignment,costPerPair] = munkres(costMat)
 % Yi Cao
 % assignment is assigned to each row in order and the value means this row
 % match No. value column.
@@ -196,6 +196,7 @@ pass = assignment(assignment>0);
 pass(~diag(validMat(assignment>0,pass))) = 0;
 assignment(assignment>0) = pass;
 cost = trace(costMat(assignment>0,assignment(assignment>0)));
+costPerPair=cost/size(assignment);
 end
 
 %%
