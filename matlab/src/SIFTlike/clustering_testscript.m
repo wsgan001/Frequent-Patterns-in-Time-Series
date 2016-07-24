@@ -83,7 +83,14 @@ query=ts_smooth(queryno,:);
 disp(' ')
 disp('Run time of PIPthr_dtw:')
 tic
-[ ranking ] = SimRank_PIPthr_dtw( query,ts_smooth,PIPthr );
+[ ranking_PIPthr_dtw ] = SimRank_PIPthr_dtw( query,ts_smooth,PIPthr );
+toc
+
+%%%%%PIPthr_munkres%%%%% - O(n*m + n*x^3 + n*logn)
+disp(' ')
+disp('Run time of PIPthr_munkres:')
+tic
+[ ranking_PIPthr_munkres ] = SimRank_PIPthr_munkres( query,ts_smooth,PIPthr );
 toc
 
 %%%%%comparison - smoothing data based euclidean%%%%% - O(n*m + n*logn)
@@ -103,32 +110,38 @@ tic
 [ ranking_rawdata_dtw ] = SimRank_rawdata_dtw( query,ts_smooth, dtwwl);
 toc
 
-
 %visual results(after smoothing)
+figure
+hold on
+for i=1:rnum
+    plot(ts_smooth(i,:))
+end
+title('all smoothed data')
+hold off
 for topn=TopN2show
     if (topn>rnum)
         topn=rnum;
     end
     
     figure
-    
     %plot to show a global picture
     subplot(221)
     hold on
-    for i=1:rnum
-        plot(ts_smooth(i,:))
+    for i=2:topn
+        plot(ts_smooth(ranking_PIPthr_dtw(i),:));
     end
-    title('all smoothed data')
+    plot(ts_smooth(ranking_PIPthr_dtw(1),:),':or','MarkerFaceColor','r')
     hold off
+    title(['smoothing top ',num2str(topn),' - PIPthr\_dtw'])
     
     subplot(222)
     hold on
     for i=2:topn
-        plot(ts_smooth(ranking(i),:));
+        plot(ts_smooth(ranking_PIPthr_munkres(i),:));
     end
-    plot(ts_smooth(ranking(1),:),':or','MarkerFaceColor','r')
+    plot(ts_smooth(ranking_PIPthr_munkres(1),:),':or','MarkerFaceColor','r')
     hold off
-    title(['smoothing top ',num2str(topn),' - PIPthr\_dtw'])
+    title(['smoothing top ',num2str(topn),' - PIPthr\_munkres'])
     
     subplot(223)
     hold on
@@ -137,8 +150,7 @@ for topn=TopN2show
     end
     plot(ts_smooth(ranking_euc(1),:),':or','MarkerFaceColor','r')
     hold off
-    title(['smoothing top ',num2str(topn),' - Euclidean'])
-    
+    title(['smoothing top ',num2str(topn),' - all points based Euclidean'])
     
     subplot(224)
     hold on

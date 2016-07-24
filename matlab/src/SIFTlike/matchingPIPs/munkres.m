@@ -196,7 +196,7 @@ pass = assignment(assignment>0);
 pass(~diag(validMat(assignment>0,pass))) = 0;
 assignment(assignment>0) = pass;
 cost = trace(costMat(assignment>0,assignment(assignment>0)));
-costPerPair=cost/size(assignment);
+costPerPair=cost/size(assignment,2);
 end
 
 %%
