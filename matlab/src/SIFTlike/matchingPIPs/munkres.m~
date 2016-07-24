@@ -196,9 +196,8 @@ pass = assignment(assignment>0);
 pass(~diag(validMat(assignment>0,pass))) = 0;
 assignment(assignment>0) = pass;
 cost = trace(costMat(assignment>0,assignment(assignment>0)));
-end
+en
 
-%%
 function [minval,rIdx,cIdx]=outerplus(M,x,y)
 ny=size(M,2);
 minval=inf;
@@ -207,4 +206,3 @@ for c=1:ny
     minval = min(minval,min(M(:,c)));
 end
 [rIdx,cIdx]=find(M==minval);
-end
