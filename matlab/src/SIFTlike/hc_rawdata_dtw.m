@@ -19,8 +19,8 @@ index=1;
 for i=1:(rnum-1)
     for j=(i+1):rnum
         xindex=linspace(1,tslength,tslength)';
-        Dist(index)=dtw([xindex/tslength,ts(i,:)'],...
-                        [xindex/tslength,ts(j,:)'],wl);
+        Dist(index)=dtw([xindex/tslength,ts(i,:)'],[xindex/tslength,ts(j,:)'],wl);
+        %Dist(index)=dtw([xindex,ts(i,:)'],[xindex,ts(j,:)'],wl);%no x-axis normalization
         index=index+1;
     end
 end
