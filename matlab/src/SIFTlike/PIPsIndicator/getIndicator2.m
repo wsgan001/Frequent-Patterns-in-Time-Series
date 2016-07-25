@@ -1,4 +1,4 @@
-function [ Indicator,PIPindex ] = getIndicator( ts, PIPinfo )
+function [ Indicator,PIPindex ] = getIndicator2( ts, PIPinfo )
 %ts: One time series sequence you want to compare, maybe after smoothing or not
 %PIPinfo: the information of PIPs
 %Indicator: x(PIPindex), delta y-2, delta y-1, y, delta y+1, delta y+2,
@@ -70,12 +70,12 @@ for i=1:PIPnum
         PIPx=PIPneighbour(j);
         PIPorder=i+PIPx;
         if(PIPorder>=1 && PIPorder<=PIPnum)
-            index=(PIPinfo(PIPorder,1))
+            index=(PIPinfo(PIPorder,1));
         else
             index=-1;
         end
         if(index>=1 && index<=length(ts))
-            tmp(i,j)=(ts(index)-ts(PIPinfo(i,1)))/PIPneighbour_rang;%/xrange;
+            tmp(i,j)=(ts(index)-ts(PIPinfo(i,1)))/PIPneighbour_rang;
         else
             tmp(i,j)=0;
         end
@@ -85,8 +85,6 @@ if(yrange~=0)
     tmp=tmp/yrange; % normalized
 end
 Indicator=[Indicator,tmp];
-plot(PIPindex,ts(PIPindex),':or','MarkerFaceColor','r');
-pause(2)
 
 %%
 %adjustment
@@ -95,9 +93,7 @@ Indicator(:,1)=Indicator(:,1)*1;
 
 %y
 Indicator(:,4)=Indicator(:,4)*1;
-%Indicator
-%Indicator=[Indicator(:,1),Indicator(:,4)];
+Indicator=[Indicator(:,1),Indicator(:,4)];
 %Indicator=Indicator(:,1:6);
-%Indicator=[Indicator(:,1),Indicator(:,4),Indicator(:,7),Indicator(:,8)];
 end
 

@@ -93,9 +93,7 @@ Indicator(:,1)=Indicator(:,1)*1;
 
 %y
 Indicator(:,4)=Indicator(:,4)*1;
-%Indicator
 %Indicator=[Indicator(:,1),Indicator(:,4)];
 %Indicator=Indicator(:,1:6);
-%Indicator=[Indicator(:,1),Indicator(:,4),Indicator(:,7),Indicator(:,8)];
 end
 
