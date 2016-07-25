@@ -14,7 +14,7 @@ UCRdataset='50words';%not so good 50 classes, 905 TS, 270 D
 %UCRdataset='synthetic_control'; %6 classes, 600 TS, 60 D
 
 %% similarity ranking parameters
-queryno=401;
+queryno=242;%401
 disp(['queryno=',num2str(queryno)])
 TopN2show=[3,5,20,50,100];
 topNaccu=100;%top N match accuracy
@@ -99,8 +99,8 @@ disp('Run time of PIPthr_dtw:')
 tic
 [ ranking_PIPthr_dtw ] = SimRank_PIPthr_dtw( query_smooth,ts_smooth,PIPthr );
 toc
-%accutmp=sum((fix((ranking_PIPthr_dtw(1:topNaccu)-1)/100)+1)==(fix((queryno-1)/100)+1))/topNaccu*100;%accuracy
-%disp(['Top',num2str(topNaccu),' accuracy: ',num2str(accutmp),'%']);
+accutmp=sum((fix((ranking_PIPthr_dtw(1:topNaccu)-1)/100)+1)==(fix((queryno-1)/100)+1))/topNaccu*100;%accuracy
+disp(['Top',num2str(topNaccu),' accuracy: ',num2str(accutmp),'%']);
 
 %%%%%PIPthr_munkres%%%%% - O(n*m + n*x^3 + n*logn)
 disp(' ')
@@ -108,8 +108,8 @@ disp('Run time of PIPthr_munkres:')
 tic
 [ ranking_PIPthr_munkres ] = SimRank_PIPthr_munkres( query_smooth,ts_smooth,PIPthr );
 toc
-%accutmp=sum((fix((ranking_PIPthr_munkres(1:topNaccu)-1)/100)+1)==(fix((queryno-1)/100)+1) )/topNaccu*100;%accuracy
-%disp(['Top',num2str(topNaccu),' accuracy: ',num2str(accutmp),'%']);
+accutmp=sum((fix((ranking_PIPthr_munkres(1:topNaccu)-1)/100)+1)==(fix((queryno-1)/100)+1) )/topNaccu*100;%accuracy
+disp(['Top',num2str(topNaccu),' accuracy: ',num2str(accutmp),'%']);
 
 %%%%%comparison - smoothing data based euclidean%%%%% - O(n*m + n*logn)
 disp(' ')
@@ -117,8 +117,8 @@ disp('Run time of euclidean:')
 tic
 [ ranking_euc ] = SimRank_rawdata_Euc( query,ts );
 toc
-%accutmp=sum((fix((ranking_euc(1:topNaccu)-1)/100)+1)==(fix((queryno-1)/100)+1))/topNaccu*100;%accuracy
-%disp(['Top',num2str(topNaccu),' accuracy: ',num2str(accutmp),'%']);
+accutmp=sum((fix((ranking_euc(1:topNaccu)-1)/100)+1)==(fix((queryno-1)/100)+1))/topNaccu*100;%accuracy
+disp(['Top',num2str(topNaccu),' accuracy: ',num2str(accutmp),'%']);
 
 %%%%%comparison - all points based dtw%%%%% - O(n*m^2 + n*logn)
 
@@ -129,11 +129,11 @@ dtwwl=Inf;
 tic
 [ ranking_rawdata_dtw ] = SimRank_rawdata_dtw( query,ts, dtwwl);
 toc
-%accutmp=sum((fix((ranking_rawdata_dtw(1:topNaccu)-1)/100)+1)==(fix((queryno-1)/100)+1))/topNaccu*100;%accuracy
-%disp(['Top',num2str(topNaccu),' accuracy: ',num2str(accutmp),'%']);
+accutmp=sum((fix((ranking_rawdata_dtw(1:topNaccu)-1)/100)+1)==(fix((queryno-1)/100)+1))/topNaccu*100;%accuracy
+disp(['Top',num2str(topNaccu),' accuracy: ',num2str(accutmp),'%']);
 
 %visual results(after smoothing)
-
+%{
 figure
 hold on
 for i=1:rnum
@@ -184,4 +184,4 @@ for topn=TopN2show
     hold off
     title(['Top ',num2str(topn),' - all points based dtw'])
 end
-
+%}
