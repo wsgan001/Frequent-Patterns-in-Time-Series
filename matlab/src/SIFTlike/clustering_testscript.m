@@ -21,16 +21,16 @@ topNaccu=100;%top N match accuracy
 
 %% load dataset
 %sc dataset
-%{
+
 load('../../data/gt_sc.mat');
 load('../../data/synthetic_control.mat');
 ts = synthetic_control;
 gt = gt_sc;
 [rnum,cnum]=size(ts);
-%}
+
 
 %UCR dataset
-
+%{
 TEST = load([...
     '/Users/Steven/Academic/SR@Aditya/Zenvisage/datasets/UCR_TS_Archive_2015/'...
     ,UCRdataset,'/',UCRdataset,'_TEST']);
@@ -42,7 +42,7 @@ dataall = [TEST;TRAIN];
 gt = dataall(:,1);
 ts = dataall(:,2:cnum);
 [rnum,~]=size(ts);
-
+%}
 
 %% preprocessing
 %normalization/scaling
@@ -105,15 +105,14 @@ tic
 toc
 %}
 
-%%%%%comparison - smoothing data based euclidean%%%%% - O(n*m + n*logn)
+%%%%%comparison - all-point euclidean%%%%% - O(n*m + n*logn)
 disp(' ')
 disp('Run time of euclidean:')
 tic
 [ ranking_euc ] = SimRank_rawdata_Euc( query,ts );
 toc
 
-%%%%%comparison - all points based dtw%%%%% - O(n*m^2 + n*logn)
-
+%%%%%comparison - all-point dtw%%%%% - O(n*m^2 + n*logn)
 disp(' ')
 disp('Run time of all points based dtw:')
 %dtwwl=round(cnum*0.1);
