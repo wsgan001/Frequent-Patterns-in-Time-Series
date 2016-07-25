@@ -1,4 +1,4 @@
-function [ ranking ] = SimRank_PIPthr_dtw2( query,dataset,PIPthr )
+function [ ranking ] = SimRank_PIPthr_dtw_onlyxy( query,dataset,PIPthr )
 %query: query time series
 %dataset: time series dataset
 %PIPthr: for getPIPs_threshold
@@ -27,11 +27,11 @@ end
 
 %% get indicators of PIPs
 %tic
-[IndicatorQ,~] = getIndicator2( query, PIPinfoQ );%query's info
+[IndicatorQ,~] = getIndicator_onlyxy( query, PIPinfoQ );%query's info
 
 IndicatorD=cell(rnum,1);%dataset's info
 for i=1:rnum
-    [ tmp,~ ] = getIndicator2( dataset(i,:), PIPinfoD{i,1} );
+    [ tmp,~ ] = getIndicator_onlyxy( dataset(i,:), PIPinfoD{i,1} );
     IndicatorD{i,1}=tmp;
 end
 %toc

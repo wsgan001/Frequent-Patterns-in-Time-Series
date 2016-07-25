@@ -14,7 +14,7 @@ UCRdataset='50words';%not so good 50 classes, 905 TS, 270 D
 %UCRdataset='synthetic_control'2
 
 %% similarity ranking parameters
-queryno=101;%401
+queryno=501;%401
 disp(['queryno=',num2str(queryno)])
 TopN2show=[3,5,20,50,100];
 topNaccu=100;%top N match accuracy
@@ -91,19 +91,17 @@ toc
 
 %%%%%PIPthr_dtw2 only x,y%%%%% - O(n*m + n*x^2 + n*logn)
 disp(' ')
-disp('Run time of PIPthr_dtw2:')
+disp('Run time of PIPthr_dtw_onlyxy:')
 tic
-[ ranking_PIPthr_dtw2 ] = SimRank_PIPthr_dtw2( query_smooth,ts_smooth,PIPthr );
+[ ranking_PIPthr_dtw_onlyxy ] = SimRank_PIPthr_dtw_onlyxy( query_smooth,ts_smooth,PIPthr );
 toc
 
-%{
 %%%%%PIPthr_munkres%%%%% - O(n*m + n*x^3 + n*logn)
 disp(' ')
 disp('Run time of PIPthr_munkres:')
 tic
 [ ranking_PIPthr_munkres ] = SimRank_PIPthr_munkres( query_smooth,ts_smooth,PIPthr );
 toc
-%}
 
 %%%%%comparison - all-point euclidean%%%%% - O(n*m + n*logn)
 disp(' ')
@@ -121,18 +119,20 @@ tic
 [ ranking_rawdata_dtw ] = SimRank_rawdata_dtw( query,ts, dtwwl);
 toc
 
-
 %sc accuracy
-%{
+
+disp(' ');
 accutmp=sum((fix((ranking_PIPthr_dtw(1:topNaccu)-1)/100)+1)==(fix((queryno-1)/100)+1))/topNaccu*100;%accuracy
-disp(['Top',num2str(topNaccu),' accuracy: ',num2str(accutmp),'%']);
+disp(['Top',num2str(topNaccu),' accuracy: ',num2str(accutmp),'% - PIPthr_dtw']);
+accutmp=sum((fix((ranking_PIPthr_dtw_onlyxy(1:topNaccu)-1)/100)+1)==(fix((queryno-1)/100)+1))/topNaccu*100;%accuracy
+disp(['Top',num2str(topNaccu),' accuracy: ',num2str(accutmp),'% - PIPthr_dtw_onlyxy']);
 accutmp=sum((fix((ranking_PIPthr_munkres(1:topNaccu)-1)/100)+1)==(fix((queryno-1)/100)+1) )/topNaccu*100;%accuracy
-disp(['Top',num2str(topNaccu),' accuracy: ',num2str(accutmp),'%']);
+disp(['Top',num2str(topNaccu),' accuracy: ',num2str(accutmp),'% - PIPthr_munkres']);
 accutmp=sum((fix((ranking_euc(1:topNaccu)-1)/100)+1)==(fix((queryno-1)/100)+1))/topNaccu*100;%accuracy
-disp(['Top',num2str(topNaccu),' accuracy: ',num2str(accutmp),'%']);
+disp(['Top',num2str(topNaccu),' accuracy: ',num2str(accutmp),'% - all-point Euclidean']);
 accutmp=sum((fix((ranking_rawdata_dtw(1:topNaccu)-1)/100)+1)==(fix((queryno-1)/100)+1))/topNaccu*100;%accuracy
-disp(['Top',num2str(topNaccu),' accuracy: ',num2str(accutmp),'%']);
-%}
+disp(['Top',num2str(topNaccu),' accuracy: ',num2str(accutmp),'% - all-point DTW']);
+
 
 %visual results(after smoothing)
 
@@ -151,7 +151,7 @@ for topn=TopN2show
     
     figure
     %plot to show a global picture
-    subplot(221)
+    subplot(231)
     hold on
     for i=2:topn
         plot(ts(ranking_PIPthr_dtw(i),:));
@@ -161,17 +161,16 @@ for topn=TopN2show
     title(['Top ',num2str(topn),' - MVIP'])
     
     %plot to show a global picture
-    subplot(222)
+    subplot(232)
     hold on
     for i=2:topn
-        plot(ts(ranking_PIPthr_dtw2(i),:));
+        plot(ts(ranking_PIPthr_dtw_onlyxy(i),:));
     end
-    plot(ts(ranking_PIPthr_dtw2(1),:),':or','MarkerFaceColor','r')
+    plot(ts(ranking_PIPthr_dtw_onlyxy(1),:),':or','MarkerFaceColor','r')
     hold off
-    title(['Top ',num2str(topn),' - MVIP(only x,y features)'])
+    title(['Top ',num2str(topn),' - MVIP(only x,y)'])
     
-    %{
-    subplot(222)
+    subplot(233)
     hold on
     for i=2:topn
         plot(ts(ranking_PIPthr_munkres(i),:));
@@ -179,9 +178,8 @@ for topn=TopN2show
     plot(ts(ranking_PIPthr_munkres(1),:),':or','MarkerFaceColor','r')
     hold off
     title(['Top ',num2str(topn),' - PIPthr\_munkres'])
-    %}
     
-    subplot(223)
+    subplot(234)
     hold on
     for i=2:topn
         plot(ts(ranking_euc(i),:));
@@ -190,8 +188,7 @@ for topn=TopN2show
     hold off
     title(['Top ',num2str(topn),' - all-point Euclidean'])
     
-    
-    subplot(224)
+    subplot(235)
     hold on
     for i=2:topn
         plot(ts(ranking_rawdata_dtw(i),:));

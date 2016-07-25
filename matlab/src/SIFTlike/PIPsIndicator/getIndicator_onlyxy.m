@@ -1,4 +1,4 @@
-function [ Indicator,PIPindex ] = getIndicator2( ts, PIPinfo )
+function [ Indicator,PIPindex ] = getIndicator_onlyxy( ts, PIPinfo )
 %ts: One time series sequence you want to compare, maybe after smoothing or not
 %PIPinfo: the information of PIPs
 %Indicator: x(PIPindex), delta y-2, delta y-1, y, delta y+1, delta y+2,
