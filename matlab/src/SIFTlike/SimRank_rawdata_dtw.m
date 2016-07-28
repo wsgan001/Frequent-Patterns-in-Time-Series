@@ -16,6 +16,7 @@ Dist=zeros(rnum,2);
 for i=1:rnum
     index=linspace(1,tslength,tslength)';
     Dist(i,1)=dtw([index/tslength,query'],[index/tslength,dataset(i,:)'],wl);
+    %Dist(i,1)=dtw(query',dataset(i,:)',wl);%no X info
     %Dist(i,1)=dtw([index,query'],[index,dataset(i,:)'],wl);%no x-axis normalization
     Dist(i,2)=i;
 end
@@ -24,4 +25,3 @@ Dist=sortrows(Dist,1);
 ranking=Dist(:,2);
 
 end
-
