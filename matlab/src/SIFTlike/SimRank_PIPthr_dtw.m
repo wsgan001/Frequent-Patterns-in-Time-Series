@@ -4,9 +4,9 @@ function [ ranking ] = SimRank_PIPthr_dtw( query,dataset,PIPthr )
 %PIPthr: for getPIPs_threshold
 %ranking: each row for each row of dataset, value = 1 means most similar
 
-addpath('./getPIPs')
-addpath('./matchingPIPs')
-addpath('./PIPsIndicator')
+addpath('/Users/Steven/Documents/GitHub/Frequent-Patterns-in-Time-Series/matlab/src/SIFTlike/getPIPs')
+addpath('/Users/Steven/Documents/GitHub/Frequent-Patterns-in-Time-Series/matlab/src/SIFTlike/matchingPIPs')
+addpath('/Users/Steven/Documents/GitHub/Frequent-Patterns-in-Time-Series/matlab/src/SIFTlike/PIPsIndicator')
 
 if nargin<3
     PIPthr=0.15;

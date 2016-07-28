@@ -1,9 +1,10 @@
+addpath('../')
 clear;
 topNaccu=100;
 
 %sc dataset
-load('../../data/gt_sc.mat');
-load('../../data/synthetic_control.mat');
+load('/Users/Steven/Documents/GitHub/Frequent-Patterns-in-Time-Series/matlab/data/gt_sc.mat');
+load('/Users/Steven/Documents/GitHub/Frequent-Patterns-in-Time-Series/matlab/data/synthetic_control.mat');
 ts = synthetic_control;
 [rnum,~]=size(ts);
 

@@ -1,5 +1,5 @@
 %clustering test
-
+addpath('../')
 clear;
 %clc;
 
@@ -14,23 +14,23 @@ UCRdataset='50words';%not so good 50 classes, 905 TS, 270 D
 %UCRdataset='synthetic_control'2
 
 %% similarity ranking parameters
-queryno=401;%401
+queryno=301;%401
 disp(['queryno=',num2str(queryno)])
 TopN2show=[3,5,20,50,100];
 topNaccu=100;%top N match accuracy
 
 %% load dataset
 %sc dataset
-%{
-load('../../data/gt_sc.mat');
-load('../../data/synthetic_control.mat');
+
+load('/Users/Steven/Documents/GitHub/Frequent-Patterns-in-Time-Series/matlab/data/gt_sc.mat');
+load('/Users/Steven/Documents/GitHub/Frequent-Patterns-in-Time-Series/matlab/data/synthetic_control.mat');
 ts = synthetic_control;
 gt = gt_sc;
 [rnum,cnum]=size(ts);
-%}
+
 
 %UCR dataset
-
+%{
 TEST = load([...
     '/Users/Steven/Academic/SR@Aditya/Zenvisage/datasets/UCR_TS_Archive_2015/'...
     ,UCRdataset,'/',UCRdataset,'_TEST']);
@@ -42,7 +42,7 @@ dataall = [TEST;TRAIN];
 gt = dataall(:,1);
 ts = dataall(:,2:cnum);
 [rnum,~]=size(ts);
-
+%}
 
 %% preprocessing
 %normalization/scaling
@@ -135,7 +135,7 @@ disp(['Top',num2str(topNaccu),' accuracy: ',num2str(accutmp),'% - all-point DTW'
 %}
 
 %visual results(after smoothing)
-
+%{
 figure
 hold on
 for i=1:rnum
@@ -198,4 +198,4 @@ for topn=TopN2show
     title(['Top ',num2str(topn),' - all-point dtw'])
     
 end
-
+%}

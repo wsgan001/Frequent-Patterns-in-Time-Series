@@ -8,7 +8,7 @@ if (nargin==2)
     wl=Inf;
 end
 
-addpath('../../lib/dynamic_time_warping_v2/dynamic_time_warping_v2.1');
+addpath('/Users/Steven/Documents/GitHub/Frequent-Patterns-in-Time-Series/matlab/lib/dynamic_time_warping_v2/dynamic_time_warping_v2.1');
 
 [rnum, tslength]=size(dataset);
 
