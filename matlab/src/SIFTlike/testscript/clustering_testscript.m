@@ -5,7 +5,7 @@ clear;
 
 %% parameter
 WinLen=2;%sliding whindow length smooth 20
-PIPthr=0.15;
+PIPthr=0.05;
 UCRdataset='50words';%not so good 50 classes, 905 TS, 270 D
 %UCRdataset='yoga';%good 2 classes, 3300 TS, 426 D
 %UCRdataset='wafer';%good 2 classes, 7174 TS, 152 D
@@ -14,7 +14,7 @@ UCRdataset='50words';%not so good 50 classes, 905 TS, 270 D
 %UCRdataset='synthetic_control'2
 
 %% similarity ranking parameters
-queryno=301;%401
+queryno=501;%401
 disp(['queryno=',num2str(queryno)])
 TopN2show=[3,5,20,50,100];
 topNaccu=100;%top N match accuracy
@@ -57,6 +57,7 @@ end
 wts = [1/(2*WinLen);repmat(1/WinLen,WinLen-1,1);1/(2*WinLen)];
 for i=1:rnum
     ts_smooth(i,:) = conv(ts_norm(i,:),wts,'valid');   
+    %ts_smooth(i,:) = ts_norm(i,:);
 end
 %[~,cnum_smooth]=size(ts_smooth);
 
@@ -120,7 +121,7 @@ tic
 toc
 
 %sc accuracy
-%{
+
 disp(' ');
 accutmp=sum((fix((ranking_PIPthr_dtw(1:topNaccu)-1)/100)+1)==(fix((queryno-1)/100)+1))/topNaccu*100;%accuracy
 disp(['Top',num2str(topNaccu),' accuracy: ',num2str(accutmp),'% - PIPthr_dtw']);
@@ -132,7 +133,7 @@ accutmp=sum((fix((ranking_euc(1:topNaccu)-1)/100)+1)==(fix((queryno-1)/100)+1))/
 disp(['Top',num2str(topNaccu),' accuracy: ',num2str(accutmp),'% - all-point Euclidean']);
 accutmp=sum((fix((ranking_rawdata_dtw(1:topNaccu)-1)/100)+1)==(fix((queryno-1)/100)+1))/topNaccu*100;%accuracy
 disp(['Top',num2str(topNaccu),' accuracy: ',num2str(accutmp),'% - all-point DTW']);
-%}
+
 
 %visual results(after smoothing)
 %{
