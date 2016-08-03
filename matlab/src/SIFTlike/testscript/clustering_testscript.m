@@ -6,31 +6,32 @@ clear;
 %% parameter
 WinLen=2;%sliding whindow length smooth 20
 PIPthr=0.05;
-UCRdataset='50words';%not so good 50 classes, 905 TS, 270 D
+%UCRdataset='50words';%not so good 50 classes, 905 TS, 270 D
 %UCRdataset='yoga';%good 2 classes, 3300 TS, 426 D
 %UCRdataset='wafer';%good 2 classes, 7174 TS, 152 D
 %UCRdataset='HandOutlines';% 2 classes, 1370 TS, 2709 D
 %UCRdataset='uWaveGestureLibrary_X'; % not so good 8 classes, 4478 TS, 315 D
 %UCRdataset='synthetic_control'2
+UCRdataset='SmallKitchenAppliances';
 
 %% similarity ranking parameters
-queryno=501;%401
+queryno=202;%401
 disp(['queryno=',num2str(queryno)])
 TopN2show=[3,5,20,50,100];
 topNaccu=100;%top N match accuracy
 
 %% load dataset
 %sc dataset
-
+%{
 load('/Users/Steven/Documents/GitHub/Frequent-Patterns-in-Time-Series/matlab/data/gt_sc.mat');
 load('/Users/Steven/Documents/GitHub/Frequent-Patterns-in-Time-Series/matlab/data/synthetic_control.mat');
 ts = synthetic_control;
 gt = gt_sc;
 [rnum,cnum]=size(ts);
-
+%}
 
 %UCR dataset
-%{
+
 TEST = load([...
     '/Users/Steven/Academic/SR@Aditya/Zenvisage/datasets/UCR_TS_Archive_2015/'...
     ,UCRdataset,'/',UCRdataset,'_TEST']);
@@ -42,7 +43,7 @@ dataall = [TEST;TRAIN];
 gt = dataall(:,1);
 ts = dataall(:,2:cnum);
 [rnum,~]=size(ts);
-%}
+
 
 %% preprocessing
 %normalization/scaling

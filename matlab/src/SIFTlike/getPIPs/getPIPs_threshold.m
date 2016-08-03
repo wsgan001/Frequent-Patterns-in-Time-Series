@@ -79,12 +79,13 @@ while (maxv>thr)
         %Dist1=NormPDist(ts(first:middle),tslength,yrange);
         %Dist1=Dist1(2:end-1);
         Distpos1=max(Dist1(2:end-1));
-        if (Distpos1>0)
+        if (Distpos1>thr)
             indextmp1=2;
             while(Dist1(indextmp1)~=Distpos1)
                 indextmp1=indextmp1+1;
             end
             PIPpos1=indextmp1+first-1; % PIP possible 1 - index in TS
+            %positivePIPpos1=PIPpos1-1
             %indextmp1=find( Dist1(2:end-1)==Distpos1 );%in case of no fluctuation(i.e. linear)
             %PIPpos1=indextmp1(1)+first; % PIP possible 1 - index in TS
             while(waitinglist(FindFromHere,1)~=-1)% maybe dead loop, but just maybe
@@ -100,12 +101,13 @@ while (maxv>thr)
         %Dist2=NormPDist(ts(middle:last),tslength,yrange);
         %Dist2=Dist2(2:end-1);
         Distpos2=max(Dist2(2:end-1));
-        if (Distpos2>0)
+        if (Distpos2>thr)
             indextmp2=2;
             while(Dist2(indextmp2)~=Distpos2)
                 indextmp2=indextmp2+1;
             end
             PIPpos2=indextmp2+middle-1;
+            %negativePIPpos2=-PIPpos2+1
             %indextmp2=find( Dist2(2:end-1)==Distpos2 );
             %PIPpos2=indextmp2(1)+middle;
             while(waitinglist(FindFromHere,1)~=-1)% maybe dead loop, but just maybe

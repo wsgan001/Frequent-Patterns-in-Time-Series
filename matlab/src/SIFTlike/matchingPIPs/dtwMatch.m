@@ -61,6 +61,7 @@ while(sum(pathtmp)~=0)
 end
 
 costPerPair=D(ns+1,nt+1)/size(assignmentPairs,1);
+%costPerPair=D(ns+1,nt+1)/max(ns,nt);
 
 end
 
