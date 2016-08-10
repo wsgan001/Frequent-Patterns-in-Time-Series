@@ -40,11 +40,11 @@ end
 figure
 plot(ts(tsindex,:));
 
-[ PIPindex,PIPinfo ] = getPIPs_num( ts_smooth(tsindex,:),PIPnum );
+[ ~,PIPinfo ] = getPIPs_num( ts_smooth(tsindex,:),PIPnum );
 %[ PIPindex,PIPinfo ] = getPIPs_threshold( ts_smooth(tsindex,:), PIPthr );
 [ Indicator,PIPindex ] = getIndicator( ts_smooth(tsindex,:), PIPinfo );
 
-[ PIPindex2,PIPinfo2 ] = getPIPs_num( ts_smooth(1,:),PIPnum );
+[ ~,PIPinfo2 ] = getPIPs_num( ts_smooth(1,:),PIPnum );
 %[ PIPindex,PIPinfo ] = getPIPs_threshold( ts_smooth(tsindex,:), PIPthr );
 [ Indicator2,PIPindex2 ] = getIndicator( ts_smooth(1,:), PIPinfo2 );
 

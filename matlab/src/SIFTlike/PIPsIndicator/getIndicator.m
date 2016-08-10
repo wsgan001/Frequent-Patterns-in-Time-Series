@@ -1,3 +1,4 @@
+%{
 function [ Indicator,PIPindex ] = getIndicator( ts, PIPinfo )
 %ts: One time series sequence you want to compare, maybe after smoothing or not
 %PIPinfo: the information of PIPs
@@ -9,8 +10,6 @@ PIPneighbour=[-1,1];
 [PIPnum,~]=size(PIPinfo);
 %normalization
 xrange=length(ts);
-yrange=max(ts)-min(ts);
-%yrange=6; %resus are not good
 
 PIPindex=PIPinfo(:,1);
 %%
@@ -42,9 +41,6 @@ for x=Xneighbour
                 tmp(i,1)=0;
             end
         end
-    end
-    if (yrange~=0)
-        tmp=tmp/yrange; % normalized
     end
     Indicator=[Indicator,tmp];
 end
@@ -81,9 +77,6 @@ for i=1:PIPnum
         end
     end
 end
-if(yrange~=0)
-    tmp=tmp/yrange; % normalized
-end
 Indicator=[Indicator,tmp];
 
 %%
@@ -96,4 +89,53 @@ Indicator(:,4)=Indicator(:,4)*1;
 %Indicator=[Indicator(:,1),Indicator(:,4)];
 %Indicator=Indicator(:,1:6);
 end
+%}
+%% consistent with getIndicators in MVIP.java
+function [ Indicator,PIPindex ] = getIndicator( ts, PIPinfo )
+%ts: One time series sequence you want to compare, maybe after smoothing or not
+%PIPinfo: the information of PIPs
+%Indicator: x(PIPindex), delta y-2, delta y-1, y, delta y+1, delta y+2,
+%delta PIP-1 yvalue, delta PIP+1 yvalue
 
+[PIPnum,~]=size(PIPinfo);
+%normalization
+xrange=length(ts);
+PIPindex=PIPinfo(:,1);
+Indicator=zeros(PIPnum,8);
+
+%X value
+Indicator(:,1)=PIPinfo(:,1)/xrange;
+
+%Y value
+Indicator(:,2)=ts(PIPinfo(:,1));
+
+%nearby shape
+nearbyShapeIndex=[-2,-1,1,2];
+for x=1:4
+    for i=1:PIPnum
+        % delta y
+        index = PIPinfo(i,1)+nearbyShapeIndex(x);
+        if(index>=1 && index<=length(ts))
+            Indicator(i,2+x)=ts(index)-ts(PIPinfo(i,1));
+        else
+            Indicator(i,2+x)=0;
+        end
+    end
+end
+
+%nearby pattern
+nearbyPatternIndex=[-1,1];
+for x=1:2
+    for i=1:PIPnum
+        PIPorder=i+nearbyPatternIndex(x);
+        if (PIPorder>=1 && PIPorder<=PIPnum)
+            index=PIPinfo(PIPorder,1);
+            PIPneighbour_rang=(index-PIPinfo(i,1))/xrange;
+            Indicator(i,6+x)=(ts(index)-ts(PIPinfo(i,1)))/PIPneighbour_rang;
+        else
+            Indicator(i,6+x)=0;
+        end
+    end
+end
+
+end

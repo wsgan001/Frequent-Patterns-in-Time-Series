@@ -60,6 +60,7 @@ while(sum(pathtmp)~=0)
     pathtmp(2)=path(tmp1,tmp2,2);
 end
 
+distance=D(ns+1,nt+1)
 costPerPair=D(ns+1,nt+1)/size(assignmentPairs,1);
 %costPerPair=D(ns+1,nt+1)/max(ns,nt);
 
