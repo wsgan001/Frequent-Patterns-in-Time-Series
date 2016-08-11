@@ -47,11 +47,14 @@ ts = dataall(:,2:cnum);
 
 %% preprocessing
 %normalization/scaling
+%{
 ts_norm = ts;
 for i=1:rnum
     ts_norm(i,:)=(ts(i,:)-mean(ts(i,:)))/ std(ts(i,:));
     %ts_norm(i,:)=ts(i,:)/mean(ts(i,:));
 end
+%}
+ts_norm = (zscore(ts'))';
 
 %smoothing
 %WinLen=6;%sliding whindow length

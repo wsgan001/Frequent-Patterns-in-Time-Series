@@ -23,10 +23,13 @@ for i = 1:3
     %% preprocessing
     %normalization/scaling
     [rnum,cnum]=size(dataset);
+    %{
     ts_norm = dataset;
     for j=1:rnum
         ts_norm(j,:)=(dataset(j,:)-mean(dataset(j,:)))/ std(dataset(j,:));
     end
+    %}
+    ts_norm = (zscore(dataset'))';
 
     %smoothing
     wts = [0.25,0.5,0.25];
