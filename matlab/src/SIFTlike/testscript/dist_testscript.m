@@ -1,7 +1,7 @@
 %clustering test
 addpath('../')
 clear;
-%clc;
+clc;
 
 %% parameter
 WinLen=2;%sliding whindow length smooth 20
@@ -14,8 +14,8 @@ PIPthr=0.15;
 %UCRdataset='synthetic_control'2
 UCRdataset='SmallKitchenAppliances';
 
-ts1No=1;
-ts2No=131;
+ts1No=481;
+ts2No=331;
 disp(['ts1(java) = ',num2str(ts1No-1),', ts2(java) = ',num2str(ts2No-1)])
 
 %% load dataset

@@ -12,12 +12,12 @@ Datasets = [cellstr('ChlorineConcentration'), 'CinC_ECG_torso',  'DiatomSizeRedu
 PIPthr=0.15;
 
 %% computation
-for i = 1:3
+for i = 1:length(Datasets)
     display(['Dataset being processed: ', num2str(i)]);
     
     %% load dataset
     datasetName=Datasets{i};
-    load(['/Users/Steven/Academic/SR@Aditya/Zenvisage/datasets/UCR_k-Shape_Matlab/',datasetName,'_Data.mat']);
+    load(['/Users/Steven/Academic/SR@Aditya/Zenvisage/datasets/UCR_k-Shape_Matlab/',datasetName,'_Class.mat']);
     load(['/Users/Steven/Academic/SR@Aditya/Zenvisage/datasets/UCR_k-Shape_Matlab/',datasetName,'_Class.mat']);
     
     %% preprocessing
@@ -25,14 +25,17 @@ for i = 1:3
     [rnum,cnum]=size(dataset);
     ts_norm = dataset;
     for j=1:rnum
-        ts_norm(j,:)=(dataset(j,:)-mean(dataset(j,:)))/ std(dataset(j,:));
+        ts_norm(j,:)=(ts(j,:)-mean(ts(j,:)))/ std(ts(j,:));
+        %ts_norm(i,:)=ts(i,:)/mean(ts(i,:));
     end
 
     %smoothing
-    wts = [0.25,0.5,0.25];
-    ts_smooth=zeros(rnum,cnum-2);
+    WinLen=2;%sliding whindow length
+    wts = [1/(2*WinLen);repmat(1/WinLen,WinLen-1,1);1/(2*WinLen)];
+    ts_smooth=zeros(rnum,)
     for j=1:rnum
-        ts_smooth(j,:) = conv(ts_norm(j,:),wts,'valid'); 
+        ts_smooth(j,:) = conv(ts_norm(j,:),wts,'valid');   
+        %ts_smooth(i,:) = ts_norm(i,:);
     end
     
     %% clustering
