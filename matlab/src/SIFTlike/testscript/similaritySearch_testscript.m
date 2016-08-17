@@ -6,32 +6,32 @@ clear;
 %% parameter
 WinLen=2;%sliding whindow length smooth 20
 PIPthr=0.15;
-%UCRdataset='50words';%not so good 50 classes, 905 TS, 270 D
+UCRdataset='50words';%good
 %UCRdataset='yoga';%good 2 classes, 3300 TS, 426 D
 %UCRdataset='wafer';%good 2 classes, 7174 TS, 152 D
 %UCRdataset='HandOutlines';% 2 classes, 1370 TS, 2709 D
 %UCRdataset='uWaveGestureLibrary_X'; % not so good 8 classes, 4478 TS, 315 D
-%UCRdataset='synthetic_control'2
-UCRdataset='SmallKitchenAppliances';
+%UCRdataset='synthetic_control';
+%UCRdataset='Beef';
 
 %% similarity ranking parameters
-queryno=571;%401
+queryno=5;%401
 disp(['queryno=',num2str(queryno)])
 TopN2show=[3,5,20,50,100];
-topNaccu=100;%top N match accuracy
+%topNaccu=100;%top N match accuracy
 
 %% load dataset
 %sc dataset
-
+%{
 load('/Users/Steven/Documents/GitHub/Frequent-Patterns-in-Time-Series/matlab/data/gt_sc.mat');
 load('/Users/Steven/Documents/GitHub/Frequent-Patterns-in-Time-Series/matlab/data/synthetic_control.mat');
 ts = synthetic_control;
 gt = gt_sc;
 [rnum,cnum]=size(ts);
-
+%}
 
 %UCR dataset
-%{
+
 TEST = load([...
     '/Users/Steven/Academic/SR@Aditya/Zenvisage/datasets/UCR_TS_Archive_2015/'...
     ,UCRdataset,'/',UCRdataset,'_TEST']);
@@ -43,7 +43,7 @@ dataall = [TEST;TRAIN];
 gt = dataall(:,1);
 ts = dataall(:,2:cnum);
 [rnum,~]=size(ts);
-%}
+
 
 %% preprocessing
 %normalization/scaling
@@ -124,18 +124,27 @@ tic
 [ ranking_rawdata_dtw ] = SimRank_rawdata_dtw( query,ts, dtwwl);
 toc
 
-%sc accuracy
-
+%accuracy
+topNaccu=sum(gt == gt(queryno));
 disp(' ');
-accutmp=sum((fix((ranking_PIPthr_dtw(1:topNaccu)-1)/100)+1)==(fix((queryno-1)/100)+1))/topNaccu*100;%accuracy
+%accutmp=sum((fix((ranking_PIPthr_dtw(1:topNaccu)-1)/100)+1)==(fix((queryno-1)/100)+1))/topNaccu*100;%accuracy
+accutmp=sum(gt(ranking_PIPthr_dtw(1:topNaccu)) == gt(queryno))/topNaccu*100;
 disp(['Top',num2str(topNaccu),' accuracy: ',num2str(accutmp),'% - PIPthr_dtw']);
-accutmp=sum((fix((ranking_PIPthr_dtw_onlyxy(1:topNaccu)-1)/100)+1)==(fix((queryno-1)/100)+1))/topNaccu*100;%accuracy
+
+%accutmp=sum((fix((ranking_PIPthr_dtw_onlyxy(1:topNaccu)-1)/100)+1)==(fix((queryno-1)/100)+1))/topNaccu*100;%accuracy
+accutmp=sum(gt(ranking_PIPthr_dtw_onlyxy(1:topNaccu)) == gt(queryno))/topNaccu*100;
 disp(['Top',num2str(topNaccu),' accuracy: ',num2str(accutmp),'% - PIPthr_dtw_onlyxy']);
-accutmp=sum((fix((ranking_PIPthr_munkres(1:topNaccu)-1)/100)+1)==(fix((queryno-1)/100)+1) )/topNaccu*100;%accuracy
+
+%accutmp=sum((fix((ranking_PIPthr_munkres(1:topNaccu)-1)/100)+1)==(fix((queryno-1)/100)+1) )/topNaccu*100;%accuracy
+accutmp=sum(gt(ranking_PIPthr_munkres(1:topNaccu)) == gt(queryno))/topNaccu*100;
 disp(['Top',num2str(topNaccu),' accuracy: ',num2str(accutmp),'% - PIPthr_munkres']);
-accutmp=sum((fix((ranking_euc(1:topNaccu)-1)/100)+1)==(fix((queryno-1)/100)+1))/topNaccu*100;%accuracy
+
+%accutmp=sum((fix((ranking_euc(1:topNaccu)-1)/100)+1)==(fix((queryno-1)/100)+1))/topNaccu*100;%accuracy
+accutmp=sum(gt(ranking_euc(1:topNaccu)) == gt(queryno))/topNaccu*100;
 disp(['Top',num2str(topNaccu),' accuracy: ',num2str(accutmp),'% - all-point Euclidean']);
-accutmp=sum((fix((ranking_rawdata_dtw(1:topNaccu)-1)/100)+1)==(fix((queryno-1)/100)+1))/topNaccu*100;%accuracy
+
+%accutmp=sum((fix((ranking_rawdata_dtw(1:topNaccu)-1)/100)+1)==(fix((queryno-1)/100)+1))/topNaccu*100;%accuracy
+accutmp=sum(gt(ranking_rawdata_dtw(1:topNaccu)) == gt(queryno))/topNaccu*100;
 disp(['Top',num2str(topNaccu),' accuracy: ',num2str(accutmp),'% - all-point DTW']);
 
 
