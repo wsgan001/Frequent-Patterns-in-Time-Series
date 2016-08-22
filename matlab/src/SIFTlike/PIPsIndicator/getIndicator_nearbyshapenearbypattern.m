@@ -24,7 +24,7 @@ for x=1:4
         % delta y
         index = PIPinfo(i,1)+nearbyShapeIndex(x);
         if(index>=1 && index<=length(ts))
-            Indicator(i,x)=ts(index)-ts(PIPinfo(i,1));
+            Indicator(i,x)=(ts(index)-ts(PIPinfo(i,1)))*xrange;
         else
             Indicator(i,x)=0;
         end
