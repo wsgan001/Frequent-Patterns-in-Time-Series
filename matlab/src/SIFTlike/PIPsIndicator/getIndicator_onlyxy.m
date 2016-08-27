@@ -108,7 +108,7 @@ function [ Indicator,PIPindex ] = getIndicator_onlyxy( ts, PIPinfo )
 
 [PIPnum,~]=size(PIPinfo);
 %normalization
-xrange=length(ts);
+xrange=length(ts)-1;
 PIPindex=PIPinfo(:,1);
 Indicator=zeros(PIPnum,2);
 
