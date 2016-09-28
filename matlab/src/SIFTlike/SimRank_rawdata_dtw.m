@@ -2,7 +2,7 @@ function [ ranking ] = SimRank_rawdata_dtw( query,dataset,wl )
 %query: query time series
 %dataset: time series dataset
 %wl: dtw window length
-%ranking: each row for each row of dataset, value = 1 means most similar
+%ranking: row (time series) indexes in the original dataset. From the most similar to the least similar. Namely the first number is the row index of the most similar time series in original dataset.
 
 if (nargin==2)
     wl=Inf;

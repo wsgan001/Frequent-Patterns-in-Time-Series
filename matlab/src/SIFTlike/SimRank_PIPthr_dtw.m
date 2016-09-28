@@ -2,7 +2,7 @@ function [ ranking ] = SimRank_PIPthr_dtw( query,dataset,PIPthr )
 %query: query time series
 %dataset: time series dataset
 %PIPthr: for getPIPs_threshold
-%ranking: each row for each row of dataset, value = 1 means most similar
+%ranking: row (time series) indexes in the original dataset. From the most similar to the least similar. Namely the first number is the row index of the most similar time series in original dataset.
 
 addpath('/Users/Steven/Documents/GitHub/Frequent-Patterns-in-Time-Series/matlab/src/SIFTlike/getPIPs')
 addpath('/Users/Steven/Documents/GitHub/Frequent-Patterns-in-Time-Series/matlab/src/SIFTlike/matchingPIPs')

@@ -1,7 +1,7 @@
 function [ ranking ] = SimRank_rawdata_Euc( query,dataset )
 %query: query time series
 %dataset: time series dataset
-%ranking: each row for each row of dataset, value = 1 means most similar
+%ranking: row (time series) indexes in the original dataset. From the most similar to the least similar. Namely the first number is the row index of the most similar time series in original dataset.
 
 [rnum, ~]=size(dataset);
 
