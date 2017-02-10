@@ -4,7 +4,8 @@ function [ PIPinfo ] = getPIPs_threshold( ts,thr )
 %thr: normalized threshold.
 %MUST USE NormVDist/NormPDist AS DISTANCE METRIC
 
-%The column's index of PIPinfo from left to right - position
+%The column's meaning of PIPinfo from left to right
+%PIPindex: PIPs' index in ts - position
 %PIPDist: Normalized Dist of each PIP - distance to the line of adjunct PIPs
 %PIPimportance: the order of being added to PIP set
 

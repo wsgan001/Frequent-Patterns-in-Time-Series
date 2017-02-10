@@ -1,18 +1,17 @@
 function [ Indicator,PIPindex ] = getIndicator( ts, PIPinfo )
 %ts: A time series you want to compare
 %PIPinfo: the information of PIPs
+%Indicator: x, y, slopt_left, length_left, slope_right, length_right, weight
 
-%Indicator: x(PIPindex), y, delta y-2, delta y-1, delta y+1, delta y+2, delta PIP-1 yvalue, delta PIP+1 yvalue
-
-[PIPnum,~]=size(PIPinfo);
+[PIPnum,~] = size(PIPinfo);
 %normalization
-PIPindex=PIPinfo(:,1);%index in orginal time series
-Indicator=zeros(PIPnum,7);
+PIPindex = PIPinfo(:,1);%index in orginal time series
+Indicator = zeros(PIPnum,7);
 
 %% Locations
 %X value
-Indicator(:,1)=zscore(PIPinfo(:,1)); %normalized x-axis values - use zscore normalization to make x axis and y axis have the same scale (like what people see)
-xrange=Indicator(end,1) - Indicator(1,1);
+Indicator(:,1) = zscore(PIPinfo(:,1)); %normalized x-axis values - use zscore normalization to make x axis and y axis have the same scale (like what people see)
+%xrange = Indicator(end,1) - Indicator(1,1);
 
 %Y value
 Indicator(:,2)=ts(PIPinfo(:,1)); % assume ts has been zscore normalized before this function.
