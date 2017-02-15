@@ -6,7 +6,11 @@ querySet = [cellstr('WormsTwoClass-centroid2'),'Worms-centroid5','Worms-centroid
 
 TrainSet = [];
 TestSet = [];
-for i = 1:size(querySet,2)
+[~,idx] = sort(rand(20,1));
+TrainIndex = idx(1:10);
+TestIndex = idx(11:20);
+
+for i = 1:20
     i
     % load query and dataset
     queryName = querySet{i};
@@ -60,12 +64,12 @@ for i = 1:size(querySet,2)
         TmpSet = [TmpSet;[overallTrend, noise, averageOverallTrend, seasonality, peakNum, globalMaxMin, globalIncreDecre, averageVIPDistance, regressionSlope, averageSimilarity]];
     end
     
-    % randomly divide TmpSet into two parts and add them to TrainSet and TestSet respectively
-    rowNum = size(TmpSet,1);
-    [~,idx] = sort(rand(rowNum,1));
-    TrainSize = round(rowNum * 0.5);
-    TrainSet = [TrainSet; TmpSet(1:TrainSize,:)];
-    TestSet = [TestSet; TmpSet(TrainSize+1:end,:)];
+    if ismember(i,TrainIndex)
+        TrainSet = [TrainSet; TmpSet];
+    else
+        TestSet = [TestSet; TmpSet];
+        csvwrite(['./datasetForLinearRegression/TestQuery',num2str(i),'.csv'],TmpSet);
+    end
     
 end
 
