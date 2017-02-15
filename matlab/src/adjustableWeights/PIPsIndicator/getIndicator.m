@@ -84,8 +84,7 @@ Indicator(:,7) = Indicator(:,7) / sum(Indicator(:,7));
 
 %% Attention
 %{
-1. only the first six indicators are the feature vector, the last one is
-the weight. So you should modify the distance function (only compare the distance of the first indicators and use the last one as weight -> how to use the weight is the correct way?)
+1. only the first six indicators are the feature vector, the last one is the weight.
 %}
 
 end
