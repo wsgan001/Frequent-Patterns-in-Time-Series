@@ -1,3 +1,4 @@
+function [ TestIndex ] = GenerateTrainAndTestSet
 % generate train set and test set files
 addpath('./getPIPs');
 
@@ -76,3 +77,6 @@ end
 %% write files
 csvwrite('./datasetForLinearRegression/TrainSet.csv',TrainSet);
 csvwrite('./datasetForLinearRegression/TestSet.csv',TestSet);
+
+end
+
