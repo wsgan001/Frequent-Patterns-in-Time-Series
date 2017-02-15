@@ -5,7 +5,7 @@ function [ seasonality ] = Seasonality( ts )
 seasonality = zeros(1,4);
 ts_fdomain = abs(fft(ts));
 [seasonality(2),seasonality(1)] = max(ts_fdomain);
-seasonality(3) = (ts_fdomain .* (1:size(ts_fdomain,2))) / sum(ts_fdomain);
+seasonality(3) = sum(ts_fdomain .* (1:size(ts_fdomain,2))) / sum(ts_fdomain);
 seasonality(4) = std(ts_fdomain);
 
 end

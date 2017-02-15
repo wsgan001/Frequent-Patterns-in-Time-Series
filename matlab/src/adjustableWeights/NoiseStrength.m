@@ -2,7 +2,7 @@ function [ noiseStrength ] = NoiseStrength( ts )
 % noiseStrength = [e_left, e_middle e_right]
 
 % detrend (smooth suing Gaussion kernel)
-wsize = max(2, size(ts,2) * 0.1);
+wsize = max(2, round(size(ts,2) * 0.1));
 stdev = 100;
 ts_smoothed = smoothts(ts, 'g', wsize, stdev);
 

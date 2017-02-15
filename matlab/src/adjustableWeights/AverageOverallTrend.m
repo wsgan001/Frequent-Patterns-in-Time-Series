@@ -12,7 +12,7 @@ end
 [rnum, ~]=size(dataset);
 
 %% Smooth - using Gaussion kernel
-wsize = max(2, size(query,2) * 0.1);
+wsize = max(2, round(size(query,2) * 0.1));
 stdev = 100;
 query = smoothts(query, 'g', wsize, stdev);
 dataset = smoothts(dataset, 'g', wsize, stdev);

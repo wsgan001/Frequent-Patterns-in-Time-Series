@@ -3,7 +3,7 @@ function [ globalMaxMin ] = GlobalMaxMin ( ts )
 
 %normalization
 ts_y_zscore = zscore(ts);
-ts_x_zscore = zsocre(1:(size(ts,2)));
+ts_x_zscore = zscore(1:(size(ts,2)));
 
 globalMaxMin = zeros(1,4);
 
