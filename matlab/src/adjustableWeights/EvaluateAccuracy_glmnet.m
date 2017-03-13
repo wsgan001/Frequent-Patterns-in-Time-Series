@@ -9,7 +9,7 @@ for i = 1:size(index,2)
     TruthSimilarity = TestSet(:,end);
     features = TestSet(:,1:(end-1));
  
-    CalculatedSimilarity = glmnetPredict(fit,features,0.01);
+    CalculatedSimilarity = glmnetPredict(fit,features,0.1);
     
     Correlation(i) = spearman(TruthSimilarity, CalculatedSimilarity);
 end
