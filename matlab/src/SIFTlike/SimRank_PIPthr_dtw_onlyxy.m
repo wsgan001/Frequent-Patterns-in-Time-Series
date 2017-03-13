@@ -1,4 +1,4 @@
-function [ ranking ] = SimRank_PIPthr_dtw_onlyxy( query,dataset,PIPthr )
+function [ ranking, DistInOriginalIndex ] = SimRank_PIPthr_dtw_onlyxy( query,dataset,PIPthr )
 %query: query time series
 %dataset: time series dataset
 %PIPthr: for getPIPs_threshold
@@ -48,6 +48,7 @@ end
 %toc
 
 %% return results
+DistInOriginalIndex = Dist(:,1);
 Dist=sortrows(Dist,1);
 ranking=Dist(:,2);
 

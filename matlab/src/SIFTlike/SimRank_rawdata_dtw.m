@@ -1,4 +1,4 @@
-function [ ranking ] = SimRank_rawdata_dtw( query,dataset,wl )
+function [ ranking, DistInOriginalIndex ] = SimRank_rawdata_dtw( query,dataset,wl )
 %query: query time series
 %dataset: time series dataset
 %wl: dtw window length
@@ -25,6 +25,7 @@ for i=1:rnum
     Dist(i,2)=i;
 end
 
+DistInOriginalIndex = Dist(:,1);
 Dist=sortrows(Dist,1);
 ranking=Dist(:,2);
 

@@ -1,3 +1,5 @@
+function [ avgCorr, Correlation, theta, mu, sigma, TestIndex ] = pipeline
+
 %From generate train and test sets to evaluate the accuracy.
 addpath('/Users/Steven/Documents/GitHub/machineLearning/supervisedLearning/linearRegressionInMultipleVariables');
 
@@ -15,4 +17,6 @@ fprintf('Learn theta...\n');
 
 %% Test process
 fprintf('Evaluate on test datasets...\n');
-[ avgCorr, Correlation ] = TestAccuracy( theta, mu, sigma, TestIndex' )
+[ avgCorr, Correlation ] = EvaluateAccuracy( theta, mu, sigma, TestIndex' );
+
+end
