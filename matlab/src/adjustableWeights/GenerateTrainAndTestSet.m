@@ -33,31 +33,49 @@ for i = 1:20
         % overall trend
         %overallTrend = MVIPDist(query, vis); new MVIP
         [~, overallTrend] = SimRank_PIPthr_dtw_onlyxy(zscore(query,0,2), zscore(vis,0,2));
+        %fprintf('/n overallTrend: ')
+        %size(overallTrend)
         
         % smoothness/noise
         noise = NoiseStrength(query) - NoiseStrength(vis);
+        %fprintf('/n noise: ')
+        %size(noise)
         
         % average overall trend
         averageOverallTrend = AverageOverallTrend(query, vis);
+        %fprintf('/n averageOverallTrend: ')
+        %size(averageOverallTrend)
         
         % seasonality
         seasonality = Seasonality(query) - Seasonality(vis);
+        %fprintf('/n seasonality: ')
+        %size(seasonality)
         
         % Number of peaks
         PIPinfo_vis = getPIPs_threshold(vis);
         peakNum = NumberOfPeaks(PIPinfo_query, query) - NumberOfPeaks(PIPinfo_vis, vis);
+%         fprintf('/n peakNum: ')
+%         size(peakNum)
         
         % Relative (normalized) x, y positions of global max/min
         globalMaxMin = GlobalMaxMin(query) - GlobalMaxMin(vis);
+%         fprintf('/n globalMaxMin: ')
+%         size(globalMaxMin)
         
         % Global increasing / decreasing
         globalIncreDecre = GlobalIncrease(query) - GlobalIncrease(vis);
+%         fprintf('/n globalIncreDecre: ')
+%         size(globalIncreDecre)
         
         % Average distance between VIPs
         averageVIPDistance = AverageDistanceBetweenVIPs(PIPinfo_query, size(query,2)) - AverageDistanceBetweenVIPs(PIPinfo_vis, size(vis, 2));
+%         fprintf('/n averageVIPDistance: ')
+%         size(averageVIPDistance)
         
         % Regression global slope
         regressionSlope = RegressionSlope(query) - RegressionSlope(vis);
+%         fprintf('/n regressionSlope: ')
+%         size(regressionSlope)
         
         
         %% calculate the average similarity level of current query-vis pair

@@ -8,6 +8,7 @@ X = data(:, 1:end-1);
 y = data(:, end);
 
 fit = glmnet(X,y);
+size(X)
 
 end
 
