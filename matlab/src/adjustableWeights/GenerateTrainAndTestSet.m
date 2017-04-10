@@ -33,8 +33,7 @@ for i = 1:20
         % overall trend
         %overallTrend = MVIPDist(query, vis); new MVIP
         [~, overallTrend] = SimRank_PIPthr_dtw_onlyxy(zscore(query,0,2), zscore(vis,0,2));
-        %fprintf('/n overallTrend: ')
-        %size(overallTrend)
+        % ISSUE: In my google doc
         
         % smoothness/noise
         noise = NoiseStrength(query) - NoiseStrength(vis);
