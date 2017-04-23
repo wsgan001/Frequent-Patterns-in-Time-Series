@@ -44,7 +44,7 @@ for i = 1:PIPnum
         dy = (ts(PIPinfo(i,1))-ts(left_index));
         dx_normalized = Indicator(i,1) - Indicator(i-1,1);
         Indicator(i,3) = dy/dx_normalized; % slope_left - need to use degree?
-        Indicator(i,4) = norm(dx_normalized, dy); % normalized length_left
+        Indicator(i,4) = norm([dx_normalized, dy]); % normalized length_left
     else
         Indicator(i,3) = 0;
         Indicator(i,4) = 0;
@@ -58,7 +58,7 @@ for i = 1:PIPnum
         dy = (ts(right_index)-ts(PIPinfo(i,1)));
         dx_normalized = Indicator(i+1,1) - Indicator(i,1);
         Indicator(i,5) = dy/dx_normalized; % slope_right - need to use degree?
-        Indicator(i,6) = norm(dx_normalized, dy); % normalized length_right
+        Indicator(i,6) = norm([dx_normalized, dy]); % normalized length_right
     else
         Indicator(i,5) = 0;
         Indicator(i,6) = 0;

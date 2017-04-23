@@ -1,7 +1,7 @@
 function [ TestIndex ] = GenerateTrainAndTestSet
 % generate train set and test set files
 addpath('./getPIPs');
-addpath('/Users/Steven/Documents/GitHub/Frequent-Patterns-in-Time-Series/matlab/src/SIFTlike');
+%addpath('/Users/Steven/Documents/GitHub/Frequent-Patterns-in-Time-Series/matlab/src/SIFTlike');
 
 dataPath = '/Users/Steven/Documents/GitHub/User-Study-Data/UserStudy/data/';
 querySet = [cellstr('WormsTwoClass-centroid2'),'Worms-centroid5','Worms-centroid4','Worms-centroid2','uWaveGestureLibrary_X-centroid6','50words-centroid7','50words-centroid6','WormsTwoClass-centroid1','Worms-centroid3','Worms-centroid1','uWaveGestureLibrary_Z-centroid3','uWaveGestureLibrary_Z-centroid2','uWaveGestureLibrary_Z-centroid1','uWaveGestureLibrary_Y-centroid5','uWaveGestureLibrary_Y-centroid4','uWaveGestureLibrary_Y-centroid3','ToeSegmentation2-centroid1','50words-centroid3','50words-centroid2','50words-centroid1'];
@@ -33,7 +33,7 @@ for i = 1:20 % query
         %% calculate the features of current query-vis pair
         % overall trend
         %overallTrend = MVIPDist(query, vis); new MVIP
-        [~, overallTrend] = SimRank_PIPthr_dtw_onlyxy(zscore(query,0,2), zscore(vis,0,2));
+        [~, overallTrend] = SimRank_PIPthr_dtw_adjustableWeights(zscore(query,0,2), zscore(vis,0,2));
         % ISSUE: In my google doc
         
         % smoothness/noise
