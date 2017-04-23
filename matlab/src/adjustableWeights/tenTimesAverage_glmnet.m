@@ -6,9 +6,11 @@ clear;clc;
 LRAverage = 0; % The average correlation of linear regression 
 %MVIPCorr = 0; 
 
-for i =1:10
-    [ tmp, ~, TestIndex ] = glmnet_pipeline;
-    LRAverage = LRAverage + 0.1*tmp;
+n=10;
+
+for i =1:n
+    [ tmp, ~,~, TestIndex ] = glmnet_pipeline;
+    LRAverage = LRAverage + tmp/n;
 end
 
 fprintf('Linear regression with regularization.../n')

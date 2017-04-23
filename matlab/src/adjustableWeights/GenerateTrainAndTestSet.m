@@ -11,8 +11,9 @@ TestSet = [];
 [~,idx] = sort(rand(20,1));
 TrainIndex = idx(1:10);
 TestIndex = idx(11:20);
+subjectiveFeatureSet = load('/Users/Steven/Documents/GitHub/User-Study-Data/UserStudy/UserResults/SubjectiveImportanceOrderOfObjectiveFeatures/FeatureKeyWordFrequency.csv');
 
-for i = 1:20
+for i = 1:20 % query
     i
     % load query and dataset
     queryName = querySet{i};
@@ -26,7 +27,7 @@ for i = 1:20
     
     PIPinfo_query = getPIPs_threshold(query);
     TmpSet = [];
-    for j = 1: size(dataset, 1)
+    for j = 1: size(dataset, 1) %viz
         vis = dataset(j, :);
         
         %% calculate the features of current query-vis pair
@@ -80,15 +81,43 @@ for i = 1:20
         %% calculate the average similarity level of current query-vis pair
         averageSimilarity = mean(scores(j,:));
         
+        %%
+        objectiveFeatures = [overallTrend, noise, averageOverallTrend, seasonality, peakNum, globalMaxMin, globalIncreDecre, averageVIPDistance, regressionSlope];
+        %{
+        query_vis_tmp = [];
+        for k = 1:8 % user 1 - user 8 under current query
+            subjectiveFeatures = subjectiveFeatureSet((i-1)*8+k,:);
+            if sum(subjectiveFeatures) > 0 %normalize weights
+                subjectiveFeatures = subjectiveFeatures/sum(subjectiveFeatures);
+            end
+            query_vis_tmp = [query_vis_tmp;[objectiveFeatures,subjectiveFeatures]];
+        end
+        %}
+        
         %% generate a new row
-        TmpSet = [TmpSet;[overallTrend, noise, averageOverallTrend, seasonality, peakNum, globalMaxMin, globalIncreDecre, averageVIPDistance, regressionSlope, averageSimilarity]];
+        TmpSet = [TmpSet;objectiveFeatures];
+    end
+    
+    CombinedTmpSet = [];
+    for k = 1:8 % user
+        subjectiveFeatures = subjectiveFeatureSet((i-1)*8+k,:);
+        if sum(subjectiveFeatures) > 0 %normalize weights
+            subjectiveFeatures = subjectiveFeatures/sum(subjectiveFeatures);
+        end
+        query_user_dataPoint=[];
+        for j = 1: size(dataset, 1)
+            query_user_dataPoint = [query_user_dataPoint;[TmpSet(j,:),subjectiveFeatures,scores(j,k)]];
+        end
+        if ~ismember(i,TrainIndex)
+            csvwrite(['./datasetForLinearRegression/TestQuery',num2str(i),'_user',num2str(k),'.csv'],query_user_dataPoint);
+        end
+        CombinedTmpSet = [CombinedTmpSet;query_user_dataPoint];
     end
     
     if ismember(i,TrainIndex)
-        TrainSet = [TrainSet; TmpSet];
+        TrainSet = [TrainSet; CombinedTmpSet];
     else
-        TestSet = [TestSet; TmpSet];
-        csvwrite(['./datasetForLinearRegression/TestQuery',num2str(i),'.csv'],TmpSet);
+        TestSet = [TestSet; CombinedTmpSet];
     end
     
 end
