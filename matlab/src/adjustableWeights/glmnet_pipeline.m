@@ -1,4 +1,4 @@
-function [ avgCorr, Correlation, fit, TestIndex ] = glmnet_pipeline
+function [ avgCorr, fit ] = glmnet_pipeline
 
 %From generate train and test sets to evaluate the accuracy.
 
@@ -8,7 +8,7 @@ delete('./datasetForLinearRegression/*.csv')
 
 %% generate train set and test set files
 fprintf('Generate datasets...\n');
-[ TestIndex ] = GenerateTrainAndTestSet();
+GenerateTrainAndTestSet();
 
 %% Learning process
 fprintf('Learn theta...\n');
@@ -18,6 +18,6 @@ fprintf('Learn theta...\n');
 %% Test process
 fprintf('Evaluate on test datasets...\n');
 %[ avgCorr, Correlation ] = EvaluateAccuracy( theta, mu, sigma, TestIndex' );
-[ avgCorr, Correlation ] = EvaluateAccuracy_glmnet( fit, TestIndex' );
+[ avgCorr ] = EvaluateAccuracy_glmnet( fit );
 
 end

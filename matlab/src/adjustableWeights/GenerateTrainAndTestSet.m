@@ -1,17 +1,25 @@
-function [ TestIndex ] = GenerateTrainAndTestSet
+function [] = GenerateTrainAndTestSet () 
 % generate train set and test set files
 addpath('./getPIPs');
-%addpath('/Users/Steven/Documents/GitHub/Frequent-Patterns-in-Time-Series/matlab/src/SIFTlike');
+addpath('/Users/Steven/Documents/GitHub/Frequent-Patterns-in-Time-Series/matlab/src/SIFTlike');
 
 dataPath = '/Users/Steven/Documents/GitHub/User-Study-Data/UserStudy/data/';
 querySet = [cellstr('WormsTwoClass-centroid2'),'Worms-centroid5','Worms-centroid4','Worms-centroid2','uWaveGestureLibrary_X-centroid6','50words-centroid7','50words-centroid6','WormsTwoClass-centroid1','Worms-centroid3','Worms-centroid1','uWaveGestureLibrary_Z-centroid3','uWaveGestureLibrary_Z-centroid2','uWaveGestureLibrary_Z-centroid1','uWaveGestureLibrary_Y-centroid5','uWaveGestureLibrary_Y-centroid4','uWaveGestureLibrary_Y-centroid3','ToeSegmentation2-centroid1','50words-centroid3','50words-centroid2','50words-centroid1'];
 
 TrainSet = [];
-TestSet = [];
-[~,idx] = sort(rand(20,1));
-TrainIndex = idx(1:10);
-TestIndex = idx(11:20);
+% TestSet = [];
+% [~,idx] = sort(rand(20,1));
+% TrainIndex = idx(1:10);
+% TestIndex = idx(11:20);
 subjectiveFeatureSet = load('/Users/Steven/Documents/GitHub/User-Study-Data/UserStudy/UserResults/SubjectiveImportanceOrderOfObjectiveFeatures/FeatureKeyWordFrequency.csv');
+
+allDataPoint = cell(20,8);% 20 queries * 8 users, each cell includes all vizes under this query-user pair
+testSetIndexUnderEachQueryUserPair = cell(20,8);
+
+% the index of data points in the training set
+randomAllIndex = randperm(2144);
+trainingSetIndex = randomAllIndex(1:1501); % 1501 ~= 2144 * 0.7
+currentIndex = 0;
 
 for i = 1:20 % query
     i
@@ -32,9 +40,8 @@ for i = 1:20 % query
         
         %% calculate the features of current query-vis pair
         % overall trend
-        %overallTrend = MVIPDist(query, vis); new MVIP
-        [~, overallTrend] = SimRank_PIPthr_dtw_adjustableWeights(zscore(query,0,2), zscore(vis,0,2));
-        % ISSUE: In my google doc
+        %overallTrend = MVIPDist_adjustableWeights(query, vis); %new MVIP
+        overallTrend = MVIPOnlyXYDist(zscore(query,0,2), zscore(vis,0,2)); %old MVIP
         
         % smoothness/noise
         noise = NoiseStrength(query) - NoiseStrength(vis);
@@ -98,33 +105,46 @@ for i = 1:20 % query
         TmpSet = [TmpSet;objectiveFeatures];
     end
     
-    CombinedTmpSet = [];
+%     CombinedTmpSet = [];
     for k = 1:8 % user
+        currentTestIndex = [];
         subjectiveFeatures = subjectiveFeatureSet((i-1)*8+k,:);
         if sum(subjectiveFeatures) > 0 %normalize weights
             subjectiveFeatures = subjectiveFeatures/sum(subjectiveFeatures);
         end
         query_user_dataPoint=[];
-        for j = 1: size(dataset, 1)
-            query_user_dataPoint = [query_user_dataPoint;[TmpSet(j,:),subjectiveFeatures,scores(j,k)]];
+        for j = 1: size(dataset, 1) %viz
+            currentIndex = currentIndex + 1;
+            currentDataPoint = [TmpSet(j,:),subjectiveFeatures,scores(j,k)];
+            if ismember(currentIndex, trainingSetIndex)
+                TrainSet = [TrainSet; currentDataPoint];
+            else
+                currentTestIndex = [currentTestIndex,j];
+            end
+            query_user_dataPoint = [query_user_dataPoint;currentDataPoint];
         end
-        if ~ismember(i,TrainIndex)
-            csvwrite(['./datasetForLinearRegression/TestQuery',num2str(i),'_user',num2str(k),'.csv'],query_user_dataPoint);
-        end
-        CombinedTmpSet = [CombinedTmpSet;query_user_dataPoint];
+        allDataPoint{i,k} = query_user_dataPoint;
+        testSetIndexUnderEachQueryUserPair{i,k} = currentTestIndex;
+        
+%         if ~ismember(i,TrainIndex)
+%             csvwrite(['./datasetForLinearRegression/TestQuery',num2str(i),'_user',num2str(k),'.csv'],query_user_dataPoint);
+%         end
+%         CombinedTmpSet = [CombinedTmpSet;query_user_dataPoint];
     end
     
-    if ismember(i,TrainIndex)
-        TrainSet = [TrainSet; CombinedTmpSet];
-    else
-        TestSet = [TestSet; CombinedTmpSet];
-    end
+%     if ismember(i,TrainIndex)
+%         TrainSet = [TrainSet; CombinedTmpSet];
+%     else
+%         TestSet = [TestSet; CombinedTmpSet];
+%     end
     
 end
 
 %% write files
 csvwrite('./datasetForLinearRegression/TrainSet.csv',TrainSet);
-csvwrite('./datasetForLinearRegression/TestSet.csv',TestSet);
+%csvwrite('./datasetForLinearRegression/TestSet.csv',TestSet);
+save('./datasetForLinearRegression/TestSet.mat','allDataPoint','testSetIndexUnderEachQueryUserPair');
+
 
 end
 
