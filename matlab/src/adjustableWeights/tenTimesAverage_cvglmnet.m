@@ -6,7 +6,7 @@ clear;clc;
 LRAverage = 0; % The average correlation of linear regression 
 %MVIPCorr = 0; 
 
-n=10;
+n=5;
 
 for i =1:n
     [ tmp, ~ ] = cvglmnet_pipeline;

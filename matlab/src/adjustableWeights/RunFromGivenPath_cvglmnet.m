@@ -7,7 +7,7 @@ data = load(path);
 X = data(:, 1:end-1);
 y = data(:, end);
 
-fit = cvglmnet(X,y,[],[],[],4);
+fit = cvglmnet(X,y);
 size(X);
 
 end
