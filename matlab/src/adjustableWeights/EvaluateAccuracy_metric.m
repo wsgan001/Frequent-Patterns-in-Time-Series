@@ -4,6 +4,7 @@ function [ avgCorr ] = EvaluateAccuracy_metric( metricType )
 addpath('/Users/Steven/Documents/GitHub/User-Study-Data/UserStudy');
 addpath('/Users/Steven/Documents/GitHub/Frequent-Patterns-in-Time-Series/matlab/src/SIFTlike');
 addpath('/Users/Steven/Documents/GitHub/k-Shape/Code/')
+addpath('/Users/Steven/Documents/GitHub/User-Study-Data/UserStudy/Landmarks/')
 load('./datasetForLinearRegression/TestSet.mat');
 
 queryUserPairNum = 0;
@@ -37,6 +38,8 @@ for i = 1:20 % query
                 CalculatedSimilarity = -(SBD_one2set(query,dataset(testSetIndex,:)));
             elseif metricType == 'd' %dtw
                 CalculatedSimilarity = -(DTWone2set(query,dataset(testSetIndex,:)));
+            elseif metricType == 'l' %landmarks
+                CalculatedSimilarity = -(landmarks_one2set(query,dataset(testSetIndex,:)));
             end
             
             queryUserPairNum = queryUserPairNum + 1;
