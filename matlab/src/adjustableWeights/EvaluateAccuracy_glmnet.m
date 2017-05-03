@@ -1,7 +1,10 @@
-function [ avgCorr ] = EvaluateAccuracy_glmnet( fit, lambda )
+function [ avgCorr ] = EvaluateAccuracy_glmnet( fit, lambda, measurement )
 
 if nargin == 1
     lambda = 0.1;
+    measurement = 's';
+elseif nargin == 2
+    measurement = 's';
 end
 
 addpath('/Users/Steven/Documents/GitHub/User-Study-Data/UserStudy');
@@ -9,7 +12,7 @@ addpath('../../lib/glmnet_matlab/');
 load('./datasetForLinearRegression/TestSet.mat');
 
 queryUserPairNum = 0;
-corrSum = 0;
+accuSum = 0;
 for i = 1:20 % query
     for j = 1:8 % user
         allViz = allDataPoint{i,j};
@@ -24,11 +27,16 @@ for i = 1:20 % query
             CalculatedSimilarity = round(CalculatedSimilarity); % select a nearest bucket based on predicted scores
             
             queryUserPairNum = queryUserPairNum + 1;
-            corrSum = corrSum + spearman(TruthSimilarity, CalculatedSimilarity);
+            
+            if measurement == 'd'
+                accuSum = accuSum + directlyCompare(TruthSimilarity, CalculatedSimilarity);
+            else
+                accuSum = accuSum + spearman(TruthSimilarity, CalculatedSimilarity);
+            end
         end
     end
 end
-avgCorr = corrSum / queryUserPairNum;
+avgCorr = accuSum / queryUserPairNum;
 
 end
 

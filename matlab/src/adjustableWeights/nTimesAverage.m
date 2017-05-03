@@ -10,6 +10,8 @@ Average_d = 0;
 Average_l = 0;
 
 n=10;
+measurement = 'd'; % s - spearman; d - directlyCompare
+lambda = 0.1;
 
 for i =1:n
     fprintf(['round ', num2str(i), '...\n']);
@@ -29,7 +31,7 @@ for i =1:n
 
     % Test process
     fprintf('glmnet - Evaluate on test datasets...\n');
-    [ tmp ] = EvaluateAccuracy_glmnet( fit );
+    [ tmp ] = EvaluateAccuracy_glmnet( fit, lambda, measurement );
     
     Average_glmnet = Average_glmnet + tmp/n;
     
@@ -40,12 +42,12 @@ for i =1:n
 
     % Test process
     fprintf('cvglmnet - Evaluate on test datasets...\n');
-    [ tmp ] = EvaluateAccuracy_cvglmnet( fit );
+    [ tmp ] = EvaluateAccuracy_cvglmnet( fit, measurement );
     
     Average_cvglmnet = Average_cvglmnet + tmp/n;
     
     %% metric
-    [ avgCorr_m, avgCorr_k, avgCorr_d, avgCorr_l ] = EvaluateAccuracy_allMetric;
+    [ avgCorr_m, avgCorr_k, avgCorr_d, avgCorr_l ] = EvaluateAccuracy_allMetric(measurement);
     Average_m = Average_m + avgCorr_m/n;
     Average_k = Average_k + avgCorr_k/n;
     Average_d = Average_d + avgCorr_d/n;

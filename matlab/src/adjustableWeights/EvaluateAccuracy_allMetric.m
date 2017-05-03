@@ -1,5 +1,10 @@
-function [ avgCorr_m, avgCorr_k, avgCorr_d, avgCorr_l ] = EvaluateAccuracy_allMetric
+function [ avgCorr_m, avgCorr_k, avgCorr_d, avgCorr_l ] = EvaluateAccuracy_allMetric(measurement)
 % m for MVIP, d for DTW, k for K-shape, l for Landmark
+% measurement: s - spearman; d - directlyCompare
+
+if nargin == 0
+    measurement = 's';
+end
 
 addpath('/Users/Steven/Documents/GitHub/User-Study-Data/UserStudy');
 addpath('/Users/Steven/Documents/GitHub/Frequent-Patterns-in-Time-Series/matlab/src/SIFTlike');
@@ -8,10 +13,10 @@ addpath('/Users/Steven/Documents/GitHub/User-Study-Data/UserStudy/Landmarks/')
 load('./datasetForLinearRegression/TestSet.mat');
 
 queryUserPairNum = 0;
-corrSum_m = 0;
-corrSum_k = 0;
-corrSum_d = 0;
-corrSum_l = 0;
+accuSum_m = 0;
+accuSum_k = 0;
+accuSum_d = 0;
+accuSum_l = 0;
 
 dataPath = '/Users/Steven/Documents/GitHub/User-Study-Data/UserStudy/data/';
 querySet = [cellstr('WormsTwoClass-centroid2'),'Worms-centroid5','Worms-centroid4','Worms-centroid2','uWaveGestureLibrary_X-centroid6','50words-centroid7','50words-centroid6','WormsTwoClass-centroid1','Worms-centroid3','Worms-centroid1','uWaveGestureLibrary_Z-centroid3','uWaveGestureLibrary_Z-centroid2','uWaveGestureLibrary_Z-centroid1','uWaveGestureLibrary_Y-centroid5','uWaveGestureLibrary_Y-centroid4','uWaveGestureLibrary_Y-centroid3','ToeSegmentation2-centroid1','50words-centroid3','50words-centroid2','50words-centroid1'];
@@ -47,16 +52,23 @@ for i = 1:20 % query
             
             
             queryUserPairNum = queryUserPairNum + 1;
-            corrSum_m = corrSum_m + spearman(TruthSimilarity, CalculatedSimilarity_m);
-            corrSum_k = corrSum_k + spearman(TruthSimilarity, CalculatedSimilarity_k);
-            corrSum_d = corrSum_d + spearman(TruthSimilarity, CalculatedSimilarity_d);
-            corrSum_l = corrSum_l + spearman(TruthSimilarity, CalculatedSimilarity_l);
+            if measurement == 'd'
+                accuSum_m = accuSum_m + directlyCompare(TruthSimilarity, CalculatedSimilarity_m);
+                accuSum_k = accuSum_k + directlyCompare(TruthSimilarity, CalculatedSimilarity_k);
+                accuSum_d = accuSum_d + directlyCompare(TruthSimilarity, CalculatedSimilarity_d);
+                accuSum_l = accuSum_l + directlyCompare(TruthSimilarity, CalculatedSimilarity_l);
+            else
+                accuSum_m = accuSum_m + spearman(TruthSimilarity, CalculatedSimilarity_m);
+                accuSum_k = accuSum_k + spearman(TruthSimilarity, CalculatedSimilarity_k);
+                accuSum_d = accuSum_d + spearman(TruthSimilarity, CalculatedSimilarity_d);
+                accuSum_l = accuSum_l + spearman(TruthSimilarity, CalculatedSimilarity_l);
+            end
         end
     end
 end
-avgCorr_m = corrSum_m / queryUserPairNum;
-avgCorr_k = corrSum_k / queryUserPairNum;
-avgCorr_d = corrSum_d / queryUserPairNum;
-avgCorr_l = corrSum_l / queryUserPairNum;
+avgCorr_m = accuSum_m / queryUserPairNum;
+avgCorr_k = accuSum_k / queryUserPairNum;
+avgCorr_d = accuSum_d / queryUserPairNum;
+avgCorr_l = accuSum_l / queryUserPairNum;
 
 end

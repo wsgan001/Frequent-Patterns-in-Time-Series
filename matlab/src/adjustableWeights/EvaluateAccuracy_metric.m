@@ -1,5 +1,9 @@
-function [ avgCorr ] = EvaluateAccuracy_metric( metricType )
+function [ avgCorr ] = EvaluateAccuracy_metric( metricType, measurement )
 % m for MVIP, d for DTW, k for K-shape, l for Landmark
+
+if nargin == 1
+    measurement = 's';
+end
 
 addpath('/Users/Steven/Documents/GitHub/User-Study-Data/UserStudy');
 addpath('/Users/Steven/Documents/GitHub/Frequent-Patterns-in-Time-Series/matlab/src/SIFTlike');
@@ -8,7 +12,7 @@ addpath('/Users/Steven/Documents/GitHub/User-Study-Data/UserStudy/Landmarks/')
 load('./datasetForLinearRegression/TestSet.mat');
 
 queryUserPairNum = 0;
-corrSum = 0;
+accuSum = 0;
 
 dataPath = '/Users/Steven/Documents/GitHub/User-Study-Data/UserStudy/data/';
 querySet = [cellstr('WormsTwoClass-centroid2'),'Worms-centroid5','Worms-centroid4','Worms-centroid2','uWaveGestureLibrary_X-centroid6','50words-centroid7','50words-centroid6','WormsTwoClass-centroid1','Worms-centroid3','Worms-centroid1','uWaveGestureLibrary_Z-centroid3','uWaveGestureLibrary_Z-centroid2','uWaveGestureLibrary_Z-centroid1','uWaveGestureLibrary_Y-centroid5','uWaveGestureLibrary_Y-centroid4','uWaveGestureLibrary_Y-centroid3','ToeSegmentation2-centroid1','50words-centroid3','50words-centroid2','50words-centroid1'];
@@ -51,10 +55,15 @@ for i = 1:20 % query
             end
             
             queryUserPairNum = queryUserPairNum + 1;
-            corrSum = corrSum + spearman(TruthSimilarity, CalculatedSimilarity);
+            
+            if measurement == 'd'
+                accuSum = accuSum + directlyCompare(TruthSimilarity, CalculatedSimilarity);
+            else
+                accuSum = accuSum + spearman(TruthSimilarity, CalculatedSimilarity);
+            end
         end
     end
 end
-avgCorr = corrSum / queryUserPairNum;
+avgCorr = accuSum / queryUserPairNum;
 
 end
