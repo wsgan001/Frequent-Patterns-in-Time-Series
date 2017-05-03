@@ -9,7 +9,7 @@ LRAverage = 0; % The average correlation of linear regression
 n=10;
 
 for i =1:n
-    [ tmp, ~,~, TestIndex ] = glmnet_pipeline;
+    [ tmp, ~ ] = glmnet_pipeline;
     LRAverage = LRAverage + tmp/n;
 end
 
