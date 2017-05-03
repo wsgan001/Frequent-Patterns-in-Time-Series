@@ -1,4 +1,8 @@
-function [ avgCorr ] = EvaluateAccuracy_glmnet( fit )
+function [ avgCorr ] = EvaluateAccuracy_glmnet( fit, lambda )
+
+if nargin == 1
+    lambda = 0.1;
+end
 
 addpath('/Users/Steven/Documents/GitHub/User-Study-Data/UserStudy');
 addpath('../../lib/glmnet_matlab/');
@@ -16,7 +20,7 @@ for i = 1:20 % query
             TruthSimilarity = TestSet(:,end);
             features = TestSet(:,1:(end-1));
             
-            CalculatedSimilarity = glmnetPredict(fit,features,0.1);
+            CalculatedSimilarity = glmnetPredict(fit,features,lambda);
             CalculatedSimilarity = round(CalculatedSimilarity); % select a nearest bucket based on predicted scores
             
             queryUserPairNum = queryUserPairNum + 1;

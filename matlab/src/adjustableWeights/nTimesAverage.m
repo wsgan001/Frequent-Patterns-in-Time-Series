@@ -1,5 +1,4 @@
-% 10 times average correlation between linear regression and users
-% linear regression with regularization
+% n times average correlation between linear regression and users
 
 clear;clc;
 
