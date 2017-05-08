@@ -10,7 +10,7 @@ Average_d = 0;
 Average_l = 0;
 
 n=10;
-measurement = 'd'; % s - spearman; d - directlyCompare
+measurement = 'S'; % s - spearman; d - directlyCompare; S - spearman with optimum partition; D - directlyCompare with optimum partiition
 lambda = 0.1;
 
 for i =1:n
@@ -25,6 +25,7 @@ for i =1:n
     GenerateTrainAndTestSet();
     
     %% glmnet
+    %{
     % Learning process
     fprintf('glmnet - Learn theta...\n');
     [ fit ] = RunFromGivenPath_glmnet( './datasetForLinearRegression/TrainSet.csv' );
@@ -45,6 +46,7 @@ for i =1:n
     [ tmp ] = EvaluateAccuracy_cvglmnet( fit, measurement );
     
     Average_cvglmnet = Average_cvglmnet + tmp/n;
+    %}
     
     %% metric
     [ avgCorr_m, avgCorr_k, avgCorr_d, avgCorr_l ] = EvaluateAccuracy_allMetric(measurement);

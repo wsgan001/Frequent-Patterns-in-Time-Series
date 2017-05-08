@@ -1,6 +1,7 @@
 function [ avgCorr_m, avgCorr_k, avgCorr_d, avgCorr_l ] = EvaluateAccuracy_allMetric(measurement)
 % m for MVIP, d for DTW, k for K-shape, l for Landmark
-% measurement: s - spearman; d - directlyCompare
+% measurement: s - spearman; d - directlyCompare; S - spearman with optimum
+% partition; D - directlyCompare with optimum partiition
 
 if nargin == 0
     measurement = 's';
@@ -38,26 +39,36 @@ for i = 1:20 % query
             TruthSimilarity = TestSet(:,end);
             %features = TestSet(:,1:(end-1));
             
-            distance = MVIPOnlyXYDist(zscore(query,0,2), zscore(dataset(testSetIndex,:),0,2)); % distance
-            CalculatedSimilarity_m = dist2bucketIndex( distance ); % bucket ranking by kmeans distance
+            distance_m = MVIPOnlyXYDist(zscore(query,0,2), zscore(dataset(testSetIndex,:),0,2)); % distance
+            CalculatedSimilarity_m = dist2bucketIndex( distance_m ); % bucket ranking by kmeans distance
             
-            distance = SBD_one2set(query,dataset(testSetIndex,:));
-            CalculatedSimilarity_k = dist2bucketIndex( distance );
+            distance_k = SBD_one2set(query,dataset(testSetIndex,:));
+            CalculatedSimilarity_k = dist2bucketIndex( distance_k );
             
-            distance = DTWone2set(query,dataset(testSetIndex,:));
-            CalculatedSimilarity_d = dist2bucketIndex( distance );
+            distance_d = DTWone2set(query,dataset(testSetIndex,:));
+            CalculatedSimilarity_d = dist2bucketIndex( distance_d );
             
-            distance = landmarks_one2set(query,dataset(testSetIndex,:));
-            CalculatedSimilarity_l = dist2bucketIndex( distance );
+            distance_l = landmarks_one2set(query,dataset(testSetIndex,:));
+            CalculatedSimilarity_l = dist2bucketIndex( distance_l );
             
             
             queryUserPairNum = queryUserPairNum + 1;
-            if measurement == 'd'
+            if measurement == 'd' % directlyCompare
                 accuSum_m = accuSum_m + directlyCompare(TruthSimilarity, CalculatedSimilarity_m);
                 accuSum_k = accuSum_k + directlyCompare(TruthSimilarity, CalculatedSimilarity_k);
                 accuSum_d = accuSum_d + directlyCompare(TruthSimilarity, CalculatedSimilarity_d);
                 accuSum_l = accuSum_l + directlyCompare(TruthSimilarity, CalculatedSimilarity_l);
-            else
+            elseif measurement == 'S' % spearman with optimum partition
+                accuSum_m = accuSum_m + directlyCompare_optimun(TruthSimilarity, distance_m);
+                accuSum_k = accuSum_k + directlyCompare_optimun(TruthSimilarity, distance_k);
+                accuSum_d = accuSum_d + directlyCompare_optimun(TruthSimilarity, distance_d);
+                accuSum_l = accuSum_l + directlyCompare_optimun(TruthSimilarity, distance_l);
+            elseif measurement == 'D' % directlyCompare with optimum partiition
+                accuSum_m = accuSum_m + spearman_optimun(TruthSimilarity, distance_m);
+                accuSum_k = accuSum_k + spearman_optimun(TruthSimilarity, distance_k);
+                accuSum_d = accuSum_d + spearman_optimun(TruthSimilarity, distance_d);
+                accuSum_l = accuSum_l + spearman_optimun(TruthSimilarity, distance_l);
+            else % spearman
                 accuSum_m = accuSum_m + spearman(TruthSimilarity, CalculatedSimilarity_m);
                 accuSum_k = accuSum_k + spearman(TruthSimilarity, CalculatedSimilarity_k);
                 accuSum_d = accuSum_d + spearman(TruthSimilarity, CalculatedSimilarity_d);
