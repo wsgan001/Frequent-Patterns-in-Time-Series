@@ -58,12 +58,12 @@ for i = 1:20 % query
                 accuSum_k = accuSum_k + directlyCompare(TruthSimilarity, CalculatedSimilarity_k);
                 accuSum_d = accuSum_d + directlyCompare(TruthSimilarity, CalculatedSimilarity_d);
                 accuSum_l = accuSum_l + directlyCompare(TruthSimilarity, CalculatedSimilarity_l);
-            elseif measurement == 'S' % spearman with optimum partition
+            elseif measurement == 'D' % directlyCompare with optimum partiition
                 accuSum_m = accuSum_m + directlyCompare_optimun(TruthSimilarity, distance_m);
                 accuSum_k = accuSum_k + directlyCompare_optimun(TruthSimilarity, distance_k);
                 accuSum_d = accuSum_d + directlyCompare_optimun(TruthSimilarity, distance_d);
                 accuSum_l = accuSum_l + directlyCompare_optimun(TruthSimilarity, distance_l);
-            elseif measurement == 'D' % directlyCompare with optimum partiition
+            elseif measurement == 'S' % spearman with optimum partition
                 accuSum_m = accuSum_m + spearman_optimun(TruthSimilarity, distance_m);
                 accuSum_k = accuSum_k + spearman_optimun(TruthSimilarity, distance_k);
                 accuSum_d = accuSum_d + spearman_optimun(TruthSimilarity, distance_d);
