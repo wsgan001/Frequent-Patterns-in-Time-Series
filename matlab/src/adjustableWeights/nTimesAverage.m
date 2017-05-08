@@ -25,7 +25,6 @@ for i =1:n
     GenerateTrainAndTestSet();
     
     %% glmnet
-    %{
     % Learning process
     fprintf('glmnet - Learn theta...\n');
     [ fit ] = RunFromGivenPath_glmnet( './datasetForLinearRegression/TrainSet.csv' );
@@ -46,7 +45,6 @@ for i =1:n
     [ tmp ] = EvaluateAccuracy_cvglmnet( fit, measurement );
     
     Average_cvglmnet = Average_cvglmnet + tmp/n;
-    %}
     
     %% metric
     [ avgCorr_m, avgCorr_k, avgCorr_d, avgCorr_l ] = EvaluateAccuracy_allMetric(measurement);
