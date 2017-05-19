@@ -12,8 +12,8 @@ Average_l = 0;
 %}
 
 n=10;
-measurement = 'S'; % s - spearman; d - directlyCompare; S - spearman with optimum partition; D - directlyCompare with optimum partiition
-lambda = 0.1;
+measurement = 's'; % s - spearman; d - directlyCompare; S - spearman with optimum partition; D - directlyCompare with optimum partiition
+lambda = 0.05;
 
 for i =1:n
     fprintf(['round ', num2str(i), '...\n']);
