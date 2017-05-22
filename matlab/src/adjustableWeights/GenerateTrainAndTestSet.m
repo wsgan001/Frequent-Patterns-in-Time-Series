@@ -120,7 +120,22 @@ for i = 1:20 % query
         query_user_dataPoint=[];
         for j = 1: size(dataset, 1) %viz
             currentIndex = currentIndex + 1;
+            
             currentDataPoint = [TmpSet(j,:),subjectiveFeatures,scores(j,k)];
+            %{
+            % use multiplication to combine paired subjective features and objective features
+            subjectiveFeatures =  subjectiveFeatures/mean(subjectiveFeatures);% normalize
+            TmpSet(j,1) = TmpSet(j,1) * subjectiveFeatures(1);
+            TmpSet(j,2:4) = TmpSet(j,2:4) * subjectiveFeatures(2);
+            TmpSet(j,5) = TmpSet(j,5) * subjectiveFeatures(1);
+            TmpSet(j,6:9) = TmpSet(j,6:9) * subjectiveFeatures(3);
+            TmpSet(j,10) = TmpSet(j,10) * subjectiveFeatures(4);
+            TmpSet(j,11:14) = TmpSet(j,11:14) * subjectiveFeatures(5);
+            TmpSet(j,15) = TmpSet(j,15) * subjectiveFeatures(6);
+            currentDataPoint = [TmpSet(j,:),scores(j,k)];
+            %}
+            %currentDataPoint = [TmpSet(j,:),scores(j,k)]; % only objective features
+            
             if ismember(currentIndex, trainingSetIndex)
                 TrainSet = [TrainSet; currentDataPoint];
             else
