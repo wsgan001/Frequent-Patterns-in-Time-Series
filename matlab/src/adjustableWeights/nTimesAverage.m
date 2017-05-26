@@ -29,22 +29,22 @@ for i =1:n
     %% glmnet
     % Learning process
     fprintf('glmnet - Learn theta...\n');
-    [ fit ] = RunFromGivenPath_glmnet( './datasetForLinearRegression/TrainSet.csv' );
+    [ fit1 ] = RunFromGivenPath_glmnet( './datasetForLinearRegression/TrainSet.csv' );
 
     % Test process
     fprintf('glmnet - Evaluate on test datasets...\n');
-    [ tmp ] = EvaluateAccuracy_glmnet( fit, lambda, measurement );
+    [ tmp ] = EvaluateAccuracy_glmnet( fit1, lambda, measurement );
     
     Average_glmnet = Average_glmnet + tmp/n;
     
     %% cvglmnet
     % Learning process
     fprintf('cvglmnet - Learn theta...\n');
-    [ fit ] = RunFromGivenPath_cvglmnet( './datasetForLinearRegression/TrainSet.csv' );
+    [ fit2 ] = RunFromGivenPath_cvglmnet( './datasetForLinearRegression/TrainSet.csv' );
 
     % Test process
     fprintf('cvglmnet - Evaluate on test datasets...\n');
-    [ tmp ] = EvaluateAccuracy_cvglmnet( fit, measurement );
+    [ tmp ] = EvaluateAccuracy_cvglmnet( fit2, measurement );
     
     Average_cvglmnet = Average_cvglmnet + tmp/n;
     
