@@ -4,6 +4,7 @@ clear;clc;
 
 Average_glmnet = 0; % The average correlation of linear regression 
 Average_cvglmnet = 0;
+Average_NN = 0;
 %{
 Average_m = 0;
 Average_k = 0;
@@ -18,6 +19,7 @@ lambda = 0.05;
 for i =1:n
     fprintf(['round ', num2str(i), '...\n']);
     
+    
     %% delete previous files
     fprintf('Delete previous files...\n');
     delete('./datasetForLinearRegression/*.csv')
@@ -26,6 +28,8 @@ for i =1:n
     fprintf('Generate datasets...\n');
     GenerateTrainAndTestSet();
     
+    
+    %{
     %% glmnet
     % Learning process
     fprintf('glmnet - Learn theta...\n');
@@ -47,6 +51,19 @@ for i =1:n
     [ tmp ] = EvaluateAccuracy_cvglmnet( fit2, measurement );
     
     Average_cvglmnet = Average_cvglmnet + tmp/n;
+    %}
+    
+    %% NN
+    % Learning process
+    fprintf('NN - Learn net...\n');
+    [ net ] = RunFromGivenPath_NN( './datasetForLinearRegression/TrainSet.csv'...
+        ,10 );
+
+    % Test process
+    fprintf('NN - Evaluate on test datasets...\n');
+    [ tmp ] = EvaluateAccuracy_NN( net, measurement );
+    
+    Average_NN = Average_NN + tmp/n;
     
     %% metric
     % The evaluation of different metrics should also use glmnet to have
@@ -65,6 +82,8 @@ fprintf('glmnet.../n')
 Average_glmnet
 fprintf('cvglmnet.../n')
 Average_cvglmnet
+fprintf('NN.../n')
+Average_NN
 %{
 fprintf('mvip.../n')
 Average_m
