@@ -22,6 +22,8 @@ testSetIndexUnderEachQueryUserPair = cell(20,8);
 randomAllIndex = randperm(2144);
 trainingSetIndex = randomAllIndex(1:1501); % 1501 ~= 2144 * 0.7
 currentIndex = 0;
+allQueryTS = [];
+allVizTS = cell(20,1); % viz under each query
 
 for i = 1:20 % query
     i
@@ -31,7 +33,9 @@ for i = 1:20 % query
     datasetName = S{1};
     cName = S{2};
     query = csvread([dataPath, datasetName, '/', cName, '/query_original.csv']);
+    allQueryTS = [allQueryTS;query];
     dataset = csvread([dataPath, datasetName, '/', cName, '/DataCollection.csv']);
+    allVizTS{i,1} = dataset;
     scores = csvread(['/Users/Steven/Documents/GitHub/User-Study-Data/UserStudy/CleanedResults/',queryName,'.csv']);
     scores = scores(2:end,:);
     
@@ -164,7 +168,7 @@ end
 csvwrite('./datasetForLinearRegression/TrainSet.csv',TrainSet);
 %csvwrite('./datasetForLinearRegression/TestSet.csv',TestSet);
 save('./datasetForLinearRegression/TestSet.mat','allDataPoint','testSetIndexUnderEachQueryUserPair');
-
+save('./datasetForLinearRegression/OriginalTS.mat','allQueryTS','allVizTS');
 
 end
 
