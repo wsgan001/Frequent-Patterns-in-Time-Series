@@ -1,4 +1,4 @@
-function [ fit ] = RunFromGivenPath_cvglmnet( path, nfolds, flag )
+function [ fit ] = RunFromGivenPath_cvglmnet( path, flag, nfolds )
 %flag: d-DTW, m-MVIP, k-kshape, l-landmark, f-feature set(MVIP),
 %o-objective features(MVIP)
 
@@ -6,7 +6,7 @@ if nargin == 1
     nfolds = 10;
     flag = 'f';
 elseif nargin == 2
-    flag = 'f';
+    nfolds = 10;
 end
 
 addpath('../../lib/glmnet_matlab/');
