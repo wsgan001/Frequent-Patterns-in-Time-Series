@@ -1,10 +1,12 @@
+function [fit_f, fit_cv_f] = nTimesAverage()
+
 % n times average correlation between linear regression and users
 
 clear;clc;
 
-Average_glmnet = 0; % The average correlation of linear regression 
-Average_cvglmnet = 0;
-Average_NN = 0;
+Average_glmnet_f = 0; % The average correlation of linear regression 
+Average_cvglmnet_f = 0;
+%Average_NN = 0;
 %{
 Average_m = 0;
 Average_k = 0;
@@ -12,7 +14,7 @@ Average_d = 0;
 Average_l = 0;
 %}
 
-n=10;
+n=1;
 measurement = 's'; % s - spearman; d - directlyCompare; S - spearman with optimum partition; D - directlyCompare with optimum partiition
 lambda = 0.05;
 
@@ -28,32 +30,31 @@ for i =1:n
     fprintf('Generate datasets...\n');
     GenerateTrainAndTestSet();
     
-    
-    %{
     %% glmnet
     % Learning process
     fprintf('glmnet - Learn theta...\n');
-    [ fit1 ] = RunFromGivenPath_glmnet( './datasetForLinearRegression/TrainSet.csv' );
+    [ fit_f ] = RunFromGivenPath_glmnet( './datasetForLinearRegression/TrainSet.csv' );
 
     % Test process
     fprintf('glmnet - Evaluate on test datasets...\n');
-    [ tmp ] = EvaluateAccuracy_glmnet( fit1, lambda, measurement );
+    [ tmp ] = EvaluateAccuracy_glmnet( fit_f, lambda, measurement );
     
-    Average_glmnet = Average_glmnet + tmp/n;
+    Average_glmnet_f = Average_glmnet_f + tmp/n;
     
     %% cvglmnet
     % Learning process
     fprintf('cvglmnet - Learn theta...\n');
-    [ fit2 ] = RunFromGivenPath_cvglmnet( './datasetForLinearRegression/TrainSet.csv' );
+    [ fit_cv_f ] = RunFromGivenPath_cvglmnet( './datasetForLinearRegression/TrainSet.csv' );
 
     % Test process
     fprintf('cvglmnet - Evaluate on test datasets...\n');
-    [ tmp ] = EvaluateAccuracy_cvglmnet( fit2, measurement );
+    [ tmp ] = EvaluateAccuracy_cvglmnet( fit_cv_f, measurement );
     
-    Average_cvglmnet = Average_cvglmnet + tmp/n;
-    %}
+    Average_cvglmnet_f = Average_cvglmnet_f + tmp/n;   
+    
     
     %% NN
+    %{
     % Learning process
     fprintf('NN - Learn net...\n');
     [ net ] = RunFromGivenPath_NN( './datasetForLinearRegression/TrainSet.csv'...
@@ -64,6 +65,7 @@ for i =1:n
     [ tmp ] = EvaluateAccuracy_NN( net, measurement );
     
     Average_NN = Average_NN + tmp/n;
+    %}
     
     %% metric
     % The evaluation of different metrics should also use glmnet to have
@@ -79,11 +81,11 @@ for i =1:n
 end
 
 fprintf('glmnet.../n')
-Average_glmnet
+Average_glmnet_f
 fprintf('cvglmnet.../n')
-Average_cvglmnet
-fprintf('NN.../n')
-Average_NN
+Average_cvglmnet_f
+%fprintf('NN.../n')
+%Average_NN
 %{
 fprintf('mvip.../n')
 Average_m

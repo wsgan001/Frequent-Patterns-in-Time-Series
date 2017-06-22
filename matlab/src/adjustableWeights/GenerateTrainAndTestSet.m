@@ -22,7 +22,7 @@ testSetIndexUnderEachQueryUserPair = cell(20,8);
 randomAllIndex = randperm(2144);
 trainingSetIndex = randomAllIndex(1:1501); % 1501 ~= 2144 * 0.7
 currentIndex = 0;
-allQueryTS = [];
+allQueryTS = cell(20,1);
 allVizTS = cell(20,1); % viz under each query
 
 for i = 1:20 % query
@@ -33,7 +33,7 @@ for i = 1:20 % query
     datasetName = S{1};
     cName = S{2};
     query = csvread([dataPath, datasetName, '/', cName, '/query_original.csv']);
-    allQueryTS = [allQueryTS;query];
+    allQueryTS{i,1} = query;
     dataset = csvread([dataPath, datasetName, '/', cName, '/DataCollection.csv']);
     allVizTS{i,1} = dataset;
     scores = csvread(['/Users/Steven/Documents/GitHub/User-Study-Data/UserStudy/CleanedResults/',queryName,'.csv']);
@@ -47,10 +47,11 @@ for i = 1:20 % query
         %% calculate the features of current query-vis pair
         % overall trend
         %overallTrend = MVIPDist_adjustableWeights(query, vis); %new MVIP
-        overallTrend = MVIPOnlyXYDist(zscore(query,0,2), zscore(vis,0,2)); %old MVIP  
-        %overallTrend = DTWone2set(query, vis); % new dtw
-        %overallTrend = landmarks_one2set(query, vis); % Landmark
-        %overallTrend = SBD_one2set(query, vis); % k-shape
+        overallTrend1 = MVIPOnlyXYDist(zscore(query,0,2), zscore(vis,0,2)); %old MVIP  
+        overallTrend2 = DTWone2set(query, vis); % new dtw
+        overallTrend3 = landmarks_one2set(query, vis); % Landmark
+        overallTrend4 = SBD_one2set(query, vis); % k-shape
+        overallTrend = [overallTrend1, overallTrend2, overallTrend3, overallTrend4];
         
         % smoothness/noise
         noise = NoiseStrength(query) - NoiseStrength(vis);

@@ -1,7 +1,12 @@
-function [ avgCorr ] = EvaluateAccuracy_cvglmnet( fit, measurement )
+function [ avgCorr ] = EvaluateAccuracy_cvglmnet( fit, measurement, flag )
+%flag: d-DTW, m-MVIP, k-kshape, l-landmark, f-feature set(MVIP),
+%o-objective features(MVIP)
 
 if nargin == 1
     measurement = 's';
+    flag = 'f';
+elseif nargin == 2
+    flag = 'f';
 end
 
 addpath('/Users/Steven/Documents/GitHub/User-Study-Data/UserStudy');
@@ -18,7 +23,21 @@ for i = 1:20 % query
         if size(testSetIndex,2) > 1 % empty or only 1-point test set make no sense
             TestSet = allViz(testSetIndex,:);
             TruthSimilarity = TestSet(:,end);
-            features = TestSet(:,1:(end-1));
+            
+            %features = TestSet(:,1:(end-1));
+            if flag == 'd'
+                features = TestSet(:, 2);
+            elseif flag == 'm'
+                features = TestSet(:, 1);
+            elseif flag == 'k'
+                features = TestSet(:, 4);
+            elseif flag == 'l'
+                features = TestSet(:, 3);
+            elseif flag == 'f'
+                features = TestSet(:, [1, 5:end-1]);
+            elseif flag == 'o'
+                features = TestSet(:, [1, 5:end-7]);
+            end
             
             CalculatedSimilarity = cvglmnetPredict(fit,features,'lambda_min');
             CalculatedSimilarity = round(CalculatedSimilarity); % select a nearest bucket based on predicted scores

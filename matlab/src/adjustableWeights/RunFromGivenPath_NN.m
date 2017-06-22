@@ -1,14 +1,33 @@
-function [ net ] = RunFromGivenPath_NN( path, NodeNum )
+function [ net ] = RunFromGivenPath_NN( path, NodeNum, flag )
+%flag: d-DTW, m-MVIP, k-kshape, l-landmark, f-feature set(MVIP),
+%o-objective features(MVIP)
 
 if nargin == 1
     NodeNum = 10;
+    flag = 'f';
+elseif nargin == 2
+    flag = 'f';
 end
 
 addpath('../../lib/glmnet_matlab/');
 
 fprintf('Loading data ...\n');
 data = load(path);
-train_data = data(:, 1:end-1);
+
+if flag == 'd'
+    train_data = data(:, 2);
+elseif flag == 'm'
+    train_data = data(:, 1);
+elseif flag == 'k'
+    train_data = data(:, 4);
+elseif flag == 'l'
+    train_data = data(:, 3);
+elseif flag == 'f'
+    train_data = data(:, [1, 5:end-1]);
+elseif flag == 'o'
+    train_data = data(:, [1, 5:end-7]);
+end
+
 label_train = data(:, end);
 
 % fit = glmnet(X,y);
